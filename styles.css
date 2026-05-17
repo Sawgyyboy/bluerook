@@ -640,12 +640,13 @@ html.lenis, html.lenis body { height: auto; }
   letter-spacing: var(--ls-tight);
   color: var(--color-text);
   opacity: 0;
-  transform: translate(-50%, calc(-50% + 30px));
+  transform: translate3d(-50%, calc(-50% + 30px), 0);
   margin: 0;
+  will-change: transform, opacity;
   transition: opacity var(--dur-slow) var(--ease-out),
               transform var(--dur-slow) var(--ease-out);
 }
-.problem__statement.is-active { opacity: 1; transform: translate(-50%, -50%); }
+.problem__statement.is-active { opacity: 1; transform: translate3d(-50%, -50%, 0); }
 .problem__statement em {
   font-style: italic;
   font-variation-settings: "opsz" 144, "SOFT" 80;
@@ -829,7 +830,7 @@ html.lenis, html.lenis body { height: auto; }
   gap: var(--space-8);
   align-items: start;
   transform-origin: top center;
-  will-change: transform, opacity, filter;
+  will-change: transform, opacity; /* no filter scrubs — kills GPU */
   box-shadow: var(--shadow-card);
   overflow: hidden;
   isolation: isolate;
@@ -923,7 +924,8 @@ html.lenis, html.lenis body { height: auto; }
   border-radius: var(--radius-2);
   padding: var(--space-9) var(--space-7);
   opacity: 0;
-  transform: translateY(40px);
+  transform: translate3d(0, 40px, 0);
+  will-change: transform, opacity;
   transition: opacity var(--dur-slow) var(--ease-out),
               transform var(--dur-slow) var(--ease-out),
               background var(--dur-base) var(--ease-out),
