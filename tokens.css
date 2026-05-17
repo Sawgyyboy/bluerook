@@ -1,0 +1,135 @@
+/* =========================================================
+   BLUEROOK — DESIGN TOKENS
+   Single source of truth. Every component imports from here.
+   Theme system: default (navy) | .theme-very-dark
+   ========================================================= */
+
+:root {
+  /* ---------- BRAND COLOR (navy + gold core) ---------- */
+  --color-bg:            #0A1628;
+  --color-surface:       #0D1F3C;
+  --color-surface-2:     #122846;
+  --color-line:          #1A3057;
+  --color-accent:        #C9A84C;
+  --color-accent-soft:   rgba(201, 168, 76, 0.12);
+  --color-accent-glow:   rgba(201, 168, 76, 0.45);
+
+  --color-text:          #FFFFFF;
+  --color-text-muted:    #8A9BB0;
+  --color-text-dim:      #5C6C82;
+
+  --color-overlay:       rgba(10, 22, 40, 0.75);
+
+  /* ---------- AMBIENT (YouTube-style ambient mode) ---------- */
+  /* Multiple hues drift across the page, blended with screen */
+  --amb-1: #1E4FBA;   /* electric royal blue */
+  --amb-2: #5EE6E0;   /* soft cyan */
+  --amb-3: #C9A84C;   /* brand gold */
+  --amb-4: #6B5BA8;   /* dusk purple */
+  --amb-5: #E58A45;   /* warm amber */
+  --amb-opacity: 0.22;
+  --amb-blur: 80px;
+
+  /* ---------- GLASS (frosted) ---------- */
+  --glass-bg:        rgba(13, 31, 60, 0.55);
+  --glass-bg-strong: rgba(13, 31, 60, 0.72);
+  --glass-border:    rgba(255, 255, 255, 0.08);
+  --glass-blur:      blur(8px);
+
+  /* ---------- TYPOGRAPHY ---------- */
+  /* Display: Fraunces (variable, editorial soft serif with optical sizes)
+     Body:    Inter Tight (tighter modern grotesque) */
+  --font-display: 'Fraunces', 'Times New Roman', Georgia, serif;
+  --font-sans:    'Inter Tight', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-body:    var(--font-sans);
+  --font-mono:    'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  /* Editorial type scale — fluid clamp() so it scales 360 → 1920 */
+  --fs-display-xl: clamp(2.75rem, 5.5vw + 0.5rem, 6.5rem);
+  --fs-display-l:  clamp(2.5rem, 4.5vw + 1rem, 5rem);
+  --fs-display-m:  clamp(2rem, 3vw + 1rem, 3.75rem);
+  --fs-display-s:  clamp(1.5rem, 2vw + 0.75rem, 2.5rem);
+  --fs-lead:       clamp(1.125rem, 0.5vw + 1rem, 1.375rem);
+  --fs-body:       1rem;
+  --fs-small:      0.875rem;
+  --fs-eyebrow:    0.75rem;
+
+  --fw-light:    300;
+  --fw-regular:  400;
+  --fw-medium:   500;
+  --fw-semibold: 600;
+  --fw-bold:     700;
+  --fw-black:    900;
+
+  --lh-tight:   1.05;
+  --lh-snug:    1.2;
+  --lh-base:    1.55;
+  --lh-loose:   1.75;
+
+  --ls-tight:    -0.025em;
+  --ls-snug:     -0.015em;
+  --ls-normal:   0;
+  --ls-wide:     0.08em;
+  --ls-eyebrow:  0.22em;
+
+  /* ---------- SPACING ---------- */
+  --space-1:  4px;  --space-2:  8px;  --space-3:  12px; --space-4:  16px;
+  --space-5:  24px; --space-6:  32px; --space-7:  48px; --space-8:  64px;
+  --space-9:  96px; --space-10: 128px; --space-11: 192px;
+
+  --section-pad-y: clamp(96px, 12vh, 192px);
+  --section-pad-x: clamp(24px, 5vw, 96px);
+  --max-width:     1440px;
+
+  /* ---------- SHAPE ---------- */
+  --radius-0:  0px;
+  --radius-1:  2px;
+  --radius-2:  4px;
+  --border-w:  1px;
+
+  /* ---------- MOTION ---------- */
+  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-emph:   cubic-bezier(0.16, 1, 0.3, 1);
+
+  --dur-fast:   180ms;
+  --dur-base:   320ms;
+  --dur-slow:   600ms;
+  --dur-xslow:  1200ms;
+
+  /* ---------- ELEVATION ---------- */
+  --shadow-card: 0 24px 60px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--glass-border);
+  --shadow-glow: 0 0 80px var(--color-accent-glow);
+
+  /* ---------- Z-INDEX ---------- */
+  --z-ambient: 0;
+  --z-base:    1;
+  --z-nav:     50;
+  --z-overlay: 80;
+  --z-modal:   100;
+}
+
+/* =========================================================
+   VERY DARK MODE — pulls everything toward pure black,
+   keeps gold & ambient blooms vivid against the void.
+   ========================================================= */
+.theme-very-dark {
+  --color-bg:           #03070D;
+  --color-surface:      #060B14;
+  --color-surface-2:    #0B1320;
+  --color-line:         #14202F;
+  --color-text-muted:   #6C7A8F;
+  --color-text-dim:     #3F4A5D;
+
+  --color-accent-soft:  rgba(201, 168, 76, 0.18);
+  --color-accent-glow:  rgba(201, 168, 76, 0.6);
+
+  --glass-bg:        rgba(6, 11, 20, 0.55);
+  --glass-bg-strong: rgba(6, 11, 20, 0.78);
+  --glass-border:    rgba(255, 255, 255, 0.05);
+
+  --amb-opacity: 0.30;
+  --amb-blur:    100px;
+
+  --shadow-card: 0 30px 80px rgba(0, 0, 0, 0.75), 0 0 0 1px var(--glass-border);
+}

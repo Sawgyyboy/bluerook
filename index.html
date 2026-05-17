@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0A1628" />
+  <meta name="description" content="Bluerook — Premium BPO and Virtual Assistant agency for high-performing entrepreneurs. VAs, automations, social media." />
+
+  <title>Bluerook — We run your operations. You run your empire.</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Trimmed: Fraunces only at the opsz/weight range actually used (display 600 @ opsz 96-120),
+       Inter Tight 400/500/600, mono 400. Cuts ~600KB of font payload on first paint. -->
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@72..144,500..700&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Favicon (rook from brand guide: 3 crenellations + gold base) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230A1628'/><g fill='%23C9A84C'><rect x='7' y='5' width='4' height='5'/><rect x='14' y='5' width='4' height='5'/><rect x='21' y='5' width='4' height='5'/><rect x='6' y='10' width='20' height='3'/><rect x='8' y='13' width='16' height='3'/><path d='M8 16h16l2 12H6z'/></g><rect x='5' y='27' width='22' height='2' fill='%23C9A84C'/></svg>" />
+</head>
+<body data-theme="navy">
+
+<!-- ============ AMBIENT MODE — color orbs that drift across the page ============ -->
+<div class="ambient" aria-hidden="true">
+  <span class="ambient__orb ambient__orb--1" data-orb="1"></span>
+  <span class="ambient__orb ambient__orb--2" data-orb="2"></span>
+  <span class="ambient__orb ambient__orb--3" data-orb="3"></span>
+  <span class="ambient__orb ambient__orb--4" data-orb="4"></span>
+  <span class="ambient__cursor" data-cursor-glow></span>
+  <span class="ambient__grain"></span>
+</div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" data-nav>
+  <div class="nav__inner">
+    <a href="#hero" class="nav__logo" aria-label="Bluerook home">
+      <!-- Brand rook: 3 crenellations, banded shoulders, trapezoidal body, gold base -->
+      <svg class="nav__logo-mark" viewBox="0 0 40 44" aria-hidden="true">
+        <g fill="currentColor">
+          <rect x="7"  y="4"  width="5" height="6"/>
+          <rect x="17" y="4"  width="6" height="6"/>
+          <rect x="28" y="4"  width="5" height="6"/>
+          <rect x="6"  y="10" width="28" height="4"/>
+          <rect x="9"  y="14" width="22" height="3"/>
+          <path d="M10 17h20l3 19H7z"/>
+        </g>
+        <rect x="5" y="37" width="30" height="3" fill="var(--color-accent)"/>
+      </svg>
+      <span class="nav__logo-text">BLUEROOK</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#why">Why us</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="nav__actions">
+      <button class="theme-toggle" data-theme-toggle aria-label="Toggle very dark mode" title="Toggle very dark mode">
+        <svg viewBox="0 0 24 24" class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+          <path d="M21 13.5A9 9 0 1 1 10.5 3a7 7 0 0 0 10.5 10.5z" fill="currentColor"/>
+        </svg>
+        <svg viewBox="0 0 24 24" class="theme-toggle__icon theme-toggle__icon--void" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
+          <circle cx="12" cy="12" r="4" fill="currentColor"/>
+        </svg>
+      </button>
+      <a href="https://calendar.app.google/pjQKiGLntog19k9Y9" target="_blank" rel="noopener" class="btn btn--ghost nav__cta">Book a call</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ 1 · HERO ============ -->
+  <section class="hero" id="hero" data-section="hero">
+    <!-- Layered hero background: gradient + perspective grid + Unsplash + overlay -->
+    <div class="hero__bg" aria-hidden="true">
+      <div class="hero__bg-image" data-parallax="0.1"></div>
+      <div class="hero__bg-overlay"></div>
+      <div class="hero__grid"></div>
+      <div class="hero__particles" id="particles"></div>
+    </div>
+
+    <div class="hero__inner">
+      <div class="hero__eyebrow" data-fade>
+        <span class="dot"></span> Premium BPO &amp; Virtual Assistant Agency
+      </div>
+
+      <div class="hero__parallax" data-parallax="0.6">
+        <h1 class="hero__title" data-split>
+          <span class="hero__title-line">We run your operations.</span>
+          <span class="hero__title-line hero__title-line--accent">You run your empire.</span>
+        </h1>
+      </div>
+
+      <p class="hero__lead" data-fade>
+        Premium BPO agency for high-performing entrepreneurs.
+        Virtual assistants, workflow automations, and social media
+        — engineered, deployed, owned.
+      </p>
+
+      <div class="hero__ctas" data-fade>
+        <a href="#services" class="btn btn--primary">
+          <span>See Our Services</span>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="square"/></svg>
+        </a>
+        <a href="https://calendly.com/hatim-bluerook/30min" target="_blank" rel="noopener" class="btn btn--ghost">Book a Call</a>
+      </div>
+
+      <!-- Floating 3D rook (matches brand guide) -->
+      <div class="hero__rook-wrap" data-parallax="0.3">
+        <div class="hero__rook" data-rook>
+          <svg viewBox="0 0 200 240" aria-hidden="true">
+            <defs>
+              <linearGradient id="rookGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%"  stop-color="#FFFFFF" stop-opacity="0.98"/>
+                <stop offset="100%" stop-color="#E8EEF7" stop-opacity="0.72"/>
+              </linearGradient>
+              <linearGradient id="rookGold" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%"  stop-color="#A88838"/>
+                <stop offset="50%" stop-color="#E8CC72"/>
+                <stop offset="100%" stop-color="#A88838"/>
+              </linearGradient>
+            </defs>
+            <!-- 3 crenellations -->
+            <rect x="36"  y="14" width="28" height="32" fill="url(#rookGrad)"/>
+            <rect x="86"  y="14" width="28" height="32" fill="url(#rookGrad)"/>
+            <rect x="136" y="14" width="28" height="32" fill="url(#rookGrad)"/>
+            <!-- Top band & shoulders -->
+            <rect x="30" y="46" width="140" height="20" fill="url(#rookGrad)"/>
+            <rect x="44" y="66" width="112" height="14" fill="url(#rookGrad)"/>
+            <!-- Trapezoidal body -->
+            <path d="M50 80 H150 L172 210 H28 Z" fill="url(#rookGrad)"/>
+            <!-- Gold base -->
+            <rect x="18" y="214" width="164" height="10" fill="url(#rookGold)"/>
+            <rect x="18" y="214" width="164" height="3" fill="#FFFFFF" opacity="0.35"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__scroll-hint" aria-hidden="true">
+      <span>SCROLL</span>
+      <span class="line"></span>
+    </div>
+  </section>
+
+  <!-- ============ 1b · CASTLING (king ⇄ rook swap on scroll) ============ -->
+  <section class="castling" data-section="castling" aria-label="The castling move">
+    <div class="castling__inner">
+      <div class="castling__eyebrow eyebrow">
+        <span class="dot"></span> The Castling Move
+      </div>
+
+      <div class="castling__stage" data-castling-stage>
+        <!-- King (founder) — starts LEFT -->
+        <div class="castling__piece castling__piece--king" data-castling-king aria-label="King — the founder">
+          <svg viewBox="0 0 200 240" aria-hidden="true">
+            <defs>
+              <linearGradient id="crownGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%"  stop-color="#FFFFFF" stop-opacity="0.98"/>
+                <stop offset="100%" stop-color="#E8EEF7" stop-opacity="0.72"/>
+              </linearGradient>
+              <linearGradient id="crownGold" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%"  stop-color="#A88838"/>
+                <stop offset="50%" stop-color="#E8CC72"/>
+                <stop offset="100%" stop-color="#A88838"/>
+              </linearGradient>
+            </defs>
+            <!-- Cross on top -->
+            <rect x="92" y="6"  width="16" height="34" fill="url(#crownGrad)"/>
+            <rect x="78" y="16" width="44" height="12" fill="url(#crownGrad)"/>
+            <!-- Crown band -->
+            <path d="M30 70 L60 38 L80 60 L100 30 L120 60 L140 38 L170 70 Z" fill="url(#crownGrad)"/>
+            <!-- Jewels -->
+            <circle cx="60"  cy="46" r="5" fill="url(#crownGold)"/>
+            <circle cx="100" cy="38" r="6" fill="url(#crownGold)"/>
+            <circle cx="140" cy="46" r="5" fill="url(#crownGold)"/>
+            <!-- Body -->
+            <rect x="30" y="70" width="140" height="18" fill="url(#crownGrad)"/>
+            <rect x="44" y="88" width="112" height="14" fill="url(#crownGrad)"/>
+            <path d="M50 102 H150 L172 210 H28 Z" fill="url(#crownGrad)"/>
+            <!-- Gold base -->
+            <rect x="18" y="214" width="164" height="10" fill="url(#crownGold)"/>
+            <rect x="18" y="214" width="164" height="3" fill="#FFFFFF" opacity="0.35"/>
+          </svg>
+          <span class="castling__label">King</span>
+        </div>
+
+        <!-- Chess board strip (8 squares) -->
+        <div class="castling__board" aria-hidden="true">
+          <span class="castling__square"></span><span class="castling__square"></span>
+          <span class="castling__square"></span><span class="castling__square"></span>
+          <span class="castling__square"></span><span class="castling__square"></span>
+          <span class="castling__square"></span><span class="castling__square"></span>
+          <!-- Gold trails (grow during the swap) -->
+          <span class="castling__trail castling__trail--king" data-castling-trail-king></span>
+          <span class="castling__trail castling__trail--rook" data-castling-trail-rook></span>
+        </div>
+
+        <!-- Rook (Bluerook) — starts RIGHT -->
+        <div class="castling__piece castling__piece--rook" data-castling-rook aria-label="Rook — Bluerook">
+          <svg viewBox="0 0 200 240" aria-hidden="true">
+            <defs>
+              <linearGradient id="ckRookGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%"  stop-color="#FFFFFF" stop-opacity="0.98"/>
+                <stop offset="100%" stop-color="#E8EEF7" stop-opacity="0.72"/>
+              </linearGradient>
+              <linearGradient id="ckRookGold" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%"  stop-color="#A88838"/>
+                <stop offset="50%" stop-color="#E8CC72"/>
+                <stop offset="100%" stop-color="#A88838"/>
+              </linearGradient>
+            </defs>
+            <rect x="36"  y="14" width="28" height="32" fill="url(#ckRookGrad)"/>
+            <rect x="86"  y="14" width="28" height="32" fill="url(#ckRookGrad)"/>
+            <rect x="136" y="14" width="28" height="32" fill="url(#ckRookGrad)"/>
+            <rect x="30" y="46" width="140" height="20" fill="url(#ckRookGrad)"/>
+            <rect x="44" y="66" width="112" height="14" fill="url(#ckRookGrad)"/>
+            <path d="M50 80 H150 L172 210 H28 Z" fill="url(#ckRookGrad)"/>
+            <rect x="18" y="214" width="164" height="10" fill="url(#ckRookGold)"/>
+            <rect x="18" y="214" width="164" height="3" fill="#FFFFFF" opacity="0.35"/>
+          </svg>
+          <span class="castling__label">Rook</span>
+        </div>
+      </div>
+
+      <!-- Caption — fades in after the swap completes -->
+      <div class="castling__caption" data-castling-caption>
+        <p class="castling__line">You focus on the kingdom.</p>
+        <p class="castling__line castling__line--accent">We run the board.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2 · TRUST BAR ============ -->
+  <section class="trust" data-section="trust">
+    <div class="trust__inner">
+      <div class="trust__item" data-stack>
+        <div class="trust__num">100%</div>
+        <div class="trust__label">Custom</div>
+      </div>
+      <span class="trust__sep" aria-hidden="true"></span>
+      <div class="trust__item" data-stack>
+        <div class="trust__num">48h</div>
+        <div class="trust__label">Onboarding</div>
+      </div>
+      <span class="trust__sep" aria-hidden="true"></span>
+      <div class="trust__item" data-stack>
+        <div class="trust__num">1:1</div>
+        <div class="trust__label">Dedicated VA</div>
+      </div>
+      <span class="trust__sep" aria-hidden="true"></span>
+      <div class="trust__item" data-stack>
+        <div class="trust__num">0</div>
+        <div class="trust__label">Lock-In · Cancel Anytime</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3 · PROBLEM ============ -->
+  <section class="problem" id="problem" data-section="problem">
+    <div class="problem__sticky">
+      <div class="problem__eyebrow">The diagnosis</div>
+
+      <div class="problem__stage">
+        <p class="problem__statement is-active" data-stmt="0">
+          You&rsquo;re doing <em>$20/hr</em> work
+          <br/>with a <em>$2,000/hr</em> mind.
+        </p>
+        <p class="problem__statement" data-stmt="1">
+          Your inbox is running
+          <br/>your <em>calendar</em>.
+        </p>
+        <p class="problem__statement" data-stmt="2">
+          You built a company —
+          <br/>not a <em>job</em>.
+          <br/>It became both.
+        </p>
+      </div>
+
+      <div class="problem__progress" aria-hidden="true">
+        <span class="bar" data-bar="0"></span>
+        <span class="bar" data-bar="1"></span>
+        <span class="bar" data-bar="2"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4 · SERVICES ============ -->
+  <section class="services" id="services" data-section="services">
+    <div class="services__head">
+      <div class="eyebrow"><span class="dot"></span> What we do</div>
+      <h2 class="display-l">Three engines.<br/><span class="accent">One quiet operation.</span></h2>
+    </div>
+
+    <div class="services__track-wrap">
+      <div class="services__track" data-track>
+
+        <article class="svc-card" data-tilt style="--svc-img:url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80')">
+          <div class="svc-card__num">01</div>
+          <div class="svc-card__icon">
+            <!-- Knight -->
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <path d="M20 54V44c0-10 6-16 12-20 3-2 4-4 4-7l-3 1-2-3 6-4 4 2 4 4c4 4 6 10 6 18v19H20z"
+                    fill="currentColor"/>
+              <circle cx="40" cy="22" r="1.5" fill="var(--color-bg)"/>
+              <rect x="16" y="54" width="36" height="4" fill="var(--color-accent)"/>
+            </svg>
+          </div>
+          <h3 class="svc-card__title">Virtual Assistants</h3>
+          <p class="svc-card__body">
+            Dedicated VAs matched to your workflow.
+            Trained, managed, accountable. You set the standard,
+            we hold the line.
+          </p>
+          <ul class="svc-card__list">
+            <li>Hand-picked, vetted talent</li>
+            <li>Trained on your SOPs</li>
+            <li>Managed by an ops lead</li>
+          </ul>
+          <div class="svc-card__corner" aria-hidden="true"></div>
+        </article>
+
+        <article class="svc-card" data-tilt style="--svc-img:url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80')">
+          <div class="svc-card__num">02</div>
+          <div class="svc-card__icon">
+            <!-- Circuit -->
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <path d="M8 32h12M44 32h12M32 8v12M32 44v12M20 20l8 8M36 36l8 8M44 20l-8 8M28 36l-8 8"
+                    stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="square"/>
+              <circle cx="32" cy="32" r="6" fill="currentColor"/>
+              <circle cx="8" cy="32" r="3" fill="var(--color-accent)"/>
+              <circle cx="56" cy="32" r="3" fill="var(--color-accent)"/>
+              <circle cx="32" cy="8"  r="3" fill="var(--color-accent)"/>
+              <circle cx="32" cy="56" r="3" fill="var(--color-accent)"/>
+            </svg>
+          </div>
+          <h3 class="svc-card__title">Workflow Automation</h3>
+          <p class="svc-card__body">
+            Custom n8n automations. Built, tested, maintained.
+            Zero technical lift from you — your stack works
+            while you sleep.
+          </p>
+          <ul class="svc-card__list">
+            <li>n8n, Make, Zapier, custom</li>
+            <li>Tested end-to-end before launch</li>
+            <li>Monitored &amp; maintained monthly</li>
+          </ul>
+          <div class="svc-card__corner" aria-hidden="true"></div>
+        </article>
+
+        <article class="svc-card" data-tilt style="--svc-img:url('https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=1200&q=80')">
+          <div class="svc-card__num">03</div>
+          <div class="svc-card__icon">
+            <!-- Broadcast -->
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <circle cx="32" cy="32" r="4" fill="currentColor"/>
+              <path d="M22 32a10 10 0 0 1 20 0M14 32a18 18 0 0 1 36 0M6 32a26 26 0 0 1 52 0"
+                    stroke="currentColor" stroke-width="3" fill="none"/>
+              <rect x="30" y="34" width="4" height="22" fill="var(--color-accent)"/>
+            </svg>
+          </div>
+          <h3 class="svc-card__title">Social Media Management</h3>
+          <p class="svc-card__body">
+            Strategy, content, scheduling.
+            Your brand active and on-message while you stay
+            focused on the only seat you can hold — yours.
+          </p>
+          <ul class="svc-card__list">
+            <li>Editorial calendar &amp; strategy</li>
+            <li>Long-form &amp; short-form production</li>
+            <li>Engagement &amp; community ops</li>
+          </ul>
+          <div class="svc-card__corner" aria-hidden="true"></div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5 · HOW IT WORKS ============ -->
+  <section class="process" id="process" data-section="process">
+    <div class="process__head">
+      <div class="eyebrow"><span class="dot"></span> How it works</div>
+      <h2 class="display-l">From bottleneck<br/><span class="accent">to back-of-house — in four moves.</span></h2>
+    </div>
+
+    <div class="process__stack" data-process-stack>
+
+      <article class="step" data-step="0">
+        <div class="step__rail" aria-hidden="true"></div>
+        <div class="step__num">01</div>
+        <div class="step__body">
+          <h3 class="step__title">Discovery</h3>
+          <p class="step__lead">Map your bottlenecks.</p>
+          <p class="step__copy">A working session to inventory every task draining you — what it costs you per hour, and where the leverage lives.</p>
+        </div>
+      </article>
+
+      <article class="step" data-step="1">
+        <div class="step__rail" aria-hidden="true"></div>
+        <div class="step__num">02</div>
+        <div class="step__body">
+          <h3 class="step__title">System Design</h3>
+          <p class="step__lead">Engineer the delegation stack.</p>
+          <p class="step__copy">VAs, automations, and SOPs designed as one system. Hand-offs documented. Failure points removed before they exist.</p>
+        </div>
+      </article>
+
+      <article class="step" data-step="2">
+        <div class="step__rail" aria-hidden="true"></div>
+        <div class="step__num">03</div>
+        <div class="step__body">
+          <h3 class="step__title">Deployment</h3>
+          <p class="step__lead">Live in 48 hours.</p>
+          <p class="step__copy">VAs onboarded. Automations switched on. You start handing off the work that should never have been on your desk.</p>
+        </div>
+      </article>
+
+      <article class="step" data-step="3">
+        <div class="step__rail" aria-hidden="true"></div>
+        <div class="step__num">04</div>
+        <div class="step__body">
+          <h3 class="step__title">Scale</h3>
+          <p class="step__lead">Optimize as you grow.</p>
+          <p class="step__copy">Monthly reviews. Capacity expands with you. New workflows folded in without breaking what already runs.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ 6 · WHY BLUEROOK ============ -->
+  <section class="why" id="why" data-section="why">
+    <div class="why__head">
+      <div class="eyebrow"><span class="dot"></span> Why Bluerook</div>
+      <h2 class="display-l">Four things we<br/><span class="accent">refuse to do.</span></h2>
+    </div>
+
+    <div class="why__grid">
+      <article class="why-cell" data-reveal>
+        <div class="why-cell__no">No</div>
+        <h3 class="why-cell__title">generic VAs.</h3>
+        <p class="why-cell__copy">Every assistant is matched to your workflow, trained on your SOPs, and managed by an ops lead who owns the outcome.</p>
+      </article>
+
+      <article class="why-cell" data-reveal>
+        <div class="why-cell__no">No</div>
+        <h3 class="why-cell__title">off-the-shelf automations.</h3>
+        <p class="why-cell__copy">Your stack is yours. We build to it — no template-shaped holes, no shoehorned integrations, no &ldquo;close enough.&rdquo;</p>
+      </article>
+
+      <article class="why-cell" data-reveal>
+        <div class="why-cell__no">No</div>
+        <h3 class="why-cell__title">micromanagement.</h3>
+        <p class="why-cell__copy">We own the outcome. You see the work, not the work-to-manage-the-work. Reports on your schedule, not ours.</p>
+      </article>
+
+      <article class="why-cell" data-reveal>
+        <div class="why-cell__no">No</div>
+        <h3 class="why-cell__title">lock-in.</h3>
+        <p class="why-cell__copy">No annual contracts. No exit fees. We earn your trust every month or we don&rsquo;t deserve the next one.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ 7 · CONTACT ============ -->
+  <section class="contact" id="contact" data-section="contact">
+    <div class="contact__inner">
+      <div class="eyebrow"><span class="dot"></span> Book a strategy call</div>
+      <h2 class="contact__title">
+        Ready to stop doing
+        <br/><span class="accent">everything yourself?</span>
+      </h2>
+      <p class="contact__lead">
+        Book a free 30-minute strategy call. We&rsquo;ll map the
+        bottlenecks and tell you exactly what we&rsquo;d delegate first.
+      </p>
+
+      <!-- Calendly inline widget (initialised in script below) -->
+      <div
+        id="calendly-embed"
+        class="contact__calendly"
+        aria-label="Calendly booking widget"
+        style="min-width:320px;height:630px;"
+      ></div>
+
+      <!-- Booking buttons row -->
+      <div class="contact__cta-row">
+        <a
+          class="btn btn--primary"
+          href="https://calendar.app.google/pjQKiGLntog19k9Y9"
+          target="_blank"
+          rel="noopener"
+        >
+          <span>Book via Google Calendar</span>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="square"/></svg>
+        </a>
+        <a
+          class="btn btn--outline"
+          href="https://calendly.com/hatim-bluerook/30min"
+          target="_blank"
+          rel="noopener"
+        >
+          <span>Book via Calendly</span>
+        </a>
+      </div>
+
+      <p class="contact__meta">30 minutes &middot; Free &middot; Google Meet</p>
+
+      <a class="contact__email" href="mailto:hatim@bluerook.co">hatim@bluerook.co</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 8 · FOOTER ============ -->
+<footer class="footer">
+  <div class="footer__rule"></div>
+  <div class="footer__inner">
+    <a href="#hero" class="footer__logo" aria-label="Bluerook home">
+      <svg viewBox="0 0 40 44" aria-hidden="true">
+        <g fill="currentColor">
+          <rect x="7"  y="4"  width="5" height="6"/>
+          <rect x="17" y="4"  width="6" height="6"/>
+          <rect x="28" y="4"  width="5" height="6"/>
+          <rect x="6"  y="10" width="28" height="4"/>
+          <rect x="9"  y="14" width="22" height="3"/>
+          <path d="M10 17h20l3 19H7z"/>
+        </g>
+        <rect x="5" y="37" width="30" height="3" fill="var(--color-accent)"/>
+      </svg>
+      <span>BLUEROOK</span>
+    </a>
+
+    <nav class="footer__nav" aria-label="Footer">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#why">Why us</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <a class="footer__email" href="mailto:hatim@bluerook.co">hatim@bluerook.co</a>
+  </div>
+
+  <div class="footer__delegate">
+    <span>Ready to delegate?</span>
+    <a
+      class="footer__delegate-link"
+      href="https://calendar.app.google/pjQKiGLntog19k9Y9"
+      target="_blank"
+      rel="noopener"
+      aria-label="Book a free call"
+    >
+      <span class="footer__delegate-text">Book a free call</span>
+      <span class="footer__delegate-arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+
+  <div class="footer__legal">
+    <span>&copy; 2025 Bluerook. All rights reserved.</span>
+    <span class="footer__legal-meta">Premium BPO &middot; Built for operators.</span>
+  </div>
+</footer>
+
+<!-- ============ SCRIPTS ============ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+<script src="script.js" defer></script>
+
+<!-- Calendly inline widget — colour overrides via URL params (primary, text, background) -->
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<script>
+  (function () {
+    function initCalendly() {
+      if (!window.Calendly) { return setTimeout(initCalendly, 100); }
+      var el = document.getElementById('calendly-embed');
+      if (!el) return;
+      window.Calendly.initInlineWidget({
+        url: 'https://calendly.com/hatim-bluerook/30min?hide_event_type_details=0&primary_color=C9A84C&text_color=ffffff&background_color=0A1628',
+        parentElement: el,
+      });
+    }
+    initCalendly();
+  })();
+</script>
+
+</body>
+</html>
