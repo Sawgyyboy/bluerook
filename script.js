@@ -9,21 +9,21 @@
 (() => {
   const prefersReduced =
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isMobile = window.matchMedia('(max-width: 720px)').matches;
+  // 768px breakpoint — matches our CSS responsive cutoff. Heavy GSAP effects
+  // (particles, mouse parallax, orb drift, services horizontal pin) are gated
+  // on this; lightweight ScrollTriggers (fades, splittext, sticky-stack) still
+  // run so the page is never visually broken on smaller screens.
+  const isMobile = window.innerWidth <= 768;
   const motionOff = prefersReduced || isMobile;
 
-  /* ---------- 1. Lenis smooth scroll ---------- */
+  /* ---------- 1. Lenis smooth scroll (1.0.x API) ---------- */
   let lenis = null;
   if (!motionOff && window.Lenis) {
     lenis = new window.Lenis({
-      duration: 1.15,
+      duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 1.5,
+      smooth: true,
     });
-    const raf = (time) => { lenis.raf(time); requestAnimationFrame(raf); };
-    requestAnimationFrame(raf);
   }
 
   /* ---------- 2. GSAP + ScrollTrigger setup ---------- */
@@ -31,7 +31,7 @@
     gsap.registerPlugin(ScrollTrigger);
     if (lenis) {
       lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add((t) => lenis.raf(t * 1000));
+      gsap.ticker.add((time) => { lenis.raf(time * 1000); });
       gsap.ticker.lagSmoothing(0);
     }
     // Recompute pin positions once webfonts finish swapping — without this,
@@ -201,7 +201,7 @@
   /* ---------- 8. Gold particle drift (desktop only) ---------- */
   const particlesEl = document.getElementById('particles');
   if (particlesEl && !isMobile) {
-    const COUNT = 10;
+    const COUNT = 5; // Production: halved from 10 for cheaper compositing
     for (let i = 0; i < COUNT; i++) {
       const p = document.createElement('span');
       p.className = 'particle';
@@ -269,7 +269,7 @@
   const track           = document.querySelector('[data-track]');
   const trackWrap       = document.querySelector('.services__track-wrap');
 
-  if (servicesSection && track && trackWrap && window.innerWidth > 720) {
+  if (servicesSection && track && trackWrap && window.innerWidth > 768) {
     const computeDistance = () => {
       return track.scrollWidth - trackWrap.clientWidth + 64; // small overshoot
     };
