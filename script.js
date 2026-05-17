@@ -32,8 +32,31 @@
   /* ---------- Universal: nav scroll state, theme toggle, ambient cursor ---------- */
   initUniversal();
 
+  /* ---------- Lenis smooth scroll on ALL tiers (mobile included) ---------- */
+  let lenis = null;
+  const startLenis = () => {
+    if (!window.Lenis) { setTimeout(startLenis, 60); return; }
+    lenis = new window.Lenis({
+      duration: tier === 'mobile' ? 0.7 : 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+      smoothTouch: false,
+    });
+    if (window.gsap && window.ScrollTrigger) {
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+      gsap.ticker.lagSmoothing(0);
+    } else {
+      const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
+      requestAnimationFrame(raf);
+    }
+  };
+  startLenis();
+
   if (tier === 'mobile') {
-    // No GSAP; rely on CSS. Ensure split words aren't hidden.
+    // No GSAP on mobile — CSS-only animations + IntersectionObserver reveals
+    initMobileReveals();
+    initMobileCastling();
     return;
   }
 
@@ -41,19 +64,6 @@
 
   gsap.registerPlugin(ScrollTrigger);
   ScrollTrigger.config({ limitCallbacks: true, ignoreMobileResize: true });
-
-  /* ---------- Lenis (both light and heavy) ---------- */
-  let lenis = null;
-  if (window.Lenis) {
-    lenis = new window.Lenis({
-      duration: 0.8,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smooth: true,
-    });
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time) => { lenis.raf(time * 1000); });
-    gsap.ticker.lagSmoothing(0);
-  }
 
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(() => ScrollTrigger.refresh());
@@ -151,31 +161,6 @@
         });
       }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
       revealEls.forEach((el) => io.observe(el));
-    }
-
-    // Auto-tag mobile sections with .reveal-on-view (only at mobile tier)
-    if (tier === 'mobile') {
-      const mobileTargets = document.querySelectorAll(
-        '.svc-card, .step, .why-cell, .problem__statement, .castling__caption, .trust__item, .contact__title, .contact__cta-row'
-      );
-      mobileTargets.forEach((el, i) => {
-        if (!el.classList.contains('reveal-on-view')) {
-          el.classList.add('reveal-on-view');
-          el.style.animationDelay = (i % 6) * 0.08 + 's';
-        }
-      });
-      // Re-observe newly tagged elements
-      if ('IntersectionObserver' in window) {
-        const io2 = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
-              io2.unobserve(entry.target);
-            }
-          });
-        }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
-        mobileTargets.forEach((el) => io2.observe(el));
-      }
     }
 
     // Ambient cursor glow (desktop only — pointer-based)
@@ -354,28 +339,36 @@
       });
     });
 
-    // CASTLING swap
+    // CASTLING swap — bidirectional via scrub
     const castlingStage = document.querySelector('[data-castling-stage]');
+    const castlingSection = document.querySelector('.castling');
     const cKing = document.querySelector('[data-castling-king]');
     const cRook = document.querySelector('[data-castling-rook]');
     const tKing = document.querySelector('[data-castling-trail-king]');
     const tRook = document.querySelector('[data-castling-trail-rook]');
     const cCap  = document.querySelector('[data-castling-caption]');
-    if (castlingStage && cKing && cRook) {
+    if (castlingStage && cKing && cRook && castlingSection) {
+      const getDx = () => {
+        gsap.set([cKing, cRook], { clearProps: 'x' });
+        const kRect = cKing.getBoundingClientRect();
+        const rRect = cRook.getBoundingClientRect();
+        return (rRect.left + rRect.width / 2) - (kRect.left + kRect.width / 2);
+      };
+      const castlingTL = gsap.timeline({ paused: true, defaults: { ease: 'power2.inOut' } });
+      castlingTL
+        .to(cKing, { x: () => getDx(),  duration: 1.2 }, 0)
+        .to(cRook, { x: () => -getDx(), duration: 1.2 }, 0);
+      if (tKing) castlingTL.to(tKing, { scaleX: 1, opacity: 0.35, duration: 1.0 }, 0.05);
+      if (tRook) castlingTL.to(tRook, { scaleX: 1, opacity: 0.35, duration: 1.0 }, 0.05);
+      if (cCap)  castlingTL.to(cCap,  { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 1.0);
+
       ScrollTrigger.create({
-        trigger: castlingStage, start: 'top 60%', once: true,
-        onEnter: () => {
-          const kRect = cKing.getBoundingClientRect();
-          const rRect = cRook.getBoundingClientRect();
-          const dx = (rRect.left + rRect.width / 2) - (kRect.left + kRect.width / 2);
-          const tl = gsap.timeline({ defaults: { ease: 'power2.inOut' } });
-          tl.to(cKing, { x:  dx, duration: 1.2 }, 0)
-            .to(cRook, { x: -dx, duration: 1.2 }, 0);
-          if (tKing) tl.to(tKing, { scaleX: 1, duration: 1.0 }, 0.05);
-          if (tRook) tl.to(tRook, { scaleX: 1, duration: 1.0 }, 0.05);
-          tl.to([tKing, tRook].filter(Boolean), { opacity: 0.35, duration: 0.6, ease: 'power2.out' }, '+=0.1');
-          if (cCap) tl.to(cCap, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.2');
-        },
+        trigger: castlingSection,
+        start: 'top center',
+        end: 'bottom center',
+        scrub: 1,
+        animation: castlingTL,
+        invalidateOnRefresh: true,
       });
     }
 
@@ -432,6 +425,56 @@
         perspective: 1200, scale: 1.02, gyroscope: false,
       });
     }
+  }
+
+  /* ==========================================================
+     MOBILE — IntersectionObserver reveals (CSS only)
+     ========================================================== */
+  function initMobileReveals() {
+    const SELECTOR = 'section, .card, .svc-card, .stat-item, .trust__item, .step, .why-cell, .castling__caption, .problem__statement';
+    const targets = document.querySelectorAll(SELECTOR);
+
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach(el => el.classList.add('is-visible'));
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    targets.forEach(el => observer.observe(el));
+
+    // Safety net — anything in the initial viewport that didn't fire IO within
+    // 600ms (some embeds/headless contexts) gets revealed manually.
+    setTimeout(() => {
+      targets.forEach(el => {
+        if (el.classList.contains('is-visible')) return;
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) {
+          el.classList.add('is-visible');
+        }
+      });
+    }, 600);
+  }
+
+  function initMobileCastling() {
+    if (!('IntersectionObserver' in window)) return;
+    const section = document.querySelector('.castling');
+    if (!section) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          section.classList.add('is-visible');
+          io.unobserve(section);
+        }
+      });
+    }, { threshold: 0.4 });
+    io.observe(section);
   }
 
   /* ---------- Anchor smooth-scroll via Lenis ---------- */
