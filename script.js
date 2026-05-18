@@ -70,11 +70,15 @@
   };
 
   if (tier === 'mobile') {
-    // Mobile: same quality as light + castling + ambient orbs
-    // No particles, no tilt, no splitText, no mouse parallax, no problem-pin, no h-scroll
+    // Mobile: full cinematic experience — problem pin, sticky process stack, castling, ambient
     onLoad(() => {
       setTimeout(initLightFades, 80);
-      setTimeout(() => { initLightScroll(); initCastling(); }, 160);
+      setTimeout(() => {
+        initLightScroll();
+        initMobileProblem();
+        initMobileProcess();
+        initCastling();
+      }, 160);
       setTimeout(initAmbientOrbs, 320);
     });
   } else if (tier === 'light') {
@@ -207,6 +211,53 @@
       gsap.from(el, {
         opacity: 0, y: 32, duration: 0.9, ease: 'power3.out',
         scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+      });
+    });
+  }
+
+  /* ==========================================================
+     MOBILE PROBLEM — pinned statement cycling (same as desktop)
+     ========================================================== */
+  function initMobileProblem() {
+    const problemSection = document.querySelector('.problem');
+    const statements = gsap.utils.toArray('.problem__statement');
+    const bars = gsap.utils.toArray('.problem__progress .bar');
+    if (!problemSection || !statements.length) return;
+
+    // Each statement gets ~280px of scroll travel + 200px lead-out
+    const total = 280 * statements.length + 200;
+    ScrollTrigger.create({
+      trigger: problemSection,
+      start: 'top top',
+      end: `+=${total}`,
+      pin: '.problem__sticky',
+      pinSpacing: true,
+      scrub: 0.5,
+      onUpdate: self => {
+        const idx = Math.min(statements.length - 1, Math.floor(self.progress * statements.length));
+        statements.forEach((s, i) => s.classList.toggle('is-active', i === idx));
+        bars.forEach((b, i) => b.classList.toggle('is-active', i <= idx));
+      },
+    });
+  }
+
+  /* ==========================================================
+     MOBILE PROCESS — sticky stacked cards with scale-down
+     ========================================================== */
+  function initMobileProcess() {
+    const steps = gsap.utils.toArray('.step');
+    if (steps.length < 2) return;
+    steps.forEach((step, i, arr) => {
+      if (i === arr.length - 1) return;
+      gsap.to(step, {
+        scale: 0.94, opacity: 0.5, yPercent: -2,
+        transformOrigin: 'top center', ease: 'none',
+        scrollTrigger: {
+          trigger: arr[i + 1],
+          start: 'top 82%',
+          end: 'top 28%',
+          scrub: true,
+        },
       });
     });
   }
