@@ -1421,7 +1421,11 @@ html.lenis, html.lenis body { height: auto; }
     --container-pad: 28px;
   }
   body, html { background: #050508; }
-  .ambient, .ambient__orb, .ambient__cursor, .ambient__grain { display: none !important; }
+  /* Keep ambient orbs — hidden cursor/grain only (no pointer on touch) */
+  .ambient__cursor, .ambient__grain { display: none !important; }
+  /* Smaller, dimmer orbs on mobile */
+  .ambient__orb { width: 28vmax; height: 28vmax; opacity: 0.55; }
+  .ambient__orb--3, .ambient__orb--4 { opacity: 0.28; }
   .theme-toggle, .nav__cta, .nav__links { display: none !important; }
   .nav__hamburger { display: inline-flex; }
 
@@ -1607,7 +1611,6 @@ html.lenis, html.lenis body { height: auto; }
     align-items: flex-start;
     text-align: left;
     transform: none !important;
-    backdrop-filter: none; -webkit-backdrop-filter: none;
     overflow: hidden; isolation: isolate;
   }
   /* Show image at full intensity */
@@ -1709,21 +1712,15 @@ html.lenis, html.lenis body { height: auto; }
     padding: 96px 28px; border: none;
   }
   .castling__line { font-size: clamp(22px, 6vw, 30px); line-height: 1.2; }
-  .castling__stage { transform: none !important; max-width: 100%; }
+  /* GSAP slides the pieces — no transform override */
+  .castling__stage { max-width: 100%; }
   .castling__piece {
     width: clamp(64px, 16vw, 88px);
-    transform: none !important;
-    transition: opacity 0.9s cubic-bezier(0.4,0,0.2,1);
+    /* transform NOT locked — GSAP animates translateX for the real slide */
     filter: drop-shadow(0 0 20px rgba(255,255,255,0.1)) drop-shadow(0 0 40px rgba(30,111,217,0.2));
   }
-  .castling__piece--king { opacity: 1; }
-  .castling__piece--rook { opacity: 0; }
-  .castling.is-visible .castling__piece--king { opacity: 0; }
-  .castling.is-visible .castling__piece--rook { opacity: 1; }
-  .castling__caption { opacity: 1 !important; transform: none !important; }
-  .castling__line--accent {
-    display: block; margin-top: 6px;
-  }
+  /* opacity managed by GSAP castling timeline — no CSS overrides */
+  .castling__line--accent { display: block; margin-top: 6px; }
 
   /* ─── HOW IT WORKS — timeline ────────────────────── */
   .process { background: #050508; padding: 96px 0; }
@@ -1747,8 +1744,8 @@ html.lenis, html.lenis body { height: auto; }
     background: transparent !important; border: none !important; box-shadow: none !important;
     padding: 0 !important; min-height: auto !important;
     grid-template-columns: 1fr !important;
-    transform: none !important; opacity: 1 !important;
-    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+    transform: none !important;
+    /* opacity managed by GSAP — no override here */
   }
   .step__num {
     position: absolute !important; left: -56px !important; top: -10px !important;
@@ -1789,12 +1786,13 @@ html.lenis, html.lenis body { height: auto; }
     background: transparent; border: none;
     border-left: 3px solid #C9A84C;
     box-shadow: none;
-    backdrop-filter: none; -webkit-backdrop-filter: none;
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     padding: 28px 28px 28px 32px;
-    text-align: left; opacity: 1 !important; transform: none !important;
+    text-align: left;
+    /* opacity/transform managed by GSAP initLightScroll() — no !important override */
   }
-  .why-cell:nth-child(odd)  { background: rgba(13,31,60,0.6); }
-  .why-cell:nth-child(even) { background: rgba(6,13,24,0.8); }
+  .why-cell:nth-child(odd)  { background: rgba(13,31,60,0.55); }
+  .why-cell:nth-child(even) { background: rgba(6,13,24,0.75); }
   .why-cell__no { display: none; }
   .why-cell__title {
     font-family: var(--font-display); font-style: italic; font-weight: 500;
@@ -1848,12 +1846,14 @@ html.lenis, html.lenis body { height: auto; }
   .footer__legal-meta { font-family: 'Cinzel', serif; font-weight: 500; letter-spacing: 0.18em; color: var(--color-text-muted); font-size: 11px; }
   .footer__delegate { font-size: 20px; border-top-color: rgba(255,255,255,0.06); padding: 32px 28px; margin-top: 0; flex-direction: column; gap: 12px; }
 
-  /* ─── IO REVEALS ─────────────────────────────────── */
-  .card, .svc-card, .stat-item, .trust__item, .step, .why-cell, .castling__caption {
+  /* ─── REVEALS ────────────────────────────────────── */
+  /* Initial hidden state — GSAP's initLightScroll() animates these in.
+     If GSAP unavailable, initCSSReveals() adds .is-visible via IO observer. */
+  .svc-card, .step, .why-cell {
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1);
+    /* No CSS transition — GSAP drives the animation */
   }
+  /* Fallback for no-GSAP: IO observer adds .is-visible */
   .is-visible { opacity: 1 !important; transform: translateY(0) !important; }
 
   /* ─── TYPOGRAPHY scale ───────────────────────────── */
