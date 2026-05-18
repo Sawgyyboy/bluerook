@@ -1478,6 +1478,7 @@ html.lenis, html.lenis body { height: auto; }
   /* Rook above headline — large and glowing */
   .hero__rook-wrap {
     display: block !important;
+    opacity: 1 !important;
     position: relative;
     left: auto; right: auto; top: auto;
     margin: 0 auto 32px;
@@ -1775,8 +1776,8 @@ html.lenis, html.lenis body { height: auto; }
   }
 
   /* ─── WHY BLUEROOK ───────────────────────────────── */
-  .why { background: #050508; padding: 96px 0; }
-  .why__head { padding: 0 28px 48px; }
+  .why { background: #050508; padding: 64px 0; }
+  .why__head { padding: 0 28px 32px; margin-bottom: 0; }
   .why__head h2 { font-size: clamp(32px, 9vw, 44px); line-height: 1.05; letter-spacing: -0.02em; }
   .why__grid {
     grid-template-columns: 1fr !important;
