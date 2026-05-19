@@ -71,13 +71,12 @@
   };
 
   if (tier === 'mobile') {
-    // Mobile: scroll-snap + IO-based castling + problem cycling + ambient orbs. No ScrollTrigger.
+    // Mobile: CSS-driven. Native smooth scroll. IO fade-up reveals + bottom CTA bar.
+    initMobileBottomCTA();
     onLoad(() => {
-      setTimeout(initLightFades, 80);
-      setTimeout(initMobileCastlingIO, 200);
-      setTimeout(initMobileProblemCycle, 300);
-      setTimeout(initAmbientOrbs, 320);
+      setTimeout(initMobileFadeUp, 80);
     });
+    return; // skip all desktop/heavy GSAP wiring
   } else if (tier === 'light') {
     onLoad(() => {
       setTimeout(initLightFades, 100);
@@ -180,7 +179,45 @@
      LIGHT TIER + MOBILE — shared entrance & scroll reveals
      ========================================================== */
   /* ==========================================================
-     MOBILE CASTLING — IntersectionObserver one-shot
+     MOBILE — IntersectionObserver fade-up reveals (CSS-driven)
+     ========================================================== */
+  function initMobileFadeUp() {
+    const targets = document.querySelectorAll(
+      '[data-fade], [data-reveal], [data-stack], ' +
+      '.svc-card, .step, .why-cell, .trust__item, ' +
+      '.castling__caption, .problem__statement, ' +
+      '.hero__title, .hero__lead, .hero__eyebrow, .hero__rook-wrap'
+    );
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach(el => el.classList.add('is-visible'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    targets.forEach(el => io.observe(el));
+  }
+
+  /* ==========================================================
+     MOBILE — Inject sticky bottom CTA bar (glassmorphism)
+     ========================================================== */
+  function initMobileBottomCTA() {
+    if (document.querySelector('.m-cta-bar')) return;
+    const bar = document.createElement('div');
+    bar.className = 'm-cta-bar';
+    bar.setAttribute('aria-label', 'Quick actions');
+    bar.innerHTML =
+      '<a href="#services" class="m-cta-bar__btn m-cta-bar__btn--ghost">Services</a>' +
+      '<a href="#contact"  class="m-cta-bar__btn m-cta-bar__btn--primary">Book a Call</a>';
+    document.body.appendChild(bar);
+  }
+
+  /* ==========================================================
+     MOBILE CASTLING — IntersectionObserver one-shot (unused — fade-up handles it)
      ========================================================== */
   function initMobileCastlingIO() {
     const section = document.querySelector('.castling');
