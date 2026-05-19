@@ -1530,7 +1530,10 @@ html.lenis, html.lenis body { height: auto; }
   }
 
   /* ── SECTION BASELINE ─────────────────────────────── */
-  section, .footer { position: relative; background: var(--m-bg); padding: 0; }
+  section, .footer {
+    position: relative; background: var(--m-bg); padding: 0;
+    scroll-margin-top: var(--m-nav-h);
+  }
 
   /* ── STICKY SECTION HEADERS ──────────────────────── */
   .services__head, .process__head, .why__head {
@@ -1774,7 +1777,7 @@ html.lenis, html.lenis body { height: auto; }
   .services {
     background: var(--m-bg);
     padding: 0 0 56px;
-    position: relative; overflow: hidden;
+    position: relative; overflow: clip;
   }
   .services::before {
     content: ""; position: absolute;
@@ -1921,7 +1924,7 @@ html.lenis, html.lenis body { height: auto; }
   }
 
   /* ── WHY ─────────────────────────────────────────── */
-  .why { background: var(--m-bg); padding: 0 0 56px; position: relative; overflow: hidden; }
+  .why { background: var(--m-bg); padding: 0 0 56px; position: relative; overflow: clip; }
   .why::before {
     content: ""; position: absolute;
     top: 10%; right: -25%; width: 90vw; height: 90vw;
