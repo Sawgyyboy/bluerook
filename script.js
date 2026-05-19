@@ -31,12 +31,13 @@
   /* ---------- Lenis — ALL tiers (smoothTouch on mobile for premium inertia) ---------- */
   let lenis = null;
   const startLenis = () => {
+    if (tier === 'mobile') return; // scroll-snap handles mobile — no Lenis
     if (!window.Lenis) { setTimeout(startLenis, 60); return; }
     lenis = new window.Lenis({
-      duration: tier === 'mobile' ? 1.1 : 1.2,
+      duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smooth: true,
-      smoothTouch: tier === 'mobile',   // override iOS rubber-band with Lenis easing
+      smoothTouch: false,
     });
     if (window.gsap && window.ScrollTrigger) {
       lenis.on('scroll', ScrollTrigger.update);
@@ -70,15 +71,11 @@
   };
 
   if (tier === 'mobile') {
-    // Mobile: full cinematic experience — problem pin, sticky process stack, castling, ambient
+    // Mobile: scroll-snap + IO-based castling + problem cycling + ambient orbs. No ScrollTrigger.
     onLoad(() => {
       setTimeout(initLightFades, 80);
-      setTimeout(() => {
-        initLightScroll();
-        initMobileProblem();
-        initMobileProcess();
-        initCastling();
-      }, 160);
+      setTimeout(initMobileCastlingIO, 200);
+      setTimeout(initMobileProblemCycle, 300);
       setTimeout(initAmbientOrbs, 320);
     });
   } else if (tier === 'light') {
@@ -182,6 +179,60 @@
   /* ==========================================================
      LIGHT TIER + MOBILE — shared entrance & scroll reveals
      ========================================================== */
+  /* ==========================================================
+     MOBILE CASTLING — IntersectionObserver one-shot
+     ========================================================== */
+  function initMobileCastlingIO() {
+    const section = document.querySelector('.castling');
+    const cKing = document.querySelector('[data-castling-king]');
+    const cRook = document.querySelector('[data-castling-rook]');
+    const cCap  = document.querySelector('[data-castling-caption]');
+    if (!section || !cKing || !cRook) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        io.unobserve(section);
+        gsap.set([cKing, cRook], { clearProps: 'x' });
+        const kRect = cKing.getBoundingClientRect();
+        const rRect = cRook.getBoundingClientRect();
+        const dx = (rRect.left + rRect.width / 2) - (kRect.left + kRect.width / 2);
+        const tl = gsap.timeline();
+        tl.to(cKing, { x: dx * 0.5,  duration: 0.9, ease: 'power2.inOut' }, 0)
+          .to(cRook, { x: -dx * 0.5, duration: 0.9, ease: 'power2.inOut' }, 0);
+        if (cCap) tl.to(cCap, { opacity: 1, y: 0, duration: 0.6 }, 0.7);
+      });
+    }, { threshold: 0.4 });
+    io.observe(section);
+  }
+
+  /* ==========================================================
+     MOBILE PROBLEM — IO-triggered auto-cycling statements
+     ========================================================== */
+  function initMobileProblemCycle() {
+    const section    = document.querySelector('.problem');
+    const statements = Array.from(document.querySelectorAll('.problem__statement'));
+    const bars       = Array.from(document.querySelectorAll('.problem__progress .bar'));
+    if (!section || !statements.length) return;
+    let idx = 0, timer = null;
+    const showStatement = (i) => {
+      statements.forEach((s, j) => s.classList.toggle('is-active', j === i));
+      bars.forEach((b, j) => b.classList.toggle('is-active', j <= i));
+    };
+    showStatement(0);
+    const startCycle = () => {
+      if (timer) return;
+      timer = setInterval(() => { idx = (idx + 1) % statements.length; showStatement(idx); }, 2500);
+    };
+    const stopCycle = () => {
+      if (timer) { clearInterval(timer); timer = null; }
+      idx = 0; showStatement(0);
+    };
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) startCycle(); else stopCycle(); });
+    }, { threshold: 0.5 });
+    io.observe(section);
+  }
+
   function initLightFades() {
     // Include hero__rook-wrap so the rook fades in too
     gsap.from('[data-fade], .hero__title, .hero__lead, .hero__ctas, .hero__eyebrow, .hero__rook-wrap', {
