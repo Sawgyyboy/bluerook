@@ -1604,8 +1604,10 @@ html.lenis, html.lenis body { height: auto; }
   .hero {
     /* svh = small viewport height (excludes mobile UI bars when expanded) → no jumping */
     min-height: 100svh;
-    /* Content begins immediately below the fixed nav — only the nav's own height */
-    padding: calc(var(--m-nav-h) + 8px) var(--m-pad) var(--m-rhythm);
+    /* Standardized rhythm: 4rem block padding (top accounts for fixed nav) */
+    padding-block: calc(var(--m-nav-h) + var(--m-rhythm)) var(--m-rhythm);
+    padding-inline: var(--m-pad);
+    margin-bottom: 0; /* explicitly: no margin gap to next section */
     display: flex; flex-direction: column; justify-content: flex-start;
     text-align: center; overflow: hidden;
   }
@@ -1708,12 +1710,15 @@ html.lenis, html.lenis body { height: auto; }
 
   /* ── CASTLING ────────────────────────────────────── */
   .castling {
+    min-height: auto;                  /* kill any inherited 100vh dead-space */
     padding-block: var(--m-rhythm);
     padding-inline: var(--m-pad);
+    margin-block: 0;
     text-align: center;
     background: linear-gradient(180deg, var(--m-bg) 0%, #080d18 50%, var(--m-bg) 100%);
     border: none; position: relative; overflow: hidden;
   }
+  .castling__inner { min-height: auto; padding: 0; }
   .castling::before {
     content: ""; position: absolute;
     top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -1752,12 +1757,20 @@ html.lenis, html.lenis body { height: auto; }
     color: var(--m-gold); font-style: italic; margin-top: 4px;
   }
 
-  /* ── PROBLEM (diagnosis) — stacked text ─────────── */
+  /* ── PROBLEM (diagnosis) — CSS-native sticky pin ─── */
+  /* When .problem reaches top of viewport it pins; the next section
+     (.services) then slides up over it with a higher z-index. No JS. */
   .problem {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    min-height: 100svh;                /* gives the pin a felt duration */
     padding-block: var(--m-rhythm);
     padding-inline: var(--m-pad);
     text-align: center;
-    position: relative; overflow: hidden;
+    background: var(--m-bg);           /* solid bg so following section covers cleanly */
+    overflow: hidden;
+    display: flex; flex-direction: column; justify-content: center;
   }
   .problem::before {
     content: ""; position: absolute;
@@ -1772,27 +1785,40 @@ html.lenis, html.lenis body { height: auto; }
     z-index: 1;
   }
   .problem__eyebrow {
-    font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
     color: var(--m-gold); margin-bottom: 28px; position: static;
     transform: none;
   }
   .problem__stage {
     position: static; height: auto; min-height: auto;
-    display: flex; flex-direction: column; gap: 28px;
+    display: flex; flex-direction: column; gap: 0;  /* per-statement margin handles spacing */
   }
   .problem__statement {
     position: static !important;
-    /* opacity/transform handled by fade-up rule above */
     font-family: var(--font-display); font-weight: 500;
-    font-size: clamp(22px, 6vw, 28px); line-height: 1.2;
-    color: var(--m-text); margin: 0;
+    font-size: clamp(2rem, 7vw, 2.4rem); /* min 2rem / 32px per spec */
+    line-height: 1.2;
+    color: var(--m-text);
+    margin: 0 0 1.5rem;                /* clear separation between text blocks */
     width: 100%; padding: 0;
   }
+  .problem__statement:last-child { margin-bottom: 0; }
   .problem__statement em {
     font-style: normal;
     background: linear-gradient(120deg, var(--m-gold) 0%, var(--m-gold-soft) 50%, var(--m-gold) 100%);
     -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent;
+  }
+
+  /* Sections AFTER .problem need higher z-index + solid bg so they
+     slide up and visually cover the pinned diagnosis. */
+  .services,
+  .process,
+  .why,
+  .contact,
+  .footer {
+    position: relative;
+    z-index: 2;
   }
 
   /* ── SERVICES — horizontal scroll-snap carousel ─── */
