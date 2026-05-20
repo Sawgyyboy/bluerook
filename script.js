@@ -206,14 +206,19 @@
      MOBILE — Inject sticky bottom CTA bar (glassmorphism)
      ========================================================== */
   function initMobileBottomCTA() {
-    if (document.querySelector('.m-cta-bar')) return;
-    const bar = document.createElement('div');
-    bar.className = 'm-cta-bar';
-    bar.setAttribute('aria-label', 'Quick actions');
-    bar.innerHTML =
-      '<a href="#services" class="m-cta-bar__btn m-cta-bar__btn--ghost">Services</a>' +
-      '<a href="#contact"  class="m-cta-bar__btn m-cta-bar__btn--primary">Book a Call</a>';
-    document.body.appendChild(bar);
+    if (document.querySelector('.m-fab')) return;
+    const fab = document.createElement('a');
+    fab.className = 'm-fab';
+    fab.href = 'https://calendar.app.google/pjQKiGLntog19k9Y9';
+    fab.target = '_blank';
+    fab.rel = 'noopener';
+    fab.setAttribute('aria-label', 'Book a Call');
+    fab.innerHTML =
+      '<span class="m-fab__label">Book a Call</span>' +
+      '<svg class="m-fab__icon" viewBox="0 0 16 16" aria-hidden="true">' +
+        '<path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="square"/>' +
+      '</svg>';
+    document.body.appendChild(fab);
   }
 
   /* ==========================================================
