@@ -269,7 +269,7 @@ html.lenis, html.lenis body { height: auto; }
   display: inline-flex; align-items: center; gap: var(--space-3);
   color: var(--color-text);
 }
-.nav__logo-mark { width: 28px; height: 34px; color: var(--color-text); }
+.nav__logo-mark { width: 28px; height: 32px; color: var(--color-text); }
 .nav__logo-text {
   /* Wordmark · Vol. II: Cormorant Italic, Title-case. Never caps. */
   font-family: var(--font-display);
@@ -1158,7 +1158,7 @@ html.lenis, html.lenis body { height: auto; }
   display: inline-flex; align-items: center; gap: var(--space-3);
   color: var(--color-text);
 }
-.footer__logo svg { width: 26px; height: 28px; }
+.footer__logo svg { width: 26px; height: 30px; }
 .footer__logo span {
   /* Wordmark · Vol. II: Cormorant Italic, Title-case. */
   font-family: var(--font-display);
@@ -1472,7 +1472,7 @@ html.lenis, html.lenis body { height: auto; }
     letter-spacing: 0;
     text-transform: none;
   }
-  .nav__logo-mark { width: 20px; height: 24px; }
+  .nav__logo-mark { width: 20px; height: 23px; }
   .nav__actions .nav__cta { display: none; }
   .nav__hamburger {
     display: inline-flex; align-items: center; justify-content: center;

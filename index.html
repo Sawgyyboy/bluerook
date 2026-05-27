@@ -20,23 +20,17 @@
   <link rel="stylesheet" href="tokens.css" />
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- Favicon (rook from brand guide: 3 crenellations + gold base) -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 48'><rect x='6' y='2' width='6' height='7' fill='%231C3F8A'/><rect x='17' y='2' width='6' height='7' fill='%231C3F8A'/><rect x='28' y='2' width='6' height='7' fill='%231C3F8A'/><rect x='4' y='9' width='32' height='6' fill='%231C3F8A'/><polygon points='8,15 32,15 36,40 4,40' fill='%231C3F8A'/><rect x='2' y='40' width='36' height='4' fill='%23D4A437'/></svg>" />
+  <!-- Favicon (Vol. II rook: 4 crenellations on 10u × 12u grid + brass rule) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 115'><path d='M 26,0 L 32,0 L 32,14 L 40,14 L 40,0 L 46,0 L 46,14 L 54,14 L 54,0 L 60,0 L 60,14 L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 26,26 Z' fill='%231C3F8A'/><rect x='4' y='111' width='92' height='4' fill='%23D4A437'/></svg>" />
 </head>
 <body data-theme="navy">
 
 <!-- ============ LOADING SCREEN — fades out on window.load ============ -->
 <div class="loader" data-loader aria-hidden="true">
   <div class="loader__mark">
-    <svg viewBox="0 0 40 48" aria-hidden="true">
-      <g fill="currentColor">
-        <rect x="6"  y="2" width="6"  height="7"/>
-        <rect x="17" y="2" width="6"  height="7"/>
-        <rect x="28" y="2" width="6"  height="7"/>
-        <rect x="4"  y="9" width="32" height="6"/>
-        <polygon points="8,15 32,15 36,40 4,40"/>
-      </g>
-      <rect x="2" y="40" width="36" height="4" fill="var(--color-accent)"/>
+    <svg viewBox="0 0 100 115" aria-hidden="true">
+      <path d="M 26,0 L 32,0 L 32,14 L 40,14 L 40,0 L 46,0 L 46,14 L 54,14 L 54,0 L 60,0 L 60,14 L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 26,26 Z" fill="currentColor"/>
+      <rect x="4" y="111" width="92" height="4" fill="var(--color-accent)"/>
     </svg>
   </div>
 </div>
@@ -55,18 +49,10 @@
 <header class="nav" data-nav>
   <div class="nav__inner">
     <a href="#hero" class="nav__logo" aria-label="Bluerook home">
-      <!-- Brand rook (solid blue silhouette + gold base, per brand guide) -->
-      <svg class="nav__logo-mark" viewBox="0 0 40 48" width="32" height="40" aria-hidden="true">
-        <!-- 3 crenellations · Bluerook Blue -->
-        <rect x="6"  y="2"  width="6"  height="7"  fill="#1C3F8A"/>
-        <rect x="17" y="2"  width="6"  height="7"  fill="#1C3F8A"/>
-        <rect x="28" y="2"  width="6"  height="7"  fill="#1C3F8A"/>
-        <!-- shoulders / neck band -->
-        <rect x="4"  y="9"  width="32" height="6"  fill="#1C3F8A"/>
-        <!-- trapezoidal body (flares to base) -->
-        <polygon points="8,15 32,15 36,40 4,40" fill="#1C3F8A"/>
-        <!-- brass rule base -->
-        <rect x="2"  y="40" width="36" height="4"  fill="#D4A437"/>
+      <!-- Vol. II rook · 10u × 12u grid + brass rule -->
+      <svg class="nav__logo-mark" viewBox="0 0 100 115" width="32" height="37" aria-hidden="true">
+        <path d="M 26,0 L 32,0 L 32,14 L 40,14 L 40,0 L 46,0 L 46,14 L 54,14 L 54,0 L 60,0 L 60,14 L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 26,26 Z" fill="#1C3F8A"/>
+        <rect x="4" y="111" width="92" height="4" fill="#D4A437"/>
       </svg>
       <span class="nav__logo-text">Bluerook</span>
     </a>
@@ -155,20 +141,12 @@
         <a href="https://calendly.com/hatim-bluerook/30min" target="_blank" rel="noopener" class="btn btn--ghost">Book a Call</a>
       </div>
 
-      <!-- Floating 3D rook — matches brand silhouette, rendered in white -->
+      <!-- Floating 3D rook — Vol. II silhouette, Paper on Midnight, brass rule -->
       <div class="hero__rook-wrap" data-parallax="0.3">
         <div class="hero__rook" data-rook>
-          <svg viewBox="0 0 200 240" aria-hidden="true">
-            <!-- 3 crenellations — Paper on Midnight -->
-            <rect x="30"  y="10" width="30" height="35" fill="#F4EDE0"/>
-            <rect x="85"  y="10" width="30" height="35" fill="#F4EDE0"/>
-            <rect x="140" y="10" width="30" height="35" fill="#F4EDE0"/>
-            <!-- Neck band -->
-            <rect x="20" y="45" width="160" height="30" fill="#F4EDE0"/>
-            <!-- Trapezoidal body -->
-            <polygon points="40,75 160,75 180,200 20,200" fill="#F4EDE0"/>
-            <!-- Brass rule base — single jewellery point -->
-            <rect x="10" y="200" width="180" height="20" fill="#D4A437"/>
+          <svg viewBox="0 0 100 115" aria-hidden="true">
+            <path d="M 26,0 L 32,0 L 32,14 L 40,14 L 40,0 L 46,0 L 46,14 L 54,14 L 54,0 L 60,0 L 60,14 L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 26,26 Z" fill="#F4EDE0"/>
+            <rect x="4" y="111" width="92" height="4" fill="#D4A437"/>
           </svg>
         </div>
       </div>
@@ -188,36 +166,27 @@
       </div>
 
       <div class="castling__stage" data-castling-stage>
-        <!-- King (founder) — starts LEFT -->
+        <!-- King (founder) — Vol. II stepped-crown construction, Paper on Midnight, brass rule -->
         <div class="castling__piece castling__piece--king" data-castling-king aria-label="King — the founder">
-          <svg viewBox="0 0 200 240" aria-hidden="true">
-            <defs>
-              <linearGradient id="crownGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%"  stop-color="#FFFFFF" stop-opacity="0.98"/>
-                <stop offset="100%" stop-color="#E8EEF7" stop-opacity="0.72"/>
-              </linearGradient>
-              <linearGradient id="crownGold" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%"  stop-color="#A88838"/>
-                <stop offset="50%" stop-color="#E8CC72"/>
-                <stop offset="100%" stop-color="#A88838"/>
-              </linearGradient>
-            </defs>
-            <!-- Cross on top -->
-            <rect x="92" y="6"  width="16" height="34" fill="url(#crownGrad)"/>
-            <rect x="78" y="16" width="44" height="12" fill="url(#crownGrad)"/>
-            <!-- Crown band -->
-            <path d="M30 70 L60 38 L80 60 L100 30 L120 60 L140 38 L170 70 Z" fill="url(#crownGrad)"/>
-            <!-- Jewels -->
-            <circle cx="60"  cy="46" r="5" fill="url(#crownGold)"/>
-            <circle cx="100" cy="38" r="6" fill="url(#crownGold)"/>
-            <circle cx="140" cy="46" r="5" fill="url(#crownGold)"/>
-            <!-- Body -->
-            <rect x="30" y="70" width="140" height="18" fill="url(#crownGrad)"/>
-            <rect x="44" y="88" width="112" height="14" fill="url(#crownGrad)"/>
-            <path d="M50 102 H150 L172 210 H28 Z" fill="url(#crownGrad)"/>
-            <!-- Gold base -->
-            <rect x="18" y="214" width="164" height="10" fill="url(#crownGold)"/>
-            <rect x="18" y="214" width="164" height="3" fill="#FFFFFF" opacity="0.35"/>
+          <svg viewBox="0 0 100 115" aria-hidden="true">
+            <g fill="#F4EDE0">
+              <!-- Top spire -->
+              <rect x="44" y="0" width="12" height="10"/>
+              <!-- Step 01 · narrow shoulders -->
+              <rect x="36" y="10" width="28" height="8"/>
+              <!-- Step 02 · broad shoulders -->
+              <rect x="22" y="18" width="56" height="8"/>
+              <!-- Tiara band -->
+              <rect x="8" y="26" width="84" height="8"/>
+              <!-- Neck -->
+              <rect x="16" y="34" width="68" height="6"/>
+              <!-- Tapered body -->
+              <polygon points="22,40 78,40 92,94 8,94"/>
+              <!-- Base shelf -->
+              <rect x="4" y="94" width="92" height="10"/>
+            </g>
+            <!-- Brass rule -->
+            <rect x="4" y="111" width="92" height="4" fill="#D4A437"/>
           </svg>
           <span class="castling__label">King</span>
         </div>
@@ -233,16 +202,11 @@
           <span class="castling__trail castling__trail--rook" data-castling-trail-rook></span>
         </div>
 
-        <!-- Rook (Bluerook) — starts RIGHT, matches brand silhouette in white -->
+        <!-- Rook (Bluerook) — Vol. II silhouette, Paper on Midnight, brass rule -->
         <div class="castling__piece castling__piece--rook" data-castling-rook aria-label="Rook — Bluerook">
-          <svg viewBox="0 0 200 240" aria-hidden="true">
-            <!-- Brand silhouette — Paper, brass rule base -->
-            <rect x="30"  y="10" width="30" height="35" fill="#F4EDE0"/>
-            <rect x="85"  y="10" width="30" height="35" fill="#F4EDE0"/>
-            <rect x="140" y="10" width="30" height="35" fill="#F4EDE0"/>
-            <rect x="20"  y="45" width="160" height="30" fill="#F4EDE0"/>
-            <polygon points="40,75 160,75 180,200 20,200" fill="#F4EDE0"/>
-            <rect x="10" y="200" width="180" height="20" fill="#D4A437"/>
+          <svg viewBox="0 0 100 115" aria-hidden="true">
+            <path d="M 26,0 L 32,0 L 32,14 L 40,14 L 40,0 L 46,0 L 46,14 L 54,14 L 54,0 L 60,0 L 60,14 L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 26,26 Z" fill="#F4EDE0"/>
+            <rect x="4" y="111" width="92" height="4" fill="#D4A437"/>
           </svg>
           <span class="castling__label">Rook</span>
         </div>
@@ -543,15 +507,9 @@
   <div class="footer__rule"></div>
   <div class="footer__inner">
     <a href="#hero" class="footer__logo" aria-label="Bluerook home">
-      <svg viewBox="0 0 40 48" aria-hidden="true">
-        <g fill="currentColor">
-          <rect x="6"  y="2" width="6"  height="7"/>
-          <rect x="17" y="2" width="6"  height="7"/>
-          <rect x="28" y="2" width="6"  height="7"/>
-          <rect x="4"  y="9" width="32" height="6"/>
-          <polygon points="8,15 32,15 36,40 4,40"/>
-        </g>
-        <rect x="2" y="40" width="36" height="4" fill="var(--color-accent)"/>
+      <svg viewBox="0 0 100 115" aria-hidden="true">
+        <path d="M 26,0 L 32,0 L 32,14 L 40,14 L 40,0 L 46,0 L 46,14 L 54,14 L 54,0 L 60,0 L 60,14 L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 26,26 Z" fill="currentColor"/>
+        <rect x="4" y="111" width="92" height="4" fill="var(--color-accent)"/>
       </svg>
       <span>Bluerook</span>
     </a>
