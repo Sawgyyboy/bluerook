@@ -165,24 +165,27 @@ html.lenis, html.lenis body { height: auto; }
 }
 .accent { color: var(--color-text-muted); font-style: italic; font-variation-settings: "opsz" 120, "SOFT" 80; }
 .eyebrow {
+  /* Vol. II eyebrow · Geist Mono on Paper-50, preceded by a 24px brass rule */
   display: inline-flex;
   align-items: center;
-  gap: var(--space-3);
-  font-family: var(--font-sans);
+  gap: var(--space-4);
+  font-family: var(--font-mono);
   font-weight: var(--fw-medium);
   font-size: var(--fs-eyebrow);
-  letter-spacing: var(--ls-eyebrow);
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-text-dim);
 }
+/* Brass rule replaces the legacy dot — same selectors so HTML stays unchanged */
 .eyebrow .dot,
 .hero__eyebrow .dot {
-  width: 6px; height: 6px;
+  width: 24px; height: 1px;
   background: var(--color-accent);
-  border-radius: var(--radius-0);
-  transform: rotate(45deg);
+  border-radius: 0;
+  transform: none;
+  box-shadow: none;
   display: inline-block;
-  box-shadow: 0 0 12px var(--color-accent-glow);
+  flex-shrink: 0;
 }
 
 /* ---------- BUTTONS ---------- */
@@ -252,7 +255,7 @@ html.lenis, html.lenis body { height: auto; }
   background: rgba(10, 22, 40, 0.95);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
-  border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+  border-bottom: 1px solid rgba(212, 164, 55, 0.2);
 }
 .nav__inner {
   max-width: var(--max-width);
@@ -268,10 +271,13 @@ html.lenis, html.lenis body { height: auto; }
 }
 .nav__logo-mark { width: 28px; height: 34px; color: var(--color-text); }
 .nav__logo-text {
-  font-family: var(--font-sans);
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  font-size: 0.92rem;
+  /* Wordmark · Vol. II: Cormorant Italic, Title-case. Never caps. */
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0;
+  font-size: 1.25rem;
+  text-transform: none;
 }
 .nav__links {
   justify-self: center;
@@ -338,8 +344,8 @@ html.lenis, html.lenis body { height: auto; }
 .hero__grid {
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(201, 168, 76, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201, 168, 76, 0.08) 1px, transparent 1px);
+    linear-gradient(rgba(212, 164, 55, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 164, 55, 0.08) 1px, transparent 1px);
   background-size: 80px 80px;
   transform: perspective(800px) rotateX(60deg) translateY(40%) scale(1.6);
   transform-origin: center bottom;
@@ -465,7 +471,7 @@ html.lenis, html.lenis body { height: auto; }
   position: relative;
   padding: clamp(80px, 12vw, 160px) var(--section-pad-x);
   background:
-    radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.06), transparent 60%),
+    radial-gradient(ellipse at 50% 0%, rgba(212,164,55,0.06), transparent 60%),
     var(--color-bg);
   border-top: 1px solid var(--glass-border);
   border-bottom: 1px solid var(--glass-border);
@@ -530,7 +536,7 @@ html.lenis, html.lenis body { height: auto; }
   background: rgba(255,255,255,0.02);
 }
 .castling__square:nth-child(odd) {
-  background: rgba(201,168,76,0.06);
+  background: rgba(212,164,55,0.06);
 }
 
 /* Gold trails — thin lines that grow across the board during the swap.
@@ -622,7 +628,7 @@ html.lenis, html.lenis body { height: auto; }
   line-height: 1;
   letter-spacing: var(--ls-tight);
   color: var(--color-text);
-  background: linear-gradient(180deg, #FFFFFF 0%, #C8D2E0 100%);
+  background: linear-gradient(180deg, #F4EDE0 0%, rgba(244, 237, 224, 0.72) 100%);
   -webkit-background-clip: text;
           background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1064,7 +1070,7 @@ html.lenis, html.lenis body { height: auto; }
   line-height: var(--lh-tight);
   letter-spacing: var(--ls-tight);
   margin: 0;
-  text-shadow: 0 0 60px rgba(201, 168, 76, 0.15);
+  text-shadow: 0 0 60px rgba(212, 164, 55, 0.15);
 }
 .contact__title .accent {
   background: linear-gradient(120deg, #E0E8F5 0%, var(--color-text-muted) 50%, #B3C2D6 100%);
@@ -1154,9 +1160,13 @@ html.lenis, html.lenis body { height: auto; }
 }
 .footer__logo svg { width: 26px; height: 28px; }
 .footer__logo span {
-  font-family: var(--font-sans);
-  font-weight: 800;
-  letter-spacing: 0.16em;
+  /* Wordmark · Vol. II: Cormorant Italic, Title-case. */
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0;
+  font-size: 1.15rem;
+  text-transform: none;
 }
 .footer__nav {
   justify-self: center;
@@ -1320,7 +1330,7 @@ html.lenis, html.lenis body { height: auto; }
   background: transparent; border: none;
   transition: color 200ms;
 }
-.mobile-menu__close:hover { color: #FFFFFF; }
+.mobile-menu__close:hover { color: var(--color-text); }
 .mobile-menu__close svg { width: 22px; height: 22px; }
 .mobile-menu__nav {
   display: flex;
@@ -1382,18 +1392,18 @@ html.lenis, html.lenis body { height: auto; }
    ============================================================ */
 @media (max-width: 768px) {
 
-  /* ── TOKENS ───────────────────────────────────────── */
+  /* ── TOKENS · Brand Standards Vol. II ─────────────── */
   :root {
-    --m-bg: #050508;
-    --m-surface: #0a0a12;
-    --m-surface-2: #0d1322;
-    --m-text: #FFFFFF;
-    --m-text-dim: #8A8A95;
-    --m-text-fade: #5a5a64;
-    --m-gold: #C9A84C;
-    --m-gold-soft: #E8CC72;
-    --m-slate: #1E6FD9;
-    --m-border: rgba(255,255,255,0.08);
+    --m-bg: #08111E;                       /* Midnight */
+    --m-surface: #0D1828;                  /* Midnight raised */
+    --m-surface-2: #11203A;                /* Midnight raised x2 */
+    --m-text: #F4EDE0;                     /* Paper */
+    --m-text-dim: rgba(244, 237, 224, 0.70);   /* paper-70 */
+    --m-text-fade: rgba(244, 237, 224, 0.32);  /* paper-32 */
+    --m-gold: #D4A437;                     /* Brass */
+    --m-gold-soft: #E8C56A;                /* Brass, lifted */
+    --m-slate: #1C3F8A;                    /* Bluerook Blue (mark voice) */
+    --m-border: rgba(244, 237, 224, 0.08); /* paper-08 */
     --m-nav-h: 56px;
     --m-cta-h: 72px;
     --m-tap: 48px; /* min interaction radius — luxury editorial spec */
@@ -1443,7 +1453,7 @@ html.lenis, html.lenis body { height: auto; }
   }
   .nav.is-scrolled {
     background: rgba(5,5,8,0.78);
-    border-bottom-color: rgba(201,168,76,0.18);
+    border-bottom-color: rgba(212,164,55,0.18);
   }
   .nav__inner {
     grid-template-columns: 1fr auto; gap: 0;
@@ -1453,7 +1463,15 @@ html.lenis, html.lenis body { height: auto; }
     display: inline-flex; align-items: center; gap: 8px;
     min-height: var(--m-tap);
   }
-  .nav__logo-text { font-size: 13px; letter-spacing: 0.2em; font-weight: 500; }
+  .nav__logo-text {
+    /* Wordmark · Vol. II: Cormorant Italic, Title-case. */
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 17px;
+    letter-spacing: 0;
+    text-transform: none;
+  }
   .nav__logo-mark { width: 20px; height: 24px; }
   .nav__actions .nav__cta { display: none; }
   .nav__hamburger {
@@ -1476,14 +1494,14 @@ html.lenis, html.lenis body { height: auto; }
     height: 52px; min-height: var(--m-tap);
     padding: 0 20px;
     border-radius: 999px;
-    background: rgba(201, 168, 76, 0.18);
+    background: rgba(212, 164, 55, 0.18);
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
-    border: 1px solid rgba(201, 168, 76, 0.45);
+    border: 1px solid rgba(212, 164, 55, 0.45);
     box-shadow:
       0 8px 24px rgba(0, 0, 0, 0.45),
       0 0 0 1px rgba(255, 255, 255, 0.04) inset,
-      0 0 28px rgba(201, 168, 76, 0.22);
+      0 0 28px rgba(212, 164, 55, 0.22);
     color: var(--m-text);
     font-family: var(--font-sans); font-weight: 600;
     font-size: 13px; letter-spacing: 0.08em;
@@ -1493,7 +1511,7 @@ html.lenis, html.lenis body { height: auto; }
   }
   .m-fab:active {
     transform: scale(0.96);
-    background: rgba(201, 168, 76, 0.28);
+    background: rgba(212, 164, 55, 0.28);
   }
   .m-fab__label { white-space: nowrap; }
   .m-fab__icon {
@@ -1649,7 +1667,7 @@ html.lenis, html.lenis body { height: auto; }
     /* Fluid display metric */
     font-size: clamp(1.75rem, 2vw + 1rem, 2.5rem);
     line-height: 1; letter-spacing: -0.04em;
-    background: linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0.72) 100%);
+    background: linear-gradient(180deg, #F4EDE0 0%, rgba(244,237,224,0.72) 100%);
     -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -1948,7 +1966,7 @@ html.lenis, html.lenis body { height: auto; }
 
   /* ── CONTACT ─────────────────────────────────────── */
   .contact {
-    background: linear-gradient(180deg, #060d18 0%, #0A1628 100%);
+    background: linear-gradient(180deg, #050B14 0%, var(--m-bg) 100%);
     padding-block: var(--m-rhythm);
     padding-inline: var(--m-pad);
     text-align: center;
@@ -1995,7 +2013,7 @@ html.lenis, html.lenis body { height: auto; }
   }
   .contact__email {
     margin-top: 18px; font-size: 13px;
-    border-bottom: 1px solid rgba(201,168,76,0.5);
+    border-bottom: 1px solid rgba(212,164,55,0.5);
     min-height: var(--m-tap);
     display: inline-flex; align-items: center; justify-content: center;
   }
@@ -2010,8 +2028,13 @@ html.lenis, html.lenis body { height: auto; }
   }
   .footer__logo { justify-self: center; }
   .footer__logo-text, .footer__logo span {
-    font-family: 'Cinzel', serif; font-weight: 500;
-    letter-spacing: 0.25em; font-size: 12px;
+    /* Wordmark · Vol. II: Cormorant Italic, Title-case. */
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0;
+    text-transform: none;
   }
   .footer__nav {
     justify-self: center !important;
@@ -2034,7 +2057,8 @@ html.lenis, html.lenis body { height: auto; }
     font-size: 10px; color: var(--m-text-fade);
   }
   .footer__legal-meta {
-    font-family: 'Cinzel', serif; font-weight: 500; letter-spacing: 0.18em;
+    font-family: var(--font-mono); font-weight: 500; letter-spacing: 0.20em;
+    text-transform: uppercase;
     color: var(--m-text-dim); font-size: 10px;
   }
   .footer__delegate {
