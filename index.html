@@ -187,6 +187,61 @@
         <span class="dot"></span> The Castling Move
       </div>
 
+      <!-- ============ MOBILE-ONLY: 3D first-rank chess board ============ -->
+      <div class="castling__scene-mobile" data-castling-mobile aria-hidden="true">
+        <div class="castling__scene-floor"></div>
+        <div class="castling__rank" data-castling-rank>
+          <!-- 8 squares: a1 (file=0) → h1 (file=7) -->
+          <div class="castling__sq" data-file="0"></div>
+          <div class="castling__sq" data-file="1"></div>
+          <div class="castling__sq" data-file="2"></div>
+          <div class="castling__sq" data-file="3"></div>
+          <div class="castling__sq" data-file="4" data-king-start></div>
+          <div class="castling__sq" data-file="5" data-rook-end></div>
+          <div class="castling__sq" data-file="6" data-king-end></div>
+          <div class="castling__sq" data-file="7" data-rook-start></div>
+
+          <!-- Trail beams under the pieces -->
+          <div class="castling__beam castling__beam--king" data-castling-beam-king></div>
+          <div class="castling__beam castling__beam--rook" data-castling-beam-rook></div>
+
+          <!-- 3D pieces (sit on the rank, raised in Z) -->
+          <div class="castling__3d castling__3d--king" data-castling-3d-king>
+            <div class="castling__3d-shadow"></div>
+            <svg class="castling__3d-svg" viewBox="0 0 100 115" aria-hidden="true">
+              <g fill="#F4EDE0">
+                <rect x="44" y="0" width="12" height="10"/>
+                <rect x="36" y="10" width="28" height="8"/>
+                <rect x="22" y="18" width="56" height="8"/>
+                <rect x="8" y="26" width="84" height="8"/>
+                <rect x="16" y="34" width="68" height="6"/>
+                <polygon points="22,40 78,40 92,94 8,94"/>
+                <rect x="4" y="94" width="92" height="10"/>
+              </g>
+              <rect x="4" y="111" width="92" height="4" fill="#D4A437"/>
+            </svg>
+            <span class="castling__3d-label">King</span>
+          </div>
+
+          <div class="castling__3d castling__3d--rook" data-castling-3d-rook>
+            <div class="castling__3d-shadow"></div>
+            <svg class="castling__3d-svg" viewBox="0 0 100 115" aria-hidden="true">
+              <path d="M 26,0 L 32,0 L 32,14 L 40,14 L 40,0 L 46,0 L 46,14 L 54,14 L 54,0 L 60,0 L 60,14 L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 26,26 Z" fill="#F4EDE0"/>
+              <rect x="4" y="111" width="92" height="4" fill="#D4A437"/>
+            </svg>
+            <span class="castling__3d-label">Rook</span>
+          </div>
+        </div>
+
+        <!-- Tap-to-replay (only after first run) -->
+        <button class="castling__replay" type="button" data-castling-replay aria-label="Replay castling">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 12a8 8 0 0 1 14-5.3L21 4v7h-7l2.5-2.5A6 6 0 1 0 18 12h2a8 8 0 1 1-16 0z" fill="currentColor"/>
+          </svg>
+          <span>Replay</span>
+        </button>
+      </div>
+
       <div class="castling__stage" data-castling-stage>
         <!-- King (founder) — Vol. II stepped-crown construction, Paper on Midnight, brass rule -->
         <div class="castling__piece castling__piece--king" data-castling-king aria-label="King — the founder">

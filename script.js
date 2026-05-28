@@ -81,6 +81,10 @@
     initMobileBottomCTA();
     onLoad(() => {
       setTimeout(initMobileFadeUp, 80);
+      setTimeout(initMobileCastling3D, 100);
+      setTimeout(initMobileScrollPolish, 100);
+      setTimeout(initMobileTouchRipple, 100);
+      setTimeout(initMobileSectionInView, 100);
     });
     return; // skip all desktop/heavy GSAP wiring
   } else if (tier === 'light') {
@@ -228,6 +232,145 @@
         '<path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="square"/>' +
       '</svg>';
     document.body.appendChild(fab);
+  }
+
+  /* ==========================================================
+     MOBILE CASTLING 3D — scroll-driven cinematic castling
+     The --castle-progress CSS variable (0 → 1) drives all the
+     transforms on the 3D scene. We compute progress from the
+     section's position relative to the viewport.
+     ========================================================== */
+  function initMobileCastling3D() {
+    const scene = document.querySelector('[data-castling-mobile]');
+    if (!scene) return;
+    const section = scene.closest('.castling');
+    const replay = scene.querySelector('[data-castling-replay]');
+    let inView = false;
+    let progress = 0;
+    let manualProgress = null; // when set, overrides scroll-driven (for replay)
+    let manualStart = 0;
+
+    const setProg = (p) => {
+      progress = Math.max(0, Math.min(1, p));
+      scene.style.setProperty('--castle-progress', progress.toFixed(3));
+    };
+
+    const update = () => {
+      if (manualProgress !== null) {
+        const t = (performance.now() - manualStart) / 1400;
+        if (t >= 1) {
+          setProg(1);
+          manualProgress = null;
+        } else {
+          // ease-in-out cubic
+          const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+          setProg(e);
+        }
+        requestAnimationFrame(update);
+        return;
+      }
+      if (!inView) return;
+      const r = section.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // Map scroll: when section top is at 60% vh → progress 0; at -20% vh → progress 1
+      const start = vh * 0.6;
+      const end   = -vh * 0.2;
+      const raw = (start - r.top) / (start - end);
+      setProg(raw);
+      // Reveal replay button after first full castle
+      if (raw >= 0.95 && replay && !replay.classList.contains('is-shown')) {
+        replay.classList.add('is-shown');
+      }
+    };
+
+    // Observe section to gate scroll listener
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        inView = e.isIntersecting;
+        if (inView) update();
+      });
+    }, { threshold: 0, rootMargin: '20% 0px 20% 0px' });
+    io.observe(section);
+
+    // Scroll listener (rAF-throttled)
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        update();
+        ticking = false;
+      });
+    }, { passive: true });
+
+    // Replay handler
+    if (replay) {
+      replay.addEventListener('click', () => {
+        setProg(0);
+        manualProgress = 1;
+        manualStart = performance.now();
+        requestAnimationFrame(update);
+      });
+    }
+
+    // Initial paint
+    update();
+  }
+
+  /* ==========================================================
+     MOBILE SCROLL POLISH — bespoke micro-effects driven by --m-scroll
+     ========================================================== */
+  function initMobileScrollPolish() {
+    const root = document.documentElement;
+    let ticking = false;
+    const updateScrollVar = () => {
+      root.style.setProperty('--m-scroll', String(window.scrollY));
+      ticking = false;
+    };
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(updateScrollVar);
+    }, { passive: true });
+    updateScrollVar();
+  }
+
+  /* ==========================================================
+     MOBILE TOUCH RIPPLE — brass+blue glow follows every tap
+     ========================================================== */
+  function initMobileTouchRipple() {
+    if (!('ontouchstart' in window)) return;
+    const onTouch = (e) => {
+      const t = e.changedTouches ? e.changedTouches[0] : null;
+      if (!t) return;
+      const r = document.createElement('span');
+      r.className = 'm-touch-ripple';
+      r.style.left = t.clientX + 'px';
+      r.style.top  = t.clientY + 'px';
+      document.body.appendChild(r);
+      setTimeout(() => r.remove(), 760);
+    };
+    document.addEventListener('touchstart', onTouch, { passive: true });
+  }
+
+  /* ==========================================================
+     MOBILE SECTION-IN-VIEW — adds .is-in-view to <section> on entry
+     Powers the brass underline sweep on eyebrows + scale-in headings.
+     ========================================================== */
+  function initMobileSectionInView() {
+    const sections = document.querySelectorAll('section[data-section]');
+    if (!sections.length) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-in-view');
+        } else if (e.boundingClientRect.top > 0) {
+          // Section scrolled off the bottom — reset so it animates again on return
+          e.target.classList.remove('is-in-view');
+        }
+      });
+    }, { threshold: 0.18 });
+    sections.forEach(s => io.observe(s));
   }
 
   /* ==========================================================

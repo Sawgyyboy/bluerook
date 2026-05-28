@@ -745,6 +745,9 @@ html.lenis, html.lenis body { height: auto; }
   color: transparent;
 }
 
+/* Default: hidden on desktop/tablet — only revealed inside mobile @media block */
+.castling__scene-mobile { display: none; }
+
 @media (max-width: 720px) {
   .castling__stage { max-width: 100%; }
   .castling__board { height: 44px; }
@@ -1961,12 +1964,298 @@ html.lenis, html.lenis body { height: auto; }
   .hero__grid, .hero__scroll-hint,
   .hero__bg-image, .hero__bg-overlay, .hero__particles,
   .castling__board, .castling__trail,
+  .castling__stage,
   .nav__links, .theme-toggle,
   .svc-card__corner, .step__rail,
   .problem__progress { display: none !important; }
 
-  /* Decorative orbs disabled on mobile — focus on typography */
-  .ambient, .ambient__orb { display: none !important; }
+  /* ── LIGHTWEIGHT AMBIENT ON MOBILE ─────────────────── */
+  /* Two drifting orbs (not four) + grain. No cursor glow on touch. */
+  .ambient {
+    display: block !important;
+    position: fixed; inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .ambient__orb { display: none !important; }
+  .ambient__orb--1, .ambient__orb--2 {
+    display: block !important;
+    position: absolute;
+    width: 70vmin; height: 70vmin;
+    border-radius: 50%;
+    filter: blur(48px);
+    opacity: 0.42;
+    mix-blend-mode: screen;
+    will-change: transform;
+  }
+  .ambient__orb--1 {
+    top: -10vmin; left: -15vmin;
+    background: radial-gradient(circle, rgba(28, 63, 138, 0.55) 0%, transparent 65%);
+    animation: m-orb-drift-1 18s ease-in-out infinite alternate;
+  }
+  .ambient__orb--2 {
+    bottom: -10vmin; right: -15vmin;
+    background: radial-gradient(circle, rgba(212, 164, 55, 0.22) 0%, transparent 65%);
+    animation: m-orb-drift-2 22s ease-in-out infinite alternate;
+  }
+  @keyframes m-orb-drift-1 {
+    from { transform: translate3d(0,0,0) scale(1); }
+    to   { transform: translate3d(8vw, 6vh, 0) scale(1.12); }
+  }
+  @keyframes m-orb-drift-2 {
+    from { transform: translate3d(0,0,0) scale(1); }
+    to   { transform: translate3d(-6vw, -8vh, 0) scale(1.08); }
+  }
+  /* Touch ripple glow — JS-injected on tap */
+  .m-touch-ripple {
+    position: fixed;
+    width: 220px; height: 220px;
+    margin-left: -110px; margin-top: -110px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 164, 55, 0.35) 0%, rgba(28, 63, 138, 0.15) 35%, transparent 70%);
+    pointer-events: none;
+    mix-blend-mode: screen;
+    z-index: 1;
+    animation: m-ripple 720ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: transform, opacity;
+  }
+  @keyframes m-ripple {
+    0%   { opacity: 1;   transform: scale(0.3); }
+    100% { opacity: 0;   transform: scale(1.6); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ambient__orb--1, .ambient__orb--2 { animation: none !important; }
+    .m-touch-ripple { display: none !important; }
+  }
+
+  /* ============================================================
+     MOBILE 3D CASTLING — first-rank chess board, scroll-driven
+     ============================================================ */
+  .castling__scene-mobile {
+    display: block !important;
+    position: relative;
+    width: 100%;
+    height: 260px;
+    margin: 8px auto 28px;
+    perspective: 1100px;
+    perspective-origin: 50% 88%;
+    overflow: visible;
+    /* CSS custom prop driven by JS scroll listener (0 → 1) */
+    --castle-progress: 0;
+  }
+  /* Floor / vignette — implies dimension beyond the rank */
+  .castling__scene-floor {
+    position: absolute;
+    left: 50%; bottom: 0;
+    width: 140%; height: 90%;
+    transform: translateX(-50%);
+    background:
+      radial-gradient(ellipse at 50% 100%,
+        rgba(28, 63, 138, 0.32) 0%,
+        rgba(8, 17, 30, 0.55) 35%,
+        transparent 70%);
+    filter: blur(8px);
+    pointer-events: none;
+  }
+  /* The rank — single row, tilted in 3D */
+  .castling__rank {
+    position: absolute;
+    left: 8%; right: 8%;
+    bottom: 18%;
+    height: 64px;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    transform-style: preserve-3d;
+    transform: rotateX(58deg) translateZ(-20px);
+    transform-origin: center bottom;
+    /* Fade rear edge into nothing */
+    mask-image: linear-gradient(0deg, #000 60%, rgba(0,0,0,0.5) 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(0deg, #000 60%, rgba(0,0,0,0.5) 90%, transparent 100%);
+  }
+  /* Squares */
+  .castling__sq {
+    position: relative;
+    border-right: 1px solid rgba(212, 164, 55, 0.10);
+    border-bottom: 1px solid rgba(212, 164, 55, 0.18);
+    transform-style: preserve-3d;
+    transition: background 320ms ease;
+  }
+  .castling__sq:first-child { border-left: 1px solid rgba(212, 164, 55, 0.10); }
+  /* Alternating square fills — board feel */
+  .castling__sq[data-file="0"],
+  .castling__sq[data-file="2"],
+  .castling__sq[data-file="4"],
+  .castling__sq[data-file="6"] {
+    background: linear-gradient(180deg, rgba(13, 24, 40, 0.85), rgba(8, 17, 30, 0.95));
+  }
+  .castling__sq[data-file="1"],
+  .castling__sq[data-file="3"],
+  .castling__sq[data-file="5"],
+  .castling__sq[data-file="7"] {
+    background: linear-gradient(180deg, rgba(28, 63, 138, 0.32), rgba(13, 24, 40, 0.92));
+  }
+  /* Highlight target squares during castle (gentle brass glow) */
+  .castling__sq[data-king-end]::after,
+  .castling__sq[data-rook-end]::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at center,
+      rgba(212, 164, 55, calc(0.4 * var(--castle-progress))) 0%,
+      transparent 70%);
+    pointer-events: none;
+    transition: opacity 280ms;
+  }
+
+  /* Beams — gold trail lines under the moving pieces */
+  .castling__beam {
+    position: absolute;
+    height: 2px;
+    bottom: -2px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(212, 164, 55, 0.85) 40%,
+      rgba(212, 164, 55, 0.85) 60%,
+      transparent 100%);
+    transform-origin: left center;
+    filter: drop-shadow(0 0 6px rgba(212, 164, 55, 0.7));
+    opacity: 0;
+    pointer-events: none;
+  }
+  /* King beam: from e1 (50%) → g1 (75%), 25% width */
+  .castling__beam--king {
+    left: 50%; width: 25%;
+    transform: scaleX(var(--castle-progress));
+    opacity: var(--castle-progress);
+  }
+  /* Rook beam: from h1 (87.5% + 12.5%) shrinks LEFT to f1 (62.5%) — origin right */
+  .castling__beam--rook {
+    right: 0; width: 37.5%;
+    transform-origin: right center;
+    transform: scaleX(var(--castle-progress));
+    opacity: var(--castle-progress);
+  }
+
+  /* The 3D pieces — raised above board on Z */
+  .castling__3d {
+    position: absolute;
+    bottom: 0;
+    width: 12.5%;
+    display: flex; flex-direction: column;
+    align-items: center;
+    transform-style: preserve-3d;
+    /* Counter-rotate so the piece stands UP from the tilted board */
+    /* The board is rotateX(58deg), so the piece needs rotateX(-58deg) to face viewer */
+    will-change: transform;
+  }
+  .castling__3d-svg {
+    width: 80%;
+    height: auto;
+    transform: rotateX(-58deg) translateY(-2px);
+    transform-origin: bottom center;
+    filter:
+      drop-shadow(0 4px 10px rgba(0, 0, 0, 0.55))
+      drop-shadow(0 0 18px rgba(28, 63, 138, calc(0.25 + 0.4 * var(--castle-progress))));
+  }
+  .castling__3d-label {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 8px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(244, 237, 224, 0.55);
+    transform: rotateX(-58deg) translateY(2px);
+    transform-origin: top center;
+    margin-top: 2px;
+  }
+  .castling__3d-shadow {
+    position: absolute;
+    bottom: -4px; left: 50%;
+    width: 60%; height: 8px;
+    background: radial-gradient(ellipse,
+      rgba(0, 0, 0, 0.65) 0%,
+      transparent 70%);
+    transform: translateX(-50%);
+    filter: blur(3px);
+    opacity: calc(0.6 + 0.3 * var(--castle-progress));
+  }
+  /* King: starts on file 4 (e1 = 50%), ends on file 6 (g1 = 75%) — slides 25% right */
+  .castling__3d--king {
+    left: 50%;
+    transform: translateX(calc(25% * var(--castle-progress))) translateZ(calc(8px + 12px * var(--castle-progress)));
+  }
+  /* Rook: starts on file 7 (h1 = 87.5%), ends on file 5 (f1 = 62.5%) — slides 25% left
+     AND arcs UP+OVER the king mid-flight via Z lift */
+  .castling__3d--rook {
+    left: 87.5%;
+    transform:
+      translateX(calc(-25% * var(--castle-progress)))
+      translateY(calc(-22px * sin(180deg * var(--castle-progress))))
+      translateZ(calc(8px + 28px * sin(180deg * var(--castle-progress))));
+  }
+
+  /* Replay button — appears after first castle completes */
+  .castling__replay {
+    position: absolute;
+    left: 50%; bottom: -8px;
+    transform: translateX(-50%);
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px;
+    background: rgba(212, 164, 55, 0.08);
+    border: 1px solid rgba(212, 164, 55, 0.32);
+    border-radius: 999px;
+    color: var(--m-gold);
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 320ms ease, background 220ms ease;
+    pointer-events: none;
+  }
+  .castling__replay.is-shown {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .castling__replay:active { background: rgba(212, 164, 55, 0.18); }
+  .castling__replay svg { width: 12px; height: 12px; }
+
+  /* Hide the rotation/labels gracefully on reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .castling__scene-mobile { --castle-progress: 1; }
+    .castling__3d--king, .castling__3d--rook { transition: none; }
+  }
+
+  /* ── BESPOKE MOBILE SCROLL POLISH ──────────────────── */
+  /* Hero rook gets a gentle scroll-coupled parallax via --scroll-y (JS) */
+  .hero__rook {
+    will-change: transform;
+    transform: translate3d(0, calc(var(--m-scroll, 0) * -0.08px), 0) scale(calc(1 - var(--m-scroll, 0) * 0.00015));
+  }
+  /* Section-entrance polish — scale + brass underline sweep on H2 */
+  .display-l {
+    position: relative;
+    transition: transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .is-visible.display-l,
+  .is-visible .display-l {
+    transform: translateZ(0);
+  }
+  /* Brass rule that sweeps in under each section eyebrow */
+  .eyebrow {
+    position: relative;
+  }
+  .eyebrow::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: -6px;
+    height: 1px; width: 0;
+    background: linear-gradient(90deg, var(--m-gold), transparent);
+    transition: width 900ms cubic-bezier(0.22, 0.61, 0.36, 1) 120ms;
+  }
+  [data-section].is-in-view .eyebrow::after,
+  .is-visible.eyebrow::after,
+  .is-visible .eyebrow::after { width: 64px; }
 
   /* ── TOP NAV (glassmorphism) ──────────────────────── */
   .nav {
