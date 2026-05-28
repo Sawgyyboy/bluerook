@@ -17,11 +17,17 @@
   document.body.classList.add('js-' + tier);
 
   /* ---------- Loading screen ---------- */
+  const loaderStart = performance.now();
+  const MIN_LOADER_MS = 2600; // let the construction animation play through
   const hideLoader = () => {
     const l = document.querySelector('[data-loader]');
     if (!l) return;
-    l.classList.add('is-hidden');
-    setTimeout(() => l.remove(), 500);
+    const elapsed = performance.now() - loaderStart;
+    const wait = Math.max(0, MIN_LOADER_MS - elapsed);
+    setTimeout(() => {
+      l.classList.add('is-hidden');
+      setTimeout(() => l.remove(), 700);
+    }, wait);
   };
   if (document.readyState === 'complete') hideLoader();
   else window.addEventListener('load', hideLoader);
@@ -95,6 +101,9 @@
      UNIVERSAL — every tier, no GSAP cost
      ========================================================== */
   function initUniversal() {
+    // Privileges accordion (works on every tier, no GSAP needed)
+    initPrivileges();
+
     // Nav scroll state
     const nav = document.querySelector('[data-nav]');
     if (nav) {
@@ -528,10 +537,47 @@
     });
 
     // Section headings
-    gsap.utils.toArray('.services__head, .process__head, .why__head').forEach(el => {
+    gsap.utils.toArray('.services__head, .privileges__head, .process__head, .why__head').forEach(el => {
       gsap.from(el, {
         opacity: 0, y: 30, duration: 0.9, ease: 'power3.out',
         scrollTrigger: { trigger: el, start: 'top 85%', once: true },
+      });
+    });
+
+    // Privileges — staggered row reveal
+    gsap.utils.toArray('.privilege').forEach((row, i) => {
+      gsap.from(row, {
+        opacity: 0, y: 28, duration: 0.7, ease: 'power3.out',
+        delay: i * 0.08,
+        scrollTrigger: { trigger: row, start: 'top 88%', once: true },
+      });
+    });
+  }
+
+  /* ---------- Privileges accordion (universal — runs on every tier) ---------- */
+  function initPrivileges() {
+    const list = document.querySelector('[data-privileges]');
+    if (!list) return;
+    const rows = Array.from(list.querySelectorAll('.privilege'));
+    rows.forEach(row => {
+      const head = row.querySelector('.privilege__head');
+      if (!head) return;
+      head.addEventListener('click', () => {
+        const isOpen = row.hasAttribute('data-open');
+        // Single-open behaviour: close all, open clicked (unless it was already open)
+        rows.forEach(r => {
+          r.removeAttribute('data-open');
+          const h = r.querySelector('.privilege__head');
+          if (h) h.setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          row.setAttribute('data-open', '');
+          head.setAttribute('aria-expanded', 'true');
+        }
+        // Nudge ScrollTrigger so pinned sections recalculate on layout shift
+        if (window.ScrollTrigger) {
+          requestAnimationFrame(() => window.ScrollTrigger.refresh());
+        }
       });
     });
   }

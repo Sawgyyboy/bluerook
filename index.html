@@ -25,13 +25,34 @@
 </head>
 <body data-theme="navy">
 
-<!-- ============ LOADING SCREEN — fades out on window.load ============ -->
+<!-- ============ LOADING SCREEN — cinematic rook construction ============ -->
 <div class="loader" data-loader aria-hidden="true">
-  <div class="loader__mark">
-    <svg viewBox="0 0 100 115" aria-hidden="true">
-      <path d="M 26,0 L 32,0 L 32,14 L 40,14 L 40,0 L 46,0 L 46,14 L 54,14 L 54,0 L 60,0 L 60,14 L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 26,26 Z" fill="currentColor"/>
-      <rect x="4" y="111" width="92" height="4" fill="var(--color-accent)"/>
+  <div class="loader__veil" aria-hidden="true"></div>
+  <div class="loader__stage">
+    <div class="loader__halo" aria-hidden="true"></div>
+    <svg class="loader__rook" viewBox="0 0 100 115" aria-hidden="true">
+      <!-- Drawn rook outline (stroke-dasharray draw-in) -->
+      <path class="loader__rook-stroke"
+        d="M 26,0 L 32,0 L 32,14 L 40,14 L 40,0 L 46,0 L 46,14 L 54,14 L 54,0 L 60,0 L 60,14 L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 26,26 Z"
+        fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="miter"/>
+      <!-- Fill rook (fades in after stroke completes) -->
+      <path class="loader__rook-fill"
+        d="M 26,0 L 32,0 L 32,14 L 40,14 L 40,0 L 46,0 L 46,14 L 54,14 L 54,0 L 60,0 L 60,14 L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 26,26 Z"
+        fill="currentColor"/>
+      <!-- Brass rule sweep -->
+      <rect class="loader__rule" x="4" y="111" width="92" height="4" fill="var(--color-accent)"/>
     </svg>
+    <div class="loader__word" aria-hidden="true">
+      <span>B</span><span>L</span><span>U</span><span>E</span><span>R</span><span>O</span><span>O</span><span>K</span>
+    </div>
+    <div class="loader__caption" aria-hidden="true">
+      <span class="loader__caption-dot"></span>
+      <span class="loader__caption-text">Calibrating premium systems</span>
+    </div>
+  </div>
+  <div class="loader__horizon" aria-hidden="true">
+    <span class="loader__horizon-rule"></span>
+    <span class="loader__horizon-rule loader__horizon-rule--r"></span>
   </div>
 </div>
 
@@ -59,6 +80,7 @@
 
     <nav class="nav__links" aria-label="Primary">
       <a href="#services">Services</a>
+      <a href="#privileges">Standard</a>
       <a href="#process">Process</a>
       <a href="#why">Why us</a>
       <a href="#contact">Contact</a>
@@ -300,7 +322,7 @@
         </article>
 
         <!-- 01 · Operational VAs -->
-        <article class="svc-card" data-tilt data-svc-bg="va" style="--svc-img:url('https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1200&q=90')">
+        <article class="svc-card" data-tilt data-svc-bg="va">
           <div class="svc-card__num">I · 01</div>
           <div class="svc-card__icon">
             <!-- Knight -->
@@ -326,7 +348,7 @@
         </article>
 
         <!-- 02 · Social Ecosystems -->
-        <article class="svc-card" data-tilt data-svc-bg="social" style="--svc-img:url('https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=1200&q=90')">
+        <article class="svc-card" data-tilt data-svc-bg="social">
           <div class="svc-card__num">I · 02</div>
           <div class="svc-card__icon">
             <!-- Broadcast -->
@@ -352,7 +374,7 @@
         </article>
 
         <!-- 03 · AI Optimization -->
-        <article class="svc-card" data-tilt data-svc-bg="auto" style="--svc-img:url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90')">
+        <article class="svc-card" data-tilt data-svc-bg="auto">
           <div class="svc-card__num">I · 03</div>
           <div class="svc-card__icon">
             <!-- Pulse / oversight -->
@@ -391,7 +413,7 @@
         </article>
 
         <!-- 04 · Custom AI Builds -->
-        <article class="svc-card" data-tilt data-svc-bg="build" style="--svc-img:url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=90')">
+        <article class="svc-card" data-tilt data-svc-bg="build">
           <div class="svc-card__num">II · 04</div>
           <div class="svc-card__icon">
             <!-- Architecture / blueprint -->
@@ -419,7 +441,7 @@
         </article>
 
         <!-- 05 · System Audits & Architecture -->
-        <article class="svc-card" data-tilt data-svc-bg="audit" style="--svc-img:url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=90')">
+        <article class="svc-card" data-tilt data-svc-bg="audit">
           <div class="svc-card__num">II · 05</div>
           <div class="svc-card__icon">
             <!-- Magnifier / audit -->
@@ -451,6 +473,103 @@
     <div class="services__whisper">
       <span class="services__whisper-rule" aria-hidden="true"></span>
       <span>Engagements move on a first-architect basis. Active rosters reviewed quarterly — onboarding by referral or audit only.</span>
+    </div>
+  </section>
+
+  <!-- ============ 4.5 · THE FOUR PRIVILEGES — accordion ============ -->
+  <section class="privileges" id="privileges" data-section="privileges">
+    <div class="privileges__head">
+      <div class="eyebrow"><span class="dot"></span> The Standard</div>
+      <h2 class="display-l">Four privileges,<br/><span class="accent">included by default.</span></h2>
+      <p class="privileges__lede">Every retainer ships with the operating standard intact — not as add-ons, not as upsells. The privileges below are what separate execution from <em>premium execution</em>.</p>
+    </div>
+
+    <div class="privileges__list" data-privileges>
+
+      <article class="privilege" data-privilege="01" data-open>
+        <button class="privilege__head" type="button" aria-expanded="true" aria-controls="priv-01-body">
+          <span class="privilege__num">01</span>
+          <h3 class="privilege__title">Priority Bandwidth.</h3>
+          <span class="privilege__badge">4H SLA</span>
+          <span class="privilege__chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
+          </span>
+        </button>
+        <div class="privilege__body" id="priv-01-body" role="region">
+          <div class="privilege__body-inner">
+            <p>Premium retainers bypass the queue. Critical-path requests answered inside <strong>four working hours</strong> via a dedicated priority channel — no triage forms, no first-line gatekeeping.</p>
+            <ul class="privilege__meta-list">
+              <li><span>Channel</span><strong>Direct ops lead</strong></li>
+              <li><span>Cover</span><strong>Mon–Fri · 09:00–21:00 GMT+3</strong></li>
+              <li><span>Escalation</span><strong>Single hop to founder</strong></li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="privilege" data-privilege="02">
+        <button class="privilege__head" type="button" aria-expanded="false" aria-controls="priv-02-body">
+          <span class="privilege__num">02</span>
+          <h3 class="privilege__title">Innovation Audits.</h3>
+          <span class="privilege__badge">BI-WEEKLY</span>
+          <span class="privilege__chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
+          </span>
+        </button>
+        <div class="privilege__body" id="priv-02-body" role="region">
+          <div class="privilege__body-inner">
+            <p>Every fourteen days we sit with your stack and ask a single question: <em>where is the next bottleneck?</em> Findings are documented, scored, and folded into the next build cycle before they cost you a quarter.</p>
+            <ul class="privilege__meta-list">
+              <li><span>Cadence</span><strong>14 days</strong></li>
+              <li><span>Deliverable</span><strong>Written brief + Loom walkthrough</strong></li>
+              <li><span>Owner</span><strong>Architect, not assistant</strong></li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="privilege" data-privilege="03">
+        <button class="privilege__head" type="button" aria-expanded="false" aria-controls="priv-03-body">
+          <span class="privilege__num">03</span>
+          <h3 class="privilege__title">Sandbox Staging.</h3>
+          <span class="privilege__badge">SECURITY</span>
+          <span class="privilege__chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
+          </span>
+        </button>
+        <div class="privilege__body" id="priv-03-body" role="region">
+          <div class="privilege__body-inner">
+            <p>Nothing reaches production until it survives an encrypted, isolated mirror of your environment. Rollback is one command. Your live systems never carry the weight of an unvalidated change.</p>
+            <ul class="privilege__meta-list">
+              <li><span>Isolation</span><strong>Encrypted, single-tenant</strong></li>
+              <li><span>Promotion</span><strong>Sign-off gated</strong></li>
+              <li><span>Rollback</span><strong>≤ 60 seconds</strong></li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="privilege" data-privilege="04">
+        <button class="privilege__head" type="button" aria-expanded="false" aria-controls="priv-04-body">
+          <span class="privilege__num">04</span>
+          <h3 class="privilege__title">Asset Ownership.</h3>
+          <span class="privilege__badge">WIKI</span>
+          <span class="privilege__chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
+          </span>
+        </button>
+        <div class="privilege__body" id="priv-04-body" role="region">
+          <div class="privilege__body-inner">
+            <p>Every system we build for you is documented as a living asset — diagrams, runbooks, decision logs — and handed over on day one of the engagement. If you ever walk away, you walk away with the infrastructure intact.</p>
+            <ul class="privilege__meta-list">
+              <li><span>Format</span><strong>Living wiki + diagrams</strong></li>
+              <li><span>License</span><strong>Yours, perpetual</strong></li>
+              <li><span>Export</span><strong>Markdown · PDF · Notion</strong></li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
     </div>
   </section>
 
