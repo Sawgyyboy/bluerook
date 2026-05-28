@@ -82,6 +82,7 @@
     onLoad(() => {
       setTimeout(initMobileFadeUp, 80);
       setTimeout(initMobileCastling3D, 100);
+      setTimeout(initMobileDiagnosis, 100);
       setTimeout(initMobileScrollPolish, 100);
       setTimeout(initMobileTouchRipple, 100);
       setTimeout(initMobileSectionInView, 100);
@@ -241,23 +242,27 @@
      section's position relative to the viewport.
      ========================================================== */
   function initMobileCastling3D() {
-    const scene = document.querySelector('[data-castling-mobile]');
+    const scene = document.querySelector('[data-cast3d]');
     if (!scene) return;
-    const section = scene.closest('.castling');
-    const replay = scene.querySelector('[data-castling-replay]');
+    const replay = scene.querySelector('[data-cast3d-replay]');
     let inView = false;
     let progress = 0;
     let manualProgress = null; // when set, overrides scroll-driven (for replay)
     let manualStart = 0;
+    let entryAmount = 0;       // 0 → 1 chapter card fade
 
     const setProg = (p) => {
       progress = Math.max(0, Math.min(1, p));
-      scene.style.setProperty('--castle-progress', progress.toFixed(3));
+      scene.style.setProperty('--cast-progress', progress.toFixed(3));
+    };
+    const setEntry = (e) => {
+      entryAmount = Math.max(0, Math.min(1, e));
+      scene.style.setProperty('--cast-in', entryAmount.toFixed(3));
     };
 
     const update = () => {
       if (manualProgress !== null) {
-        const t = (performance.now() - manualStart) / 1400;
+        const t = (performance.now() - manualStart) / 1600;
         if (t >= 1) {
           setProg(1);
           manualProgress = null;
@@ -265,32 +270,35 @@
           // ease-in-out cubic
           const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
           setProg(e);
+          requestAnimationFrame(update);
+          return;
         }
-        requestAnimationFrame(update);
-        return;
       }
       if (!inView) return;
-      const r = section.getBoundingClientRect();
+      const r = scene.getBoundingClientRect();
       const vh = window.innerHeight;
-      // Map scroll: when section top is at 60% vh → progress 0; at -20% vh → progress 1
-      const start = vh * 0.6;
-      const end   = -vh * 0.2;
+      // Chapter card entry — fades in as the stage approaches center
+      const entryRaw = (vh * 0.85 - r.top) / (vh * 0.85);
+      setEntry(entryRaw);
+      // Castle progress — when stage top hits 50%vh → 0; when stage bottom hits 50%vh → 1
+      const start = vh * 0.5;
+      const end   = -r.height + vh * 0.5;
       const raw = (start - r.top) / (start - end);
       setProg(raw);
-      // Reveal replay button after first full castle
-      if (raw >= 0.95 && replay && !replay.classList.contains('is-shown')) {
+      // Reveal replay once stage has played through
+      if (raw >= 0.92 && replay && !replay.classList.contains('is-shown')) {
         replay.classList.add('is-shown');
       }
     };
 
-    // Observe section to gate scroll listener
+    // Observe stage to gate the scroll listener
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         inView = e.isIntersecting;
         if (inView) update();
       });
-    }, { threshold: 0, rootMargin: '20% 0px 20% 0px' });
-    io.observe(section);
+    }, { threshold: 0, rootMargin: '30% 0px 30% 0px' });
+    io.observe(scene);
 
     // Scroll listener (rAF-throttled)
     let ticking = false;
@@ -313,7 +321,83 @@
       });
     }
 
-    // Initial paint
+    update();
+  }
+
+  /* ==========================================================
+     MOBILE DIAGNOSIS — full-screen statement progression
+     ── Pins .diag__stage; crossfades 3 statements with blur.
+     ── Drives .diag.--diag-progress (0→1) + .is-active/.is-past
+        on each .diag__stmt + matching .diag__dot.
+     ========================================================== */
+  function initMobileDiagnosis() {
+    const diag = document.querySelector('[data-diag]');
+    if (!diag) return;
+    const stmts = Array.from(diag.querySelectorAll('.diag__stmt'));
+    const dots  = Array.from(diag.querySelectorAll('.diag__dot'));
+    if (!stmts.length) return;
+
+    let inView = false;
+    let lastIdx = -1;
+
+    const setProg = (p) => {
+      diag.style.setProperty('--diag-progress', p.toFixed(3));
+    };
+
+    const setActive = (idx) => {
+      if (idx === lastIdx) return;
+      lastIdx = idx;
+      stmts.forEach((el, i) => {
+        el.classList.remove('is-active', 'is-past');
+        if (i === idx) el.classList.add('is-active');
+        else if (i < idx) el.classList.add('is-past');
+      });
+      dots.forEach((d, i) => {
+        d.classList.remove('is-active', 'is-past');
+        if (i === idx) d.classList.add('is-active');
+        else if (i < idx) d.classList.add('is-past');
+      });
+    };
+
+    const update = () => {
+      if (!inView) return;
+      const r = diag.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // Stage is pinned while diag top is between 0 and -(height-vh)
+      // Map scrolled distance to progress 0→1
+      const scrolled = Math.max(0, -r.top);
+      const range = Math.max(1, r.height - vh);
+      const p = Math.max(0, Math.min(1, scrolled / range));
+      setProg(p);
+      // Pick statement: split progress into N equal bands
+      const n = stmts.length;
+      // Each statement occupies its own band; we bias slightly so users
+      // settle on each before transitioning.
+      const idx = Math.min(n - 1, Math.floor(p * n));
+      setActive(idx);
+    };
+
+    // Default active state
+    setActive(0);
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        inView = e.isIntersecting;
+        if (inView) update();
+      });
+    }, { threshold: 0, rootMargin: '20% 0px 20% 0px' });
+    io.observe(diag);
+
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        update();
+        ticking = false;
+      });
+    }, { passive: true });
+
     update();
   }
 

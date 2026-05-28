@@ -2030,200 +2030,539 @@ html.lenis, html.lenis body { height: auto; }
   }
 
   /* ============================================================
-     MOBILE 3D CASTLING — first-rank chess board, scroll-driven
+     MOBILE · CAST3D — cinematic full-screen castling stage
+     ============================================================
+     Full-bleed, near-black scene. Camera dollies in on scroll
+     while the rook arcs up & SPINS over the king. Chapter card +
+     caption fade in at progress endpoints. Pure CSS variables.
      ============================================================ */
-  .castling__scene-mobile {
+  .castling .castling__scene { display: none !important; }     /* hide desktop board on mobile */
+  .castling .castling__caption { padding-top: 0; }
+  .cast3d {
     display: block !important;
     position: relative;
-    width: 100%;
-    height: 260px;
-    margin: 8px auto 28px;
-    perspective: 1100px;
-    perspective-origin: 50% 88%;
-    overflow: visible;
-    /* CSS custom prop driven by JS scroll listener (0 → 1) */
-    --castle-progress: 0;
-  }
-  /* Floor / vignette — implies dimension beyond the rank */
-  .castling__scene-floor {
-    position: absolute;
-    left: 50%; bottom: 0;
-    width: 140%; height: 90%;
-    transform: translateX(-50%);
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    height: 92svh;
+    min-height: 560px;
+    max-height: 780px;
+    margin-top: 24px;
+    margin-bottom: 16px;
     background:
-      radial-gradient(ellipse at 50% 100%,
-        rgba(28, 63, 138, 0.32) 0%,
-        rgba(8, 17, 30, 0.55) 35%,
-        transparent 70%);
-    filter: blur(8px);
+      radial-gradient(ellipse at 50% 30%, rgba(28,63,138,0.18) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 100%, rgba(212,164,55,0.10) 0%, transparent 60%),
+      linear-gradient(180deg, #03070D 0%, #050B16 55%, #02050B 100%);
+    overflow: hidden;
+    isolation: isolate;
+    --cast-progress: 0;       /* 0 → 1 scroll-driven */
+    --cast-in: 0;             /* 0 → 1 stage entry (chapter fade) */
+    border-block: 1px solid rgba(212,164,55,0.10);
+  }
+  /* Sky vignette — soft blue diffusion */
+  .cast3d__sky {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 50% 18%,
+        rgba(80,140,240, calc(0.16 + 0.12 * var(--cast-progress))) 0%,
+        transparent 50%);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    transition: opacity 600ms ease;
+  }
+  /* Horizon — brass line that brightens through the castle */
+  .cast3d__horizon {
+    position: absolute;
+    left: 0; right: 0; top: 58%;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(212,164,55, calc(0.10 + 0.5 * var(--cast-progress))) 50%,
+      transparent 100%);
+    filter: blur(0.3px);
     pointer-events: none;
   }
-  /* The rank — single row, tilted in 3D */
-  .castling__rank {
+  /* Floating ambient particles */
+  .cast3d__particles {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(1.5px 1.5px at 12% 24%, rgba(244,237,224,0.45), transparent 60%),
+      radial-gradient(1px 1px at 78% 18%, rgba(212,164,55,0.55), transparent 60%),
+      radial-gradient(1.2px 1.2px at 28% 78%, rgba(244,237,224,0.30), transparent 60%),
+      radial-gradient(1px 1px at 88% 64%, rgba(80,140,240,0.45), transparent 60%),
+      radial-gradient(1.4px 1.4px at 56% 36%, rgba(244,237,224,0.40), transparent 60%),
+      radial-gradient(0.9px 0.9px at 42% 88%, rgba(212,164,55,0.45), transparent 60%);
+    opacity: calc(0.55 + 0.35 * var(--cast-progress));
+    animation: cast3d-drift 22s ease-in-out infinite;
+  }
+  @keyframes cast3d-drift {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    50%      { transform: translate3d(0, -8px, 0); }
+  }
+  /* Chapter card — top-left editorial mark */
+  .cast3d__chapter {
     position: absolute;
-    left: 8%; right: 8%;
-    bottom: 18%;
-    height: 64px;
+    top: clamp(20px, 5vh, 38px);
+    left: clamp(20px, 6vw, 36px);
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(244,237,224,0.62);
+    opacity: var(--cast-in);
+    transform: translateY(calc(-6px + 6px * var(--cast-in)));
+    transition: opacity 600ms ease, transform 600ms ease;
+    z-index: 4;
+  }
+  .cast3d__chapter-num { color: var(--m-gold); }
+  .cast3d__chapter-rule {
+    width: 36px; height: 1px;
+    background: linear-gradient(90deg, var(--m-gold), transparent);
+  }
+  .cast3d__chapter-title {
+    font-family: var(--font-display, "Cormorant Garamond", serif);
+    font-style: italic;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: none;
+    color: rgba(244,237,224,0.88);
+  }
+  /* Camera & scene */
+  .cast3d__camera {
+    position: absolute; inset: 0;
+    perspective: 1200px;
+    perspective-origin: 50% 58%;
+    z-index: 2;
+  }
+  .cast3d__scene {
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    /* Camera dolly — zoom IN on castle progress; tilt down */
+    transform:
+      translate(-50%, -50%)
+      translateZ(calc(-40px + 220px * var(--cast-progress)))
+      rotateX(calc(64deg - 6deg * var(--cast-progress)))
+      rotateZ(calc(-2deg + 4deg * var(--cast-progress)));
+    transform-origin: 50% 60%;
+    transition: transform 80ms linear;
+  }
+  /* Extruded floor rules — depth lines streaking back */
+  .cast3d__floor {
+    position: absolute;
+    left: -40%; right: -40%; bottom: -10%;
+    height: 60vh;
+    transform-style: preserve-3d;
+    pointer-events: none;
+  }
+  .cast3d__floor-rule {
+    position: absolute;
+    left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(212,164,55, calc(0.04 + 0.10 * var(--cast-progress))) 50%,
+      transparent 100%);
+    bottom: calc(var(--i) * 14%);
+    transform: translateZ(calc(var(--i) * -28px));
+    opacity: calc(1 - var(--i) * 0.12);
+  }
+  /* Rank — 8 squares, the moving stage */
+  .cast3d__rank {
+    position: absolute;
+    left: 50%; bottom: 44%;
+    width: 96%;
+    transform: translateX(-50%);
     display: grid;
     grid-template-columns: repeat(8, 1fr);
+    height: 14vw;
+    min-height: 70px;
+    max-height: 108px;
     transform-style: preserve-3d;
-    transform: rotateX(58deg) translateZ(-20px);
-    transform-origin: center bottom;
-    /* Fade rear edge into nothing */
-    mask-image: linear-gradient(0deg, #000 60%, rgba(0,0,0,0.5) 90%, transparent 100%);
-    -webkit-mask-image: linear-gradient(0deg, #000 60%, rgba(0,0,0,0.5) 90%, transparent 100%);
   }
-  /* Squares */
-  .castling__sq {
+  .cast3d__sq {
     position: relative;
-    border-right: 1px solid rgba(212, 164, 55, 0.10);
-    border-bottom: 1px solid rgba(212, 164, 55, 0.18);
-    transform-style: preserve-3d;
-    transition: background 320ms ease;
+    border-right: 1px solid rgba(212,164,55,0.08);
+    border-bottom: 1px solid rgba(212,164,55,0.14);
   }
-  .castling__sq:first-child { border-left: 1px solid rgba(212, 164, 55, 0.10); }
-  /* Alternating square fills — board feel */
-  .castling__sq[data-file="0"],
-  .castling__sq[data-file="2"],
-  .castling__sq[data-file="4"],
-  .castling__sq[data-file="6"] {
-    background: linear-gradient(180deg, rgba(13, 24, 40, 0.85), rgba(8, 17, 30, 0.95));
-  }
-  .castling__sq[data-file="1"],
-  .castling__sq[data-file="3"],
-  .castling__sq[data-file="5"],
-  .castling__sq[data-file="7"] {
-    background: linear-gradient(180deg, rgba(28, 63, 138, 0.32), rgba(13, 24, 40, 0.92));
-  }
-  /* Highlight target squares during castle (gentle brass glow) */
-  .castling__sq[data-king-end]::after,
-  .castling__sq[data-rook-end]::after {
+  .cast3d__sq:first-child { border-left: 1px solid rgba(212,164,55,0.08); }
+  .cast3d__sq:nth-child(odd)  { background: linear-gradient(180deg, rgba(13,24,40,0.85), rgba(3,7,13,0.95)); }
+  .cast3d__sq:nth-child(even) { background: linear-gradient(180deg, rgba(28,63,138,0.30), rgba(13,24,40,0.92)); }
+  /* Target-square brass aura — pulses near castle endpoint */
+  .cast3d__sq[data-king-to]::after,
+  .cast3d__sq[data-rook-to]::after {
     content: '';
     position: absolute; inset: 0;
     background: radial-gradient(circle at center,
-      rgba(212, 164, 55, calc(0.4 * var(--castle-progress))) 0%,
+      rgba(212,164,55, calc(0.55 * var(--cast-progress))) 0%,
+      transparent 70%);
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+  .cast3d__sq[data-king-from]::before,
+  .cast3d__sq[data-rook-from]::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at center,
+      rgba(80,140,240, calc(0.18 * (1 - var(--cast-progress)))) 0%,
       transparent 70%);
     pointer-events: none;
-    transition: opacity 280ms;
   }
-
-  /* Beams — gold trail lines under the moving pieces */
-  .castling__beam {
+  /* Brass trails left behind the pieces */
+  .cast3d__trail {
     position: absolute;
-    height: 2px;
     bottom: -2px;
-    background: linear-gradient(90deg,
-      transparent 0%,
-      rgba(212, 164, 55, 0.85) 40%,
-      rgba(212, 164, 55, 0.85) 60%,
-      transparent 100%);
+    height: 2px;
     transform-origin: left center;
-    filter: drop-shadow(0 0 6px rgba(212, 164, 55, 0.7));
-    opacity: 0;
+    filter: drop-shadow(0 0 6px rgba(212,164,55,0.75));
     pointer-events: none;
   }
-  /* King beam: from e1 (50%) → g1 (75%), 25% width */
-  .castling__beam--king {
+  .cast3d__trail--king {
     left: 50%; width: 25%;
-    transform: scaleX(var(--castle-progress));
-    opacity: var(--castle-progress);
+    background: linear-gradient(90deg, transparent, rgba(212,164,55,0.95), transparent);
+    transform: scaleX(var(--cast-progress));
+    opacity: var(--cast-progress);
   }
-  /* Rook beam: from h1 (87.5% + 12.5%) shrinks LEFT to f1 (62.5%) — origin right */
-  .castling__beam--rook {
+  .cast3d__trail--rook {
     right: 0; width: 37.5%;
+    background: linear-gradient(90deg, transparent, rgba(80,140,240,0.95), rgba(212,164,55,0.85), transparent);
     transform-origin: right center;
-    transform: scaleX(var(--castle-progress));
-    opacity: var(--castle-progress);
+    transform: scaleX(var(--cast-progress));
+    opacity: var(--cast-progress);
   }
-
-  /* The 3D pieces — raised above board on Z */
-  .castling__3d {
+  /* The pieces — translateZ raises them off the board */
+  .cast3d__piece {
     position: absolute;
     bottom: 0;
     width: 12.5%;
-    display: flex; flex-direction: column;
-    align-items: center;
+    display: flex; flex-direction: column; align-items: center;
     transform-style: preserve-3d;
-    /* Counter-rotate so the piece stands UP from the tilted board */
-    /* The board is rotateX(58deg), so the piece needs rotateX(-58deg) to face viewer */
     will-change: transform;
   }
-  .castling__3d-svg {
-    width: 80%;
-    height: auto;
-    transform: rotateX(-58deg) translateY(-2px);
+  .cast3d__piece-stand {
+    width: 140%;
+    aspect-ratio: 1 / 1.6;
+    margin-left: -20%;
+    display: flex; align-items: flex-end; justify-content: center;
+    transform: rotateX(-64deg);
     transform-origin: bottom center;
-    filter:
-      drop-shadow(0 4px 10px rgba(0, 0, 0, 0.55))
-      drop-shadow(0 0 18px rgba(28, 63, 138, calc(0.25 + 0.4 * var(--castle-progress))));
   }
-  .castling__3d-label {
+  .cast3d__piece-stand svg {
+    width: 100%; height: auto;
+    filter:
+      drop-shadow(0 6px 14px rgba(0,0,0,0.7))
+      drop-shadow(0 0 24px rgba(28,63,138, calc(0.30 + 0.5 * var(--cast-progress))));
+  }
+  /* The ROOK SPINS — this is the cinematic moment */
+  .cast3d__piece-stand--spin {
+    transform: rotateX(-64deg) rotateY(calc(720deg * var(--cast-progress)));
+  }
+  .cast3d__piece-shadow {
+    position: absolute;
+    bottom: -6px; left: 50%;
+    width: 72%; height: 10px;
+    background: radial-gradient(ellipse, rgba(0,0,0,0.72) 0%, transparent 72%);
+    transform: translateX(-50%);
+    filter: blur(4px);
+    opacity: calc(0.55 + 0.35 * var(--cast-progress));
+  }
+  .cast3d__piece-label {
     font-family: var(--font-mono, "Geist Mono", monospace);
-    font-size: 8px;
+    font-size: 9px;
     letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: rgba(244, 237, 224, 0.55);
-    transform: rotateX(-58deg) translateY(2px);
-    transform-origin: top center;
-    margin-top: 2px;
+    color: rgba(244,237,224,0.5);
+    transform: rotateX(-64deg) translateY(4px);
+    margin-top: 4px;
+    opacity: calc(0.6 + 0.4 * var(--cast-progress));
   }
-  .castling__3d-shadow {
-    position: absolute;
-    bottom: -4px; left: 50%;
-    width: 60%; height: 8px;
-    background: radial-gradient(ellipse,
-      rgba(0, 0, 0, 0.65) 0%,
-      transparent 70%);
-    transform: translateX(-50%);
-    filter: blur(3px);
-    opacity: calc(0.6 + 0.3 * var(--castle-progress));
-  }
-  /* King: starts on file 4 (e1 = 50%), ends on file 6 (g1 = 75%) — slides 25% right */
-  .castling__3d--king {
+  /* King: e (file 4 = 50%) → g (file 6 = 75%) — slides right 25% */
+  .cast3d__piece--king {
     left: 50%;
-    transform: translateX(calc(25% * var(--castle-progress))) translateZ(calc(8px + 12px * var(--castle-progress)));
+    transform:
+      translateX(calc(25% * var(--cast-progress)))
+      translateZ(calc(10px + 16px * var(--cast-progress)));
   }
-  /* Rook: starts on file 7 (h1 = 87.5%), ends on file 5 (f1 = 62.5%) — slides 25% left
-     AND arcs UP+OVER the king mid-flight via Z lift */
-  .castling__3d--rook {
+  /* Rook: h (file 7 = 87.5%) → f (file 5 = 62.5%) — slides LEFT 25%
+     AND arcs UP via sin(), AND SPINS via the inner stand rotateY */
+  .cast3d__piece--rook {
     left: 87.5%;
     transform:
-      translateX(calc(-25% * var(--castle-progress)))
-      translateY(calc(-22px * sin(180deg * var(--castle-progress))))
-      translateZ(calc(8px + 28px * sin(180deg * var(--castle-progress))));
+      translateX(calc(-25% * var(--cast-progress)))
+      translateY(calc(-44px * sin(180deg * var(--cast-progress))))
+      translateZ(calc(12px + 52px * sin(180deg * var(--cast-progress))));
   }
-
-  /* Replay button — appears after first castle completes */
-  .castling__replay {
+  /* Caption — fades in last (after castle resolves) */
+  .cast3d__caption {
     position: absolute;
-    left: 50%; bottom: -8px;
+    left: 50%; bottom: clamp(60px, 12vh, 100px);
     transform: translateX(-50%);
+    width: min(86%, 520px);
+    text-align: center;
+    z-index: 3;
+    opacity: calc(max(0, var(--cast-progress) - 0.55) / 0.45);
+    transition: opacity 280ms ease;
+    pointer-events: none;
+  }
+  .cast3d__line {
+    margin: 0;
+    font-family: var(--font-display, "Cormorant Garamond", serif);
+    font-size: clamp(1.2rem, 4.4vw, 1.7rem);
+    line-height: 1.25;
+    color: rgba(244,237,224,0.85);
+    text-wrap: balance;
+  }
+  .cast3d__line--2 {
+    color: var(--m-gold);
+    font-style: italic;
+    margin-top: 4px;
+  }
+  /* Scroll cue — pulses while progress < 0.15 */
+  .cast3d__cue {
+    position: absolute;
+    left: 50%; bottom: 22px;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 9px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: rgba(212,164,55,0.7);
+    opacity: calc(max(0, 0.15 - var(--cast-progress)) / 0.15);
+    pointer-events: none;
+    z-index: 4;
+  }
+  .cast3d__cue-arrow {
+    width: 1px; height: 28px;
+    background: linear-gradient(180deg, var(--m-gold), transparent);
+    animation: cast3d-cue 1600ms ease-in-out infinite;
+  }
+  @keyframes cast3d-cue {
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    50%      { transform: translateY(8px); opacity: 0.35; }
+  }
+  /* Replay — appears at the end */
+  .cast3d__replay {
+    position: absolute;
+    right: 18px; bottom: 18px;
     display: inline-flex; align-items: center; gap: 6px;
-    padding: 6px 12px;
-    background: rgba(212, 164, 55, 0.08);
-    border: 1px solid rgba(212, 164, 55, 0.32);
+    padding: 8px 14px;
+    background: rgba(212,164,55,0.08);
+    border: 1px solid rgba(212,164,55,0.32);
     border-radius: 999px;
     color: var(--m-gold);
     font-family: var(--font-mono, "Geist Mono", monospace);
     font-size: 9px;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
     cursor: pointer;
     opacity: 0;
-    transition: opacity 320ms ease, background 220ms ease;
+    transform: translateY(6px);
+    transition: opacity 320ms ease, transform 320ms ease, background 220ms ease;
+    pointer-events: none;
+    z-index: 5;
+  }
+  .cast3d__replay.is-shown { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .cast3d__replay:active { background: rgba(212,164,55,0.18); }
+  .cast3d__replay svg { width: 12px; height: 12px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cast3d { --cast-progress: 1; --cast-in: 1; }
+    .cast3d__piece-stand--spin { animation: none; }
+    .cast3d__particles { animation: none; }
+  }
+
+  /* ============================================================
+     MOBILE · DIAG — cinematic diagnosis stage (full-screen black)
+     ============================================================
+     The old .problem sticky pin is replaced on mobile by .diag.
+     Three statements crossfade with blur/scale as the user scrolls.
+     ============================================================ */
+  .problem__sticky,
+  .problem__progress { display: none !important; }
+  .problem {
+    position: relative !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    overflow: visible !important;
+    z-index: auto !important;
+  }
+  .diag {
+    display: block;
+    position: relative;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    min-height: 280svh;       /* ~90svh per statement — gives cinematic pacing */
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(28,63,138,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 90%, rgba(212,164,55,0.08) 0%, transparent 55%),
+      #02050B;
+    overflow: clip;           /* clip (not hidden) so sticky descendants still pin */
+    isolation: isolate;
+    --diag-progress: 0;       /* 0 → 1 across entire stage */
+    border-block: 1px solid rgba(212,164,55,0.10);
+  }
+  /* Sticky inner canvas — locks while scrolling through statements */
+  .diag::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 50% calc(50% - 80px),
+        rgba(80,140,240, calc(0.10 + 0.18 * var(--diag-progress))) 0%,
+        transparent 55%);
+    mix-blend-mode: screen;
     pointer-events: none;
   }
-  .castling__replay.is-shown {
-    opacity: 1;
-    pointer-events: auto;
+  /* Ambient particle layer */
+  .diag__atmos {
+    position: absolute; inset: 0;
+    pointer-events: none;
   }
-  .castling__replay:active { background: rgba(212, 164, 55, 0.18); }
-  .castling__replay svg { width: 12px; height: 12px; }
-
-  /* Hide the rotation/labels gracefully on reduced motion */
+  .diag__particle {
+    position: absolute;
+    left: var(--x); top: var(--y);
+    width: 2px; height: 2px;
+    background: radial-gradient(circle, rgba(244,237,224,0.7) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: diag-twinkle 4s ease-in-out infinite;
+    animation-delay: var(--d);
+    opacity: 0.5;
+  }
+  @keyframes diag-twinkle {
+    0%, 100% { opacity: 0.25; transform: scale(0.8); }
+    50%      { opacity: 0.9;  transform: scale(1.4); }
+  }
+  .diag__beam {
+    position: absolute;
+    left: 0; right: 0; top: 50%;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(212,164,55, calc(0.10 + 0.35 * var(--diag-progress))) 50%,
+      transparent 100%);
+    filter: blur(0.4px);
+  }
+  /* Chapter card */
+  .diag__chapter {
+    position: sticky;
+    top: calc(var(--m-nav-h, 56px) + 24px);
+    margin: 0 auto;
+    width: max-content;
+    display: flex; align-items: center; gap: 10px;
+    padding-top: 4px;
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(244,237,224,0.62);
+    z-index: 4;
+  }
+  .diag__chapter-num { color: var(--m-gold); }
+  .diag__chapter-rule {
+    width: 36px; height: 1px;
+    background: linear-gradient(90deg, var(--m-gold), transparent);
+  }
+  .diag__chapter-title {
+    font-family: var(--font-display, "Cormorant Garamond", serif);
+    font-style: italic;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: none;
+    color: rgba(244,237,224,0.88);
+  }
+  /* Stage — sticky pinned area where statements crossfade */
+  .diag__stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    width: 100%;
+    display: grid;
+    place-items: center;
+    padding: 0 var(--m-pad, 22px);
+  }
+  .diag__stmt {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 0 var(--m-pad, 22px);
+    opacity: 0;
+    transform: scale(0.96);
+    filter: blur(12px);
+    transition: opacity 420ms ease, transform 420ms ease, filter 420ms ease;
+    will-change: opacity, transform, filter;
+  }
+  .diag__stmt.is-active {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px);
+  }
+  .diag__stmt.is-past {
+    opacity: 0;
+    transform: scale(1.08);
+    filter: blur(16px);
+  }
+  .diag__ghost {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-display, "Cormorant Garamond", serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(180px, 56vw, 320px);
+    line-height: 0.9;
+    color: rgba(212,164,55,0.06);
+    pointer-events: none;
+    z-index: 0;
+    user-select: none;
+  }
+  .diag__text {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    text-align: center;
+    font-family: var(--font-display, "Cormorant Garamond", serif);
+    font-weight: 500;
+    font-size: clamp(2rem, 8vw, 2.8rem);
+    line-height: 1.18;
+    color: var(--m-text, #F4EDE0);
+    text-wrap: balance;
+    max-width: 620px;
+  }
+  .diag__text em {
+    font-style: italic;
+    background: linear-gradient(120deg, var(--m-gold) 0%, var(--m-gold-soft, #E8C770) 50%, var(--m-gold) 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  /* Progress dots — bottom of sticky stage */
+  .diag__dots {
+    position: absolute;
+    left: 50%; bottom: calc(8svh + 8px);
+    transform: translateX(-50%);
+    display: flex; gap: 10px;
+    z-index: 5;
+  }
+  .diag__dot {
+    width: 18px; height: 1px;
+    background: rgba(244,237,224,0.18);
+    transition: background 320ms ease, width 320ms ease;
+  }
+  .diag__dot.is-active {
+    background: var(--m-gold);
+    width: 28px;
+  }
+  .diag__dot.is-past {
+    background: rgba(212,164,55,0.45);
+  }
   @media (prefers-reduced-motion: reduce) {
-    .castling__scene-mobile { --castle-progress: 1; }
-    .castling__3d--king, .castling__3d--rook { transition: none; }
+    .diag__stmt { transition: opacity 200ms ease; transform: none !important; filter: none !important; }
+    .diag__particle { animation: none; }
   }
 
   /* ── BESPOKE MOBILE SCROLL POLISH ──────────────────── */
@@ -2976,6 +3315,65 @@ html.lenis, html.lenis body { height: auto; }
   h1, h2, h3 { font-family: var(--font-display); }
   a, button { min-height: var(--m-tap); }
   .nav__logo, .footer__nav a, .footer__email { -webkit-user-select: none; }
+
+  /* ============================================================
+     MOBILE · STACK-BREAK POLISH
+     ── Hide leftover desktop bits the new cinematic stages replace
+     ── Ensure each major section has an opaque base + brass divider
+     ============================================================ */
+  /* Old desktop castling visuals hidden — .cast3d owns the moment */
+  .castling__stage,
+  .castling__caption { display: none !important; }
+  .castling__inner > .castling__eyebrow { margin-bottom: 12px; }
+
+  /* Solid base + ordered z-index so no section bleeds into another */
+  .hero,
+  .trust,
+  .castling,
+  .privileges,
+  .problem,
+  .services,
+  .process,
+  .why,
+  .contact,
+  .footer {
+    background-color: var(--m-bg);
+    position: relative;
+    z-index: 1;
+  }
+  /* Castling & diag get their own bleeding-edge backgrounds */
+  .castling { background: linear-gradient(180deg, var(--m-bg) 0%, #04080F 50%, var(--m-bg) 100%) !important; }
+
+  /* Brass section dividers — thin hairline w/ centered gold mark */
+  .trust,
+  .castling,
+  .privileges,
+  .services,
+  .process,
+  .why,
+  .contact {
+    border-top: 1px solid rgba(212, 164, 55, 0.10);
+  }
+  .trust::after,
+  .castling::after,
+  .privileges::after,
+  .services::after,
+  .process::after,
+  .why::after {
+    content: '';
+    position: absolute;
+    left: 50%; bottom: -1px;
+    transform: translateX(-50%);
+    width: 56px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--m-gold), transparent);
+    opacity: 0.55;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* Tighter rhythm so sections don't feel like a wall of text */
+  .privileges { padding-block: calc(var(--m-rhythm) * 0.85); }
+  .services { padding-block: calc(var(--m-rhythm) * 0.95); }
 }
 
 /* ≤480 fine-tuning */
