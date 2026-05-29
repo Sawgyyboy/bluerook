@@ -1960,11 +1960,11 @@ html.lenis, html.lenis body { height: auto; }
   }
 
   /* ── HIDE DESKTOP-ONLY HEAVY BITS ────────────────── */
+  /* NOTE: .castling__stage / __board / __trail are intentionally NOT hidden —
+     the new mobile 3D cinematic re-uses that structure. */
   .ambient__cursor, .ambient__grain,
   .hero__grid, .hero__scroll-hint,
   .hero__bg-image, .hero__bg-overlay, .hero__particles,
-  .castling__board, .castling__trail,
-  .castling__stage,
   .nav__links, .theme-toggle,
   .svc-card__corner, .step__rail,
   .problem__progress { display: none !important; }
@@ -2982,43 +2982,159 @@ html.lenis, html.lenis body { height: auto; }
     text-transform: uppercase; color: var(--m-text-dim);
   }
 
-  /* ── CASTLING ────────────────────────────────────── */
+  /* ── CASTLING · MOBILE 3D CINEMATIC ──────────────────
+     Ultra-luxury deep 3D scroll stage. Perspective lives on the
+     section. Children float on translateZ depth sheets driven by
+     scroll-mapped CSS variables (see initMobileCastling3D in script.js).
+       --castle-p       master 0→1 progress through viewport
+       --castle-rise    0→1 pieces & eyebrow climb the Z-axis
+       --castle-swap    0→1 king ↔ rook lateral crossing
+       --castle-reveal  0→1 caption fade + slide up
+     prefers-reduced-motion collapses all 3D into a clean opacity fade. */
   .castling {
-    min-height: auto;                  /* kill any inherited 100vh dead-space */
-    padding-block: calc(var(--m-rhythm) * 0.45) var(--m-rhythm);
+    min-height: 92svh;
+    padding-block: calc(var(--m-rhythm) * 0.6) var(--m-rhythm);
     padding-inline: var(--m-pad);
     margin-block: 0;
     text-align: center;
-    background: linear-gradient(180deg, var(--m-bg) 0%, #080d18 50%, var(--m-bg) 100%);
+    background:
+      radial-gradient(ellipse at 50% 18%, rgba(28,63,138,0.14) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 100%, rgba(212,164,55,0.08) 0%, transparent 60%),
+      linear-gradient(180deg, #03070D 0%, #050B16 55%, #02050B 100%);
     border: none; position: relative; overflow: hidden;
+    perspective: 1200px;
+    perspective-origin: 50% 42%;
+    transform-style: preserve-3d;
+    --castle-p: 0;
+    --castle-rise: 0;
+    --castle-swap: 0;
+    --castle-reveal: 0;
   }
-  .castling__inner { min-height: auto; padding: 0; }
-  .castling::before { content: none; }
-  .castling > * { position: relative; z-index: 1; }
+  /* The luxury ground grid — rotated flat on X, sunk deep into the void.
+     Subtle paper-tone lines on near-black canvas keep it whisper-quiet. */
+  .castling::before {
+    content: '' !important;
+    position: absolute;
+    left: -10%; right: -10%; bottom: -10%; top: 30%;
+    background-image:
+      linear-gradient(rgba(244, 237, 224, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(244, 237, 224, 0.03) 1px, transparent 1px);
+    background-size: 36px 36px, 36px 36px;
+    transform: rotateX(72deg) translateZ(-80px) scale(calc(1.4 - 0.22 * var(--castle-rise)));
+    transform-origin: 50% 100%;
+    transform-style: preserve-3d;
+    pointer-events: none;
+    z-index: 0;
+    opacity: calc(0.55 + 0.45 * var(--castle-rise));
+    mask-image: radial-gradient(ellipse at 50% 50%, #000 35%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000 35%, transparent 78%);
+  }
+  .castling__inner {
+    min-height: auto;
+    padding: 0;
+    position: relative;
+    z-index: 1;
+    transform-style: preserve-3d;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14svh;
+  }
+  /* Depth sheet 01 — eyebrow floats slightly above the page */
   .castling__eyebrow {
-    font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--m-gold); margin-bottom: 24px;
+    font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--m-gold);
+    margin: 0;
+    transform: translate3d(0, calc(-6px * var(--castle-rise)), 40px);
+    transform-style: preserve-3d;
+    opacity: calc(0.35 + 0.65 * var(--castle-rise));
+    will-change: transform, opacity;
   }
+  .castling__eyebrow .dot {
+    display: inline-block; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--m-gold); margin-right: 10px; vertical-align: middle;
+    box-shadow: 0 0 12px rgba(212,164,55,0.55);
+  }
+  /* Show the bespoke stage on mobile — the new cinematic owns it */
   .castling__stage {
-    display: flex; align-items: center; justify-content: center;
-    gap: 32px; margin: 0 auto 24px;
+    display: grid !important;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    transform-style: preserve-3d;
+    position: relative;
   }
+  /* Depth sheet 02 — chess pieces float HIGH above the canvas */
   .castling__piece {
-    width: 64px; height: auto;
-    display: flex; flex-direction: column; align-items: center; gap: 6px;
-    filter: drop-shadow(0 0 14px rgba(255,255,255,0.12))
-            drop-shadow(0 0 28px rgba(30,111,217,0.22));
+    position: relative;
+    width: 84px;
+    aspect-ratio: 100 / 115;
+    transform-style: preserve-3d;
+    filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.8));
+    will-change: transform;
   }
-  .castling__piece svg { width: 100%; height: auto; }
+  .castling__piece svg { width: 100%; height: 100%; display: block; }
+  /* Castling swap: king and rook glide laterally, crossing paths cleanly */
+  .castling__piece--king {
+    transform: translate3d(
+      calc(70% * var(--castle-swap)),
+      0,
+      calc(120px * var(--castle-rise))
+    );
+  }
+  .castling__piece--rook {
+    transform: translate3d(
+      calc(-70% * var(--castle-swap)),
+      0,
+      calc(120px * var(--castle-rise))
+    );
+  }
   .castling__label {
-    font-size: 9px; letter-spacing: 0.2em;
+    font-size: 9px; letter-spacing: 0.22em;
     text-transform: uppercase; color: var(--m-text-dim);
+    bottom: -22px;
   }
-  .castling__caption { transform: translate3d(0, 16px, 0); }
-  .castling__caption.is-visible { transform: translate3d(0, 0, 0); }
+  /* The brass board strip — subtly recedes into the depth */
+  .castling__board {
+    height: 38px;
+    margin: 0 8px;
+    border: 1px solid rgba(212,164,55,0.18);
+    border-radius: 4px;
+    background: rgba(13, 24, 40, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transform: translateZ(calc(20px * var(--castle-rise)));
+    transform-style: preserve-3d;
+  }
+  .castling__square:nth-child(odd) { background: rgba(212,164,55,0.05); }
+  .castling__square:nth-child(even) { background: rgba(244,237,224,0.02); }
+  .castling__trail {
+    transform: translateY(-50%) scaleX(var(--castle-swap));
+  }
+  /* The brass trails reveal during the swap (driven by --castle-swap) */
+  .castling__trail--king { transform-origin: left center; }
+  .castling__trail--rook { transform-origin: right center; }
+  /* Depth sheet 03 — caption unmasks last, fading + sliding up smoothly.
+     !important required to defeat global .is-visible utility (added by
+     the fade-up observer for the desktop reveal path).                     */
+  .castling__caption,
+  .castling__caption.is-visible,
+  .castling__caption.is-in {
+    display: block !important;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 480px;
+    opacity: var(--castle-reveal) !important;
+    transform: translate3d(0, calc(20px - 20px * var(--castle-reveal)), 60px) !important;
+    transform-style: preserve-3d;
+    transition: opacity 600ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    will-change: opacity, transform;
+  }
   .castling__line {
     font-family: var(--font-display); font-weight: 500;
-    /* Fluid subheading */
     font-size: clamp(1.1rem, 2vw + 1rem, 1.75rem);
     line-height: 1.3;
     color: var(--m-text-dim); margin: 0;
@@ -3026,6 +3142,21 @@ html.lenis, html.lenis body { height: auto; }
   }
   .castling__line--accent {
     color: var(--m-gold); font-style: italic; margin-top: 4px;
+  }
+  /* prefers-reduced-motion: collapse all 3D into a clean instant opacity fade */
+  @media (prefers-reduced-motion: reduce) {
+    .castling { perspective: none; }
+    .castling::before { display: none !important; }
+    .castling__eyebrow,
+    .castling__piece--king,
+    .castling__piece--rook,
+    .castling__board,
+    .castling__caption {
+      transform: none !important;
+      opacity: 1 !important;
+      transition: opacity 200ms ease !important;
+    }
+    .castling__trail { transform: translateY(-50%) scaleX(1) !important; }
   }
 
   /* ── PROBLEM (diagnosis) — CSS-native sticky pin ─── */
@@ -3585,48 +3716,54 @@ html.lenis, html.lenis body { height: auto; }
     border-bottom: none !important;
     padding: 32px var(--m-pad) 0 !important;
   }
+  /* ── WHY · STICKY CARD STACK ──────────────────────────
+     Apple-style: each card pins below the nav as you scroll down,
+     so later cards visually slide UP and stack on top of earlier
+     pinned cards. Scrolling back up releases them in reverse order
+     (no JS — position: sticky handles it natively).             */
   .why__grid {
     display: flex !important;
     flex-direction: column;
     grid-template-columns: 1fr !important;
-    gap: 0 !important;
-    padding: 20px var(--m-pad) 24px;
+    gap: 18px !important;
+    padding: 24px var(--m-pad) 80px;
     margin: 0; position: relative; z-index: 1;
   }
-  .why-cell:nth-child(n+2) { margin-top: -22px !important; }
-  .why-cell:nth-child(1) { z-index: 4; transform: translateY(20px) scale(0.98) rotate(-0.6deg); }
-  .why-cell:nth-child(2) { z-index: 5; transform: translateY(20px) scale(0.98) rotate(0.4deg); }
-  .why-cell:nth-child(3) { z-index: 6; transform: translateY(20px) scale(0.98) rotate(-0.3deg); }
-  .why-cell:nth-child(4) { z-index: 7; transform: translateY(20px) scale(0.98) rotate(0.5deg); }
-  .why-cell:nth-child(1).is-visible { transform: translateY(0) scale(1) rotate(-0.6deg); }
-  .why-cell:nth-child(2).is-visible { transform: translateY(0) scale(1) rotate(0.4deg); }
-  .why-cell:nth-child(3).is-visible { transform: translateY(0) scale(1) rotate(-0.3deg); }
-  .why-cell:nth-child(4).is-visible { transform: translateY(0) scale(1) rotate(0.5deg); }
-  /* Subtle hover-style lift on tap for tactility */
   .why-cell {
+    position: sticky !important;
+    /* Each card pins just below the fixed nav with a small breathing offset */
+    top: calc(var(--m-nav-h) + 18px) !important;
     transform-origin: 50% 0%;
   }
+  /* Stagger each pinned card slightly so the stack edges peek out as
+     cards collect — gives the deck-of-cards depth without overlap clipping. */
+  .why-cell:nth-child(1) { z-index: 1; }
+  .why-cell:nth-child(2) { z-index: 2; top: calc(var(--m-nav-h) + 26px) !important; }
+  .why-cell:nth-child(3) { z-index: 3; top: calc(var(--m-nav-h) + 34px) !important; }
+  .why-cell:nth-child(4) { z-index: 4; top: calc(var(--m-nav-h) + 42px) !important; }
+  /* Reduced motion: drop the sticky stacking, return to a calm flat list */
+  @media (prefers-reduced-motion: reduce) {
+    .why-cell { position: static !important; top: auto !important; }
+  }
+  /* Each sticky card: opaque enough to hide cards beneath, frosted
+     so the card stack behind hints through the brass-rule edge.       */
   .why-cell {
-    position: relative;
-    background: rgba(13, 24, 40, 0.55) !important;
-    backdrop-filter: blur(10px) saturate(125%) !important;
-    -webkit-backdrop-filter: blur(10px) saturate(125%) !important;
-    border: 1px solid rgba(255,255,255,0.06) !important;
+    position: sticky;
+    background: rgba(10, 18, 32, 0.92) !important;
+    backdrop-filter: blur(14px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(135%) !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
     border-left: 3px solid var(--m-gold) !important;
-    border-radius: 6px;
-    padding: 20px 20px 40px 22px !important;
+    border-radius: 8px;
+    padding: 22px 22px 22px 24px !important;
     text-align: left;
     box-shadow:
-      0 -8px 24px rgba(0,0,0,0.55),
-      0 12px 30px rgba(0,0,0,0.40),
-      inset 0 1px 0 rgba(244,237,224,0.04) !important;
-    opacity: 0;
-    transform: translateY(20px) scale(0.98);
-    transition: opacity 700ms cubic-bezier(0.22, 0.61, 0.36, 1),
-                transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
+      0 18px 40px rgba(0,0,0,0.55),
+      0 4px 12px rgba(0,0,0,0.35),
+      inset 0 1px 0 rgba(244,237,224,0.05) !important;
+    opacity: 1;
+    transition: transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1);
   }
-  /* Final card no longer needs the lower safe-zone */
-  .why-cell:last-child { padding-bottom: 22px !important; }
   .why-cell::after {
     /* Brass corner gleam — diagnosis-style accent */
     content: '';
@@ -3635,11 +3772,10 @@ html.lenis, html.lenis body { height: auto; }
     width: 60px; height: 60px;
     background: radial-gradient(circle at top right, rgba(212,164,55,0.18), transparent 70%);
     pointer-events: none;
-    border-top-right-radius: 6px;
+    border-top-right-radius: 8px;
   }
-  .why-cell.is-in, .why-cell.is-visible {
-    opacity: 1; transform: translateY(0) scale(1);
-  }
+  /* Stack-visibility classes are no-ops now (sticky owns visibility) */
+  .why-cell.is-in, .why-cell.is-visible { opacity: 1; transform: none; }
   .why-cell__no { display: none; }
   .why-cell__title {
     font-family: var(--font-display); font-style: italic; font-weight: 500;
@@ -3770,10 +3906,9 @@ html.lenis, html.lenis body { height: auto; }
      ── Hide leftover desktop bits the new cinematic stages replace
      ── Ensure each major section has an opaque base + brass divider
      ============================================================ */
-  /* Old desktop castling visuals hidden — .cast3d owns the moment */
-  .castling__stage,
-  .castling__caption { display: none !important; }
-  .castling__inner > .castling__eyebrow { margin-bottom: 12px; }
+  /* New mobile castling owns the moment — the older .cast3d cinematic is retired */
+  .castling .cast3d { display: none !important; }
+  .castling__inner > .castling__eyebrow { margin-bottom: 0; }
 
   /* Solid base + ordered z-index so no section bleeds into another */
   .hero,
