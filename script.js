@@ -200,7 +200,7 @@
   function initMobileFadeUp() {
     const targets = document.querySelectorAll(
       '[data-fade], [data-reveal], [data-stack], ' +
-      '.svc-card, .step, .why-cell, .trust__item, ' +
+      '.svc-card, .step, .why-cell, .trust__item, .privilege, ' +
       '.castling__caption, .problem__statement, ' +
       '.hero__title, .hero__lead, .hero__eyebrow, .hero__rook-wrap'
     );
@@ -208,11 +208,29 @@
       targets.forEach(el => el.classList.add('is-visible'));
       return;
     }
+    // Stagger reveals inside sibling groups so cards cascade in cinematically
+    // (e.g. four why-cells: 0ms, 90ms, 180ms, 270ms). Each element's own delay
+    // is set once at observation time so it persists across re-runs.
+    const groupCounters = new WeakMap();
     const io = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-visible');
-        io.unobserve(entry.target);
+        const el = entry.target;
+        // Compute stagger from element's index within its parent (cards only)
+        if (el.matches('.why-cell, .trust__item, .privilege, .svc-card, .step')) {
+          const parent = el.parentElement;
+          if (parent && !groupCounters.has(parent)) {
+            groupCounters.set(parent, 0);
+          }
+          if (parent) {
+            const n = groupCounters.get(parent);
+            el.style.transitionDelay = `${n * 90}ms`;
+            groupCounters.set(parent, n + 1);
+          }
+        }
+        // Add BOTH classes so legacy + new CSS selectors both match
+        el.classList.add('is-visible', 'is-in');
+        io.unobserve(el);
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
     targets.forEach(el => io.observe(el));
@@ -246,7 +264,54 @@
   function initMobileCastling3D() {
     const scene = document.querySelector('[data-cast3d]');
     if (!scene) return;
+
+    // ── 3D EXTRUSION: clone each piece's SVG into a stack of Z-receding layers.
+    // Preserves the brand silhouette (rook crenellations / king stepped crown)
+    // while extruding it into space — pure CSS transform-style: preserve-3d.
+    const LAYERS = 7;                // total depth slices behind the front face
+    const buildExtrusion = (selector) => {
+      const piece = scene.querySelector(selector);
+      if (!piece) return;
+      const stand = piece.querySelector('.cast3d__piece-stand');
+      const front = stand && stand.querySelector('svg');
+      if (!stand || !front) return;
+      // Bail if already built
+      if (stand.dataset.extruded === '1') return;
+      stand.dataset.extruded = '1';
+
+      // Insert back-to-front so the original SVG (z=0) sits ON TOP visually
+      for (let i = LAYERS; i >= 1; i--) {
+        const clone = front.cloneNode(true);
+        clone.classList.add('cast3d__piece-layer');
+        clone.style.setProperty('--z', String(i));
+        // Darken paths progressively — fakes side-wall shading
+        const shade = Math.max(0.32, 1 - (i / LAYERS) * 0.62);
+        clone.querySelectorAll('[fill="#F4EDE0"]').forEach(el => {
+          el.setAttribute('fill', `rgba(244,237,224,${shade.toFixed(2)})`);
+        });
+        clone.querySelectorAll('g[fill="#F4EDE0"]').forEach(el => {
+          el.setAttribute('fill', `rgba(244,237,224,${shade.toFixed(2)})`);
+        });
+        // Brass rule keeps full strength on every layer (it's the spine of the brand)
+        stand.insertBefore(clone, front);
+      }
+
+      // Top brass cap — sits a hair in front of the front face for a "crown" feel
+      const cap = front.cloneNode(true);
+      cap.classList.add('cast3d__piece-cap');
+      cap.querySelectorAll('[fill="#F4EDE0"]').forEach(el => {
+        el.setAttribute('fill', 'rgba(244,237,224,0.96)');
+      });
+      cap.querySelectorAll('g[fill="#F4EDE0"]').forEach(el => {
+        el.setAttribute('fill', 'rgba(244,237,224,0.96)');
+      });
+      stand.appendChild(cap);
+    };
+    buildExtrusion('[data-cast3d-king]');
+    buildExtrusion('[data-cast3d-rook]');
+
     const replay = scene.querySelector('[data-cast3d-replay]');
+    // Replay button removed from UX — kept here as a no-op fallback only.
     let inView = false;
     let progress = 0;
     let manualProgress = null; // when set, overrides scroll-driven (for replay)
