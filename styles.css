@@ -1949,12 +1949,17 @@ html.lenis, html.lenis body { height: auto; }
     scroll-snap-type: none;
     background: var(--m-bg);
     -webkit-text-size-adjust: 100%;
+    /* iOS Safari needs the lock on the html root too — otherwise the
+       viewport itself can scroll horizontally even with body locked. */
+    overflow-x: hidden;
+    max-width: 100vw;
+    width: 100%;
   }
   body {
     background: var(--m-bg); color: var(--m-text);
     font-family: var(--font-sans);
     font-size: 15px; line-height: 1.65;
-    overflow-x: hidden; max-width: 100dvw;
+    overflow-x: hidden; max-width: 100vw; width: 100%;
     /* leave room at bottom so floating FAB never overlaps last-section content */
     padding-bottom: calc(var(--m-tap) + var(--m-nav-h) + env(safe-area-inset-bottom, 0px));
   }
@@ -3230,6 +3235,11 @@ html.lenis, html.lenis body { height: auto; }
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     scroll-padding-inline: var(--m-pad);
+    /* CRITICAL: lock to horizontal panning only — vertical gestures
+       must fall through to the page so users can scroll past the
+       carousel without it hijacking their swipe. */
+    touch-action: pan-x pinch-zoom;
+    overscroll-behavior-x: contain;
   }
   .services__track::-webkit-scrollbar { display: none; }
   .svc-card {
@@ -3681,6 +3691,9 @@ html.lenis, html.lenis body { height: auto; }
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     scroll-padding-inline: var(--m-pad);
+    /* See .services__track — pan-x only so vertical swipes scroll the page */
+    touch-action: pan-x pinch-zoom;
+    overscroll-behavior-x: contain;
   }
   .privileges__list::-webkit-scrollbar { display: none; }
   .privilege {

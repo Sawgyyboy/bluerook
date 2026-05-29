@@ -516,25 +516,35 @@
         '<span>' + label + '</span>' +
         '<span class="swipe-hint__arrow">→</span>';
 
-      // Insert right after the scroller (or its wrapper if present)
+      // Insert ABOVE the scroller (or its wrapper) so the hint reads
+      // while the cards are still in view — not after the user has
+      // already scrolled past the section.
       const anchor = scroller.parentElement === section
         ? scroller
         : scroller.parentElement;
-      anchor.insertAdjacentElement('afterend', hint);
+      anchor.insertAdjacentElement('beforebegin', hint);
 
+      // Only fade after a *real* user interaction with the carousel —
+      // not on layout-driven scroll events (scrollIntoView, snap
+      // re-anchoring, etc.) which would prematurely hide the affordance.
       let faded = false;
+      let userTouched = false;
       const fade = () => {
         if (faded) return;
         faded = true;
         hint.classList.add('is-faded');
         scroller.removeEventListener('scroll', onScroll);
       };
+      const markUser = () => { userTouched = true; };
       const onScroll = () => {
-        if (scroller.scrollLeft > 24) fade();
+        if (userTouched && scroller.scrollLeft > 24) fade();
       };
+      scroller.addEventListener('pointerdown', markUser, { passive: true });
+      scroller.addEventListener('touchstart',  markUser, { passive: true });
+      scroller.addEventListener('wheel',       markUser, { passive: true });
       scroller.addEventListener('scroll', onScroll, { passive: true });
-      // Also fade after 8s of inactivity so the hint doesn't loop forever
-      setTimeout(fade, 8000);
+      // Also fade after 15s so the hint doesn't loop forever
+      setTimeout(fade, 15000);
     });
   }
 
