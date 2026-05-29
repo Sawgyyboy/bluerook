@@ -543,8 +543,9 @@
       scroller.addEventListener('touchstart',  markUser, { passive: true });
       scroller.addEventListener('wheel',       markUser, { passive: true });
       scroller.addEventListener('scroll', onScroll, { passive: true });
-      // Also fade after 15s so the hint doesn't loop forever
-      setTimeout(fade, 15000);
+      // No timeout fallback — the hint stays until the user actually
+      // swipes the carousel. The drift animation is intentionally slow
+      // so it never becomes visually noisy.
     });
   }
 

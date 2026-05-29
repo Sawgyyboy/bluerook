@@ -3485,29 +3485,35 @@ html.lenis, html.lenis body { height: auto; }
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    margin: 4px auto 18px;
-    padding: 8px 14px;
-    border: 1px solid rgba(212, 164, 55, 0.30);
+    margin: 8px auto 20px;
+    padding: 10px 18px;
+    border: 1px solid rgba(212, 164, 55, 0.55);
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(212, 164, 55, 0.08);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-weight: 600;
+    font-size: 11px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--m-text-dim);
-    opacity: 0.85;
+    color: var(--m-gold);
+    opacity: 1;
     pointer-events: none;
     width: max-content;
     position: relative;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 6;
+    box-shadow:
+      0 0 24px rgba(212, 164, 55, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
   .swipe-hint__arrow {
     display: inline-block;
     color: var(--m-gold);
-    animation: swipe-hint-drift 1.8s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
+    font-size: 14px;
+    animation: swipe-hint-drift 1.6s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
   }
   @keyframes swipe-hint-drift {
     0%, 100% { transform: translateX(-4px); opacity: 0.65; }
