@@ -83,6 +83,7 @@
       setTimeout(initMobileFadeUp, 80);
       setTimeout(initMobileCastling3D, 100);
       setTimeout(initMobileCastlingScrub, 120);
+      setTimeout(initMobileSwipeHints, 140);
       setTimeout(initMobileDiagnosis, 100);
       setTimeout(initMobileServicesAccordion, 100);
       setTimeout(initMobileProcessAccordion, 100);
@@ -418,10 +419,11 @@
     if (!window.gsap || !window.ScrollTrigger) return;
 
     const section = document.querySelector('.castling');
+    const stage   = document.querySelector('.castling__stage');
     const king    = document.querySelector('.castling__piece--king');
     const rook    = document.querySelector('.castling__piece--rook');
     const caption = document.querySelector('.castling__caption');
-    if (!section || !king || !rook) return;
+    if (!section || !stage || !king || !rook) return;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       if (caption) {
@@ -431,8 +433,17 @@
       return;
     }
 
-    gsap.set([king, rook], { xPercent: 0, force3D: true });
+    gsap.set([king, rook], { x: 0, y: 0, force3D: true });
     if (caption) gsap.set(caption, { opacity: 0, y: 20, force3D: true });
+
+    // True swap distance: end with King where Rook started and vice versa.
+    // King sits at the left grid column, Rook at the right; both need to
+    // travel (stage_width − piece_width) horizontally to swap centers.
+    const swap = () => {
+      const sw = stage.getBoundingClientRect().width;
+      const pw = king.getBoundingClientRect().width || 88;
+      return Math.max(0, sw - pw);
+    };
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -444,14 +455,87 @@
       },
     });
 
-    // 0.0 – 0.6 : pieces cross paths
-    tl.to(king, { xPercent: 70,  ease: 'power2.inOut', duration: 0.6 }, 0)
-      .to(rook, { xPercent: -70, ease: 'power2.inOut', duration: 0.6 }, 0);
+    // 0.0 – 0.65 : the actual castling move — pieces fully swap positions.
+    // King lifts over the rank so it visibly leaps the Rook (real castling).
+    tl.to(king, {
+        x: () => swap(),
+        ease: 'power2.inOut',
+        duration: 0.65,
+      }, 0)
+      .to(king, {
+        y: -28,
+        ease: 'power2.out',
+        duration: 0.32,
+      }, 0)
+      .to(king, {
+        y: 0,
+        ease: 'power2.in',
+        duration: 0.33,
+      }, 0.32)
+      .to(rook, {
+        x: () => -swap(),
+        ease: 'power2.inOut',
+        duration: 0.65,
+      }, 0);
 
-    // 0.6 – 1.0 : caption rises into view
+    // Elevate the King so it reads as passing over the Rook
+    gsap.set(king, { zIndex: 3 });
+    gsap.set(rook, { zIndex: 2 });
+
+    // 0.65 – 1.0 : caption rises after the swap resolves
     if (caption) {
-      tl.to(caption, { opacity: 1, y: 0, ease: 'power2.out', duration: 0.4 }, 0.6);
+      tl.to(caption, { opacity: 1, y: 0, ease: 'power2.out', duration: 0.35 }, 0.65);
     }
+  }
+
+  /* ==========================================================
+     MOBILE SWIPE HINTS
+     ── Injects a "Swipe →" pill under each horizontal carousel
+        on mobile, then fades it once the user actually scrolls
+        that carousel — so the affordance disappears as soon as
+        it has done its job.
+     ========================================================== */
+  function initMobileSwipeHints() {
+    if (window.innerWidth > 768) return;
+
+    const carousels = [
+      { wrap: '.services',   track: '.services__track',   label: 'Swipe to explore' },
+      { wrap: '.privileges', track: '.privileges__list',  label: 'Swipe · tap to expand' },
+    ];
+
+    carousels.forEach(({ wrap, track, label }) => {
+      const section = document.querySelector(wrap);
+      const scroller = document.querySelector(track);
+      if (!section || !scroller) return;
+      if (section.querySelector('.swipe-hint')) return;
+
+      const hint = document.createElement('div');
+      hint.className = 'swipe-hint';
+      hint.setAttribute('aria-hidden', 'true');
+      hint.innerHTML =
+        '<span>' + label + '</span>' +
+        '<span class="swipe-hint__arrow">→</span>';
+
+      // Insert right after the scroller (or its wrapper if present)
+      const anchor = scroller.parentElement === section
+        ? scroller
+        : scroller.parentElement;
+      anchor.insertAdjacentElement('afterend', hint);
+
+      let faded = false;
+      const fade = () => {
+        if (faded) return;
+        faded = true;
+        hint.classList.add('is-faded');
+        scroller.removeEventListener('scroll', onScroll);
+      };
+      const onScroll = () => {
+        if (scroller.scrollLeft > 24) fade();
+      };
+      scroller.addEventListener('scroll', onScroll, { passive: true });
+      // Also fade after 8s of inactivity so the hint doesn't loop forever
+      setTimeout(fade, 8000);
+    });
   }
 
   /* ==========================================================

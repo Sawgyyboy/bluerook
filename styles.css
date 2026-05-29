@@ -3468,6 +3468,47 @@ html.lenis, html.lenis body { height: auto; }
   /* Swipe hint removed — vertical stack on mobile */
   .services__track-wrap::after { content: none; }
 
+  /* ── SWIPE HINT (injected after each horizontal carousel) ─────────
+     A subtle gold pill with an arrow that gently drifts right —
+     enough to telegraph "this scrolls sideways" on first view.        */
+  .swipe-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 4px auto 18px;
+    padding: 8px 14px;
+    border: 1px solid rgba(212, 164, 55, 0.30);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--m-text-dim);
+    opacity: 0.85;
+    pointer-events: none;
+    width: max-content;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .swipe-hint__arrow {
+    display: inline-block;
+    color: var(--m-gold);
+    animation: swipe-hint-drift 1.8s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
+  }
+  @keyframes swipe-hint-drift {
+    0%, 100% { transform: translateX(-4px); opacity: 0.65; }
+    50%      { transform: translateX(6px);  opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .swipe-hint__arrow { animation: none; }
+  }
+  /* Auto-fade the hint once the user has scrolled the carousel */
+  .swipe-hint.is-faded { opacity: 0; transition: opacity 480ms ease; }
+
   /* ── PROCESS — minimal tap-to-reveal step cards + cinematic backdrop ─── */
   .process {
     background:
@@ -3671,16 +3712,48 @@ html.lenis, html.lenis body { height: auto; }
       inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
   }
   .privilege::before { content: none !important; }
-  /* On a horizontal carousel, the accordion body must always render —
-     each card stays a self-contained, readable unit. */
-  .privilege__body {
-    display: block !important;
-    max-height: none !important;
-    overflow: visible !important;
-    opacity: 1 !important;
+  /* Compact closed state — cards stay tight, body collapses behind the chev.
+     User-tap on the head expands the card. Open card grows; carousel still snaps. */
+  .privilege {
+    min-height: 0;
+    align-self: flex-start;
   }
-  .privilege__chev { display: none !important; }
-  .privilege__head { cursor: default; pointer-events: none; }
+  .privilege__head {
+    cursor: pointer;
+    display: grid !important;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+  .privilege__chev {
+    display: inline-flex !important;
+    align-items: center; justify-content: center;
+    width: 28px; height: 28px;
+    border: 1px solid rgba(212, 164, 55, 0.40);
+    border-radius: 50%;
+    color: var(--m-gold);
+    background: rgba(212, 164, 55, 0.04);
+    transition: transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .privilege__chev svg { width: 12px; height: 12px; }
+  .privilege[data-open] .privilege__chev { transform: rotate(180deg); }
+
+  .privilege__body {
+    display: grid !important;
+    grid-template-rows: 0fr;
+    overflow: hidden !important;
+    opacity: 0.6;
+    transition: grid-template-rows 420ms cubic-bezier(0.22, 0.61, 0.36, 1),
+                opacity 320ms ease;
+  }
+  .privilege[data-open] .privilege__body {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+  .privilege__body > .privilege__body-inner {
+    min-height: 0;
+  }
 
   /* ── WHY — glass cells + cinematic scroll-in ─────── */
   .why {
