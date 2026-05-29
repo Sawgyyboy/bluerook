@@ -2047,7 +2047,7 @@ html.lenis, html.lenis body { height: auto; }
     height: 92svh;
     min-height: 560px;
     max-height: 780px;
-    margin-top: 24px;
+    margin-top: 4px;
     margin-bottom: 16px;
     background:
       radial-gradient(ellipse at 50% 30%, rgba(28,63,138,0.18) 0%, transparent 55%),
@@ -2221,16 +2221,20 @@ html.lenis, html.lenis body { height: auto; }
     filter: drop-shadow(0 0 6px rgba(212,164,55,0.75));
     pointer-events: none;
   }
+  /* King trail: from file 7 (right) to file 4 (mid) — 3 squares = 37.5% wide,
+     anchored at the right edge of the run, growing leftward. */
   .cast3d__trail--king {
-    left: 50%; width: 25%;
+    right: 12.5%; width: 37.5%;
     background: linear-gradient(90deg, transparent, rgba(212,164,55,0.95), transparent);
+    transform-origin: right center;
     transform: scaleX(var(--cast-progress));
     opacity: var(--cast-progress);
   }
+  /* Rook trail: from file 0 (left) to file 3 (mid) — 3 squares, anchored left. */
   .cast3d__trail--rook {
-    right: 0; width: 37.5%;
+    left: 0; width: 37.5%;
     background: linear-gradient(90deg, transparent, rgba(80,140,240,0.95), rgba(212,164,55,0.85), transparent);
-    transform-origin: right center;
+    transform-origin: left center;
     transform: scaleX(var(--cast-progress));
     opacity: var(--cast-progress);
   }
@@ -2318,22 +2322,23 @@ html.lenis, html.lenis body { height: auto; }
   }
   /* ── Phased castling — driven by --king-phase + --rook-phase (both 0→1,
      JS computes from --cast-progress so they fire SEQUENTIALLY, not at once).
-     King takes its 2 deliberate steps first; then the rook makes one big leap
-     OVER the king. Tiny lift on king "steps" sells the deliberation. */
-  /* translateX percent values resolve against the PIECE's own width (12.5% of
-     parent). To move the king 2 squares = 25% of parent = 200% of own width. */
+     Dramatic spread: ROOK starts FAR LEFT (file 0), KING starts FAR RIGHT
+     (file 7). They converge toward the center — king walks in, rook leaps
+     over and lands adjacent. Each square = 12.5% of parent = 100% of piece
+     own width (piece is 1/8 of rank), so to cross N squares: translateX(N*100%). */
+  /* KING — far right (file 7) → moves LEFT 3 squares to file 4 */
   .cast3d__piece--king {
-    left: 50%;
+    left: 87.5%;
     transform:
-      translateX(calc(200% * var(--king-phase, 0)))
+      translateX(calc(-300% * var(--king-phase, 0)))
       translateY(calc(-8px * sin(180deg * var(--king-phase, 0))))
       translateZ(calc(10px + 14px * var(--king-phase, 0)));
   }
-  /* Rook moves LEFT 2 squares = -200% of own width, arcing HIGH over the king. */
+  /* ROOK — far left (file 0) → leaps RIGHT 3 squares to file 3, arcing over */
   .cast3d__piece--rook {
-    left: 87.5%;
+    left: 0%;
     transform:
-      translateX(calc(-200% * var(--rook-phase, 0)))
+      translateX(calc(300% * var(--rook-phase, 0)))
       translateY(calc(-72px * sin(180deg * var(--rook-phase, 0))))
       translateZ(calc(12px + 80px * sin(180deg * var(--rook-phase, 0))));
   }
@@ -2807,9 +2812,10 @@ html.lenis, html.lenis body { height: auto; }
   /* ── HERO ────────────────────────────────────────── */
   .hero {
     /* svh = small viewport height (excludes mobile UI bars when expanded) → no jumping */
-    min-height: 100svh;
-    /* Standardized rhythm: fluid block padding (top accounts for fixed nav) */
-    padding-block: calc(var(--m-nav-h) + var(--m-rhythm)) var(--m-rhythm);
+    min-height: auto;
+    /* Standardized rhythm: fluid block padding (top accounts for fixed nav).
+       Bottom padding intentionally tight — castling stage comes right after. */
+    padding-block: calc(var(--m-nav-h) + var(--m-rhythm)) calc(var(--m-rhythm) * 0.45);
     padding-inline: var(--m-pad);
     margin-bottom: 0; /* explicitly: no margin gap to next section */
     display: flex; flex-direction: column; justify-content: flex-start;
@@ -2979,7 +2985,7 @@ html.lenis, html.lenis body { height: auto; }
   /* ── CASTLING ────────────────────────────────────── */
   .castling {
     min-height: auto;                  /* kill any inherited 100vh dead-space */
-    padding-block: var(--m-rhythm);
+    padding-block: calc(var(--m-rhythm) * 0.45) var(--m-rhythm);
     padding-inline: var(--m-pad);
     margin-block: 0;
     text-align: center;
@@ -3403,26 +3409,28 @@ html.lenis, html.lenis body { height: auto; }
     box-shadow: 0 12px 30px rgba(0,0,0,0.55) !important;
   }
   .step::before { display: none; }
-  /* Giant ghost numeral — like the diagnosis stage */
+  /* Step numeral — small brass tag sitting in the top-left, tied to the title.
+     The old giant ghost numeral on the right read as disconnected; this one
+     anchors the layout and lives next to the content it labels. */
   .step__num {
-    position: absolute !important;
-    right: 14px !important; top: 12px !important;
-    left: auto !important;
-    font-family: var(--font-display, "Cormorant Garamond", serif) !important;
-    font-style: italic;
-    font-weight: 500;
-    font-size: 44px !important;
-    letter-spacing: 0 !important;
+    position: static !important;
+    display: inline-block !important;
+    font-family: var(--font-mono, "Geist Mono", monospace) !important;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    font-size: 10px !important;
+    letter-spacing: 0.28em !important;
     line-height: 1 !important;
-    color: rgba(212, 164, 55, 0.18) !important;
+    color: var(--m-gold) !important;
     background: none !important; border: none !important; box-shadow: none !important;
-    -webkit-text-fill-color: rgba(212, 164, 55, 0.18) !important;
+    -webkit-text-fill-color: var(--m-gold) !important;
     -webkit-background-clip: initial !important; background-clip: initial !important;
-    margin: 0 !important;
+    margin: 0 0 10px !important;
+    padding: 0 !important;
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
   }
-  .step__body { position: relative; z-index: 1; padding-right: 56px; }
+  .step__body { position: relative; z-index: 1; padding-right: 0; }
   .step__title {
     font-family: var(--font-display); font-weight: 600;
     font-size: clamp(1.05rem, 4.6vw, 1.35rem);
@@ -3564,11 +3572,39 @@ html.lenis, html.lenis body { height: auto; }
     pointer-events: none;
     z-index: 0;
   }
+  /* Card stacking: each cell overlaps the previous, layered like a deck.
+     Combined with a subtle alternating rotation it reads as a hand-of-cards
+     instead of a vertical column of separate boxes. */
+  /* Why cards stack on top of the header — undo stickiness so layering reads cleanly */
+  .why__head {
+    position: static !important;
+    z-index: 1 !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: none !important;
+    padding: 32px var(--m-pad) 0 !important;
+  }
   .why__grid {
+    display: flex !important;
+    flex-direction: column;
     grid-template-columns: 1fr !important;
-    gap: 14px;
-    padding: 24px var(--m-pad) 0;
+    gap: 0 !important;
+    padding: 20px var(--m-pad) 24px;
     margin: 0; position: relative; z-index: 1;
+  }
+  .why-cell:nth-child(n+2) { margin-top: -22px !important; }
+  .why-cell:nth-child(1) { z-index: 4; transform: translateY(20px) scale(0.98) rotate(-0.6deg); }
+  .why-cell:nth-child(2) { z-index: 5; transform: translateY(20px) scale(0.98) rotate(0.4deg); }
+  .why-cell:nth-child(3) { z-index: 6; transform: translateY(20px) scale(0.98) rotate(-0.3deg); }
+  .why-cell:nth-child(4) { z-index: 7; transform: translateY(20px) scale(0.98) rotate(0.5deg); }
+  .why-cell:nth-child(1).is-visible { transform: translateY(0) scale(1) rotate(-0.6deg); }
+  .why-cell:nth-child(2).is-visible { transform: translateY(0) scale(1) rotate(0.4deg); }
+  .why-cell:nth-child(3).is-visible { transform: translateY(0) scale(1) rotate(-0.3deg); }
+  .why-cell:nth-child(4).is-visible { transform: translateY(0) scale(1) rotate(0.5deg); }
+  /* Subtle hover-style lift on tap for tactility */
+  .why-cell {
+    transform-origin: 50% 0%;
   }
   .why-cell {
     position: relative;
@@ -3578,16 +3614,19 @@ html.lenis, html.lenis body { height: auto; }
     border: 1px solid rgba(255,255,255,0.06) !important;
     border-left: 3px solid var(--m-gold) !important;
     border-radius: 6px;
-    padding: 20px 20px 20px 22px !important;
+    padding: 20px 20px 40px 22px !important;
     text-align: left;
     box-shadow:
-      0 10px 28px rgba(0,0,0,0.45),
+      0 -8px 24px rgba(0,0,0,0.55),
+      0 12px 30px rgba(0,0,0,0.40),
       inset 0 1px 0 rgba(244,237,224,0.04) !important;
     opacity: 0;
     transform: translateY(20px) scale(0.98);
     transition: opacity 700ms cubic-bezier(0.22, 0.61, 0.36, 1),
                 transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
   }
+  /* Final card no longer needs the lower safe-zone */
+  .why-cell:last-child { padding-bottom: 22px !important; }
   .why-cell::after {
     /* Brass corner gleam — diagnosis-style accent */
     content: '';
@@ -3860,6 +3899,16 @@ html.lenis, html.lenis body { height: auto; }
     letter-spacing: 0.20em !important;
   }
 
+  /* Privilege content padding — safe distance from brass left rule */
+  .privilege__head {
+    padding: 18px 22px 18px 26px !important;
+  }
+  .privilege__body-inner {
+    padding: 0 22px 18px 26px !important;
+  }
+  .privilege__body-inner > * {
+    padding-inline: 0 !important;
+  }
   /* Privilege meta-list — hide the row boxes; lay out as inline brass chips */
   .privilege__meta-list {
     display: flex !important;
@@ -3874,8 +3923,8 @@ html.lenis, html.lenis body { height: auto; }
     display: flex !important;
     justify-content: space-between !important;
     align-items: baseline !important;
-    gap: 12px;
-    padding: 8px 0 !important;
+    gap: 14px;
+    padding: 10px 0 !important;
     border: none !important;
     border-bottom: 1px solid rgba(212, 164, 55, 0.10) !important;
     background: transparent !important;
