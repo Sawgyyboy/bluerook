@@ -3920,53 +3920,77 @@ html.lenis, html.lenis body { height: auto; }
     display: inline-flex; align-items: center; justify-content: center;
   }
 
-  /* ── FOOTER ──────────────────────────────────────── */
-  .footer { background: var(--m-bg); padding-top: 40px; padding-bottom: 8px; }
-  .footer__rule { display: none; }
-  .footer__inner {
-    grid-template-columns: 1fr !important;
-    text-align: center; gap: 20px; justify-items: center;
-    padding: 0 var(--m-pad);
+  /* ── FOOTER · minimal mobile ──────────────────────
+     The Contact section directly above already carries the "Book a call"
+     CTA + email. The footer's only job here is brand attribution + a
+     single hairline of legal text. Everything else is hidden so we don't
+     repeat ourselves at the close of the page. */
+  .footer {
+    background: var(--m-bg);
+    padding: 22px var(--m-pad) calc(20px + env(safe-area-inset-bottom, 0px));
   }
-  .footer__logo { justify-self: center; }
+  .footer__rule { display: none; }
+  .footer__delegate { display: none !important; }
+  .footer__nav { display: none !important; }
+  .footer__email { display: none !important; }
+
+  .footer__inner {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0;
+    grid-template-columns: none !important;
+    text-align: center;
+  }
+  .footer__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    justify-self: center;
+    color: var(--m-text-dim);
+  }
+  .footer__logo svg { width: 16px; height: 18px; }
   .footer__logo-text, .footer__logo span {
-    /* Wordmark · Vol. II: Cormorant Italic, Title-case. */
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 14px;
     letter-spacing: 0;
     text-transform: none;
-  }
-  .footer__nav {
-    justify-self: center !important;
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 12px 28px; font-size: 12px;
-  }
-  .footer__nav a {
-    min-height: var(--m-tap);
-    display: inline-flex; align-items: center; justify-content: center;
-  }
-  .footer__email {
-    color: var(--m-gold) !important; font-size: 13px;
-    min-height: var(--m-tap);
-    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--m-text);
   }
   .footer__legal {
-    flex-direction: column !important; text-align: center; gap: 4px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    margin-top: 28px; padding: 18px var(--m-pad);
-    font-size: 10px; color: var(--m-text-fade);
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    gap: 6px 10px;
+    border-top: none;
+    margin: 12px 0 0;
+    padding: 0;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--m-text-fade);
+    text-align: center;
+  }
+  .footer__legal > span:first-child::after {
+    content: '·';
+    margin-left: 10px;
+    color: var(--m-text-fade);
+    opacity: 0.6;
   }
   .footer__legal-meta {
-    font-family: var(--font-mono); font-weight: 500; letter-spacing: 0.20em;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--m-text-dim); font-size: 10px;
-  }
-  .footer__delegate {
-    font-size: 16px; padding: 24px var(--m-pad); margin-top: 0;
-    flex-direction: column; gap: 8px;
-    border-top: 1px solid rgba(255,255,255,0.06);
+    color: var(--m-text-fade);
+    font-size: 9.5px;
   }
 
   /* ── TYPO / TAP TARGETS ─────────────────────────── */
