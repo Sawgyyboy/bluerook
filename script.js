@@ -83,6 +83,8 @@
       setTimeout(initMobileFadeUp, 80);
       setTimeout(initMobileCastling3D, 100);
       setTimeout(initMobileDiagnosis, 100);
+      setTimeout(initMobileServicesAccordion, 100);
+      setTimeout(initMobileProcessAccordion, 100);
       setTimeout(initMobileScrollPolish, 100);
       setTimeout(initMobileTouchRipple, 100);
       setTimeout(initMobileSectionInView, 100);
@@ -251,9 +253,24 @@
     let manualStart = 0;
     let entryAmount = 0;       // 0 → 1 chapter card fade
 
+    // Eased phase mapper — turns a (start, end) window of master progress
+    // into a smooth 0→1 sub-progress, with cubic ease-in-out for cinematic feel.
+    const ease = (t) => t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+    const phase = (p, start, end) => {
+      if (p <= start) return 0;
+      if (p >= end)   return 1;
+      return ease((p - start) / (end - start));
+    };
+
     const setProg = (p) => {
       progress = Math.max(0, Math.min(1, p));
       scene.style.setProperty('--cast-progress', progress.toFixed(3));
+      // King moves first (deliberate 2 steps): progress 0.05 → 0.42
+      // Then rook leaps over: progress 0.42 → 0.86 (single full rotation + arc)
+      const kingP = phase(progress, 0.05, 0.42);
+      const rookP = phase(progress, 0.42, 0.86);
+      scene.style.setProperty('--king-phase', kingP.toFixed(3));
+      scene.style.setProperty('--rook-phase', rookP.toFixed(3));
     };
     const setEntry = (e) => {
       entryAmount = Math.max(0, Math.min(1, e));
@@ -399,6 +416,157 @@
     }, { passive: true });
 
     update();
+  }
+
+  /* ==========================================================
+     MOBILE SERVICES ACCORDION
+     ── Compresses each .svc-card to title-only by default.
+     ── Tap reveals body + list with grid-template-rows animation.
+     ── Injects a per-card tagline + chevron.
+     ========================================================== */
+  function initMobileServicesAccordion() {
+    const cards = document.querySelectorAll('.services .svc-card:not(.svc-card--pillar)');
+    if (!cards.length) return;
+
+    // One-line tagline per service (keyed by data-svc-bg or title)
+    const taglines = {
+      va:     'Always-on execution squads, tied to SLAs.',
+      social: 'Channel management — not posts.',
+      auto:   'Continuous oversight. Bi-weekly audits.',
+      build:  'Bespoke architectures, milestone-priced.',
+      audit:  'Map every leak. Blueprint the fix.',
+    };
+
+    cards.forEach((card) => {
+      // 1) Wrap body + list inside a collapsible details container
+      const body = card.querySelector('.svc-card__body');
+      const list = card.querySelector('.svc-card__list');
+      if (!body && !list) return;
+
+      const details = document.createElement('div');
+      details.className = 'svc-card__details';
+      const inner = document.createElement('div');
+      inner.className = 'svc-card__details-inner';
+      details.appendChild(inner);
+
+      // Move body + list into the inner container
+      const parent = body ? body.parentNode : list.parentNode;
+      if (body) inner.appendChild(body);
+      if (list) inner.appendChild(list);
+      parent.appendChild(details);
+
+      // 2) Inject tagline directly after title
+      const title = card.querySelector('.svc-card__title');
+      if (title) {
+        // Wrap title text in a span + append chevron inside title
+        const titleText = title.textContent.trim();
+        title.textContent = '';
+        const span = document.createElement('span');
+        span.className = 'svc-card__title-text';
+        span.textContent = titleText;
+        title.appendChild(span);
+
+        const chev = document.createElement('span');
+        chev.className = 'svc-card__chev';
+        chev.setAttribute('aria-hidden', 'true');
+        chev.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 5v14M5 12h14"/></svg>';
+        title.appendChild(chev);
+
+        // Tagline node
+        const key = card.dataset.svcBg;
+        const tag = taglines[key];
+        if (tag) {
+          const p = document.createElement('p');
+          p.className = 'svc-card__tag';
+          p.textContent = tag;
+          title.insertAdjacentElement('afterend', p);
+        }
+      }
+
+      // 3) ARIA + tap handling
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-expanded', 'false');
+      const toggle = () => {
+        const isOpen = card.hasAttribute('data-open');
+        if (isOpen) {
+          card.removeAttribute('data-open');
+          card.setAttribute('aria-expanded', 'false');
+        } else {
+          card.setAttribute('data-open', '');
+          card.setAttribute('aria-expanded', 'true');
+        }
+      };
+      card.addEventListener('click', (e) => {
+        // Don't toggle if user is interacting with text-select inside an open card
+        if (e.target.closest('a, button')) return;
+        toggle();
+      });
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggle();
+        }
+      });
+    });
+  }
+
+  /* ==========================================================
+     MOBILE PROCESS ACCORDION
+     ── Each step shows: number + title + one-line lead.
+     ── Tap reveals .step__copy with a smooth height animation.
+     ========================================================== */
+  function initMobileProcessAccordion() {
+    const steps = document.querySelectorAll('.process .step');
+    if (!steps.length) return;
+
+    steps.forEach((step) => {
+      const copy = step.querySelector('.step__copy');
+      if (!copy) return;
+
+      // Wrap copy in collapsible container
+      const details = document.createElement('div');
+      details.className = 'step__details';
+      const inner = document.createElement('div');
+      inner.className = 'step__details-inner';
+      inner.appendChild(copy);
+      details.appendChild(inner);
+      step.querySelector('.step__body')?.appendChild(details);
+
+      // Chevron
+      const lead = step.querySelector('.step__lead');
+      if (lead) {
+        const chev = document.createElement('span');
+        chev.className = 'step__chev';
+        chev.setAttribute('aria-hidden', 'true');
+        chev.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 5v14M5 12h14"/></svg>';
+        lead.appendChild(chev);
+      }
+
+      step.setAttribute('role', 'button');
+      step.setAttribute('tabindex', '0');
+      step.setAttribute('aria-expanded', 'false');
+      const toggle = () => {
+        const isOpen = step.hasAttribute('data-open');
+        if (isOpen) {
+          step.removeAttribute('data-open');
+          step.setAttribute('aria-expanded', 'false');
+        } else {
+          step.setAttribute('data-open', '');
+          step.setAttribute('aria-expanded', 'true');
+        }
+      };
+      step.addEventListener('click', (e) => {
+        if (e.target.closest('a, button')) return;
+        toggle();
+      });
+      step.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggle();
+        }
+      });
+    });
   }
 
   /* ==========================================================
