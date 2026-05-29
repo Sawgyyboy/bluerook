@@ -2982,144 +2982,112 @@ html.lenis, html.lenis body { height: auto; }
     text-transform: uppercase; color: var(--m-text-dim);
   }
 
-  /* ── CASTLING · MOBILE 3D CINEMATIC ──────────────────
-     Ultra-luxury deep 3D scroll stage. Perspective lives on the
-     section. Children float on translateZ depth sheets driven by
-     scroll-mapped CSS variables (see initMobileCastling3D in script.js).
-       --castle-p       master 0→1 progress through viewport
-       --castle-rise    0→1 pieces & eyebrow climb the Z-axis
-       --castle-swap    0→1 king ↔ rook lateral crossing
-       --castle-reveal  0→1 caption fade + slide up
-     prefers-reduced-motion collapses all 3D into a clean opacity fade. */
+  /* ── CASTLING · MOBILE SCRUB CINEMATIC ───────────────
+     position: sticky on the section pins .castling__inner while the
+     user scrolls through the section's allocated height. GSAP
+     ScrollTrigger (scrub:1) ties the king/rook lateral swap and
+     caption fade-up directly to scroll progress — scroll down to
+     play, scroll up to perfectly reverse.                              */
   .castling {
-    min-height: 92svh;
-    padding-block: calc(var(--m-rhythm) * 0.6) var(--m-rhythm);
-    padding-inline: var(--m-pad);
-    margin-block: 0;
+    position: relative;
+    /* Height = scroll distance. The inner is position: sticky and
+       holds 100svh in place, while the section provides ~120svh of
+       extra scroll for GSAP to scrub the timeline through. */
+    min-height: 100svh;
+    height: 220svh;
+    padding: 0;
+    margin: 0;
     text-align: center;
     background:
-      radial-gradient(ellipse at 50% 18%, rgba(28,63,138,0.14) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 22%, rgba(28,63,138,0.16) 0%, transparent 55%),
       radial-gradient(ellipse at 50% 100%, rgba(212,164,55,0.08) 0%, transparent 60%),
       linear-gradient(180deg, #03070D 0%, #050B16 55%, #02050B 100%);
-    border: none; position: relative; overflow: hidden;
-    perspective: 1200px;
-    perspective-origin: 50% 42%;
-    transform-style: preserve-3d;
-    --castle-p: 0;
-    --castle-rise: 0;
-    --castle-swap: 0;
-    --castle-reveal: 0;
+    border: none;
+    /* `overflow: clip` (NOT hidden) so the inner sticky child still pins —
+       any `overflow: hidden` ancestor silently disables position: sticky. */
+    overflow: clip;
   }
-  /* The luxury ground grid — rotated flat on X, sunk deep into the void.
-     Subtle paper-tone lines on near-black canvas keep it whisper-quiet. */
-  .castling::before {
-    content: '' !important;
-    position: absolute;
-    left: -10%; right: -10%; bottom: -10%; top: 30%;
-    background-image:
-      linear-gradient(rgba(244, 237, 224, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(244, 237, 224, 0.03) 1px, transparent 1px);
-    background-size: 36px 36px, 36px 36px;
-    transform: rotateX(72deg) translateZ(-80px) scale(calc(1.4 - 0.22 * var(--castle-rise)));
-    transform-origin: 50% 100%;
-    transform-style: preserve-3d;
-    pointer-events: none;
-    z-index: 0;
-    opacity: calc(0.55 + 0.45 * var(--castle-rise));
-    mask-image: radial-gradient(ellipse at 50% 50%, #000 35%, transparent 78%);
-    -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000 35%, transparent 78%);
-  }
+  .castling::before { content: none !important; }
   .castling__inner {
-    min-height: auto;
-    padding: 0;
-    position: relative;
-    z-index: 1;
-    transform-style: preserve-3d;
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    width: 100%;
+    padding: 0 var(--m-pad);
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 14svh;
+    justify-content: center;
+    gap: clamp(28px, 6svh, 56px);
   }
-  /* Depth sheet 01 — eyebrow floats slightly above the page */
+  /* Eyebrow — clean & high-contrast */
   .castling__eyebrow {
-    font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
     color: var(--m-gold);
     margin: 0;
-    transform: translate3d(0, calc(-6px * var(--castle-rise)), 40px);
-    transform-style: preserve-3d;
-    opacity: calc(0.35 + 0.65 * var(--castle-rise));
-    will-change: transform, opacity;
+    opacity: 0.92;
   }
   .castling__eyebrow .dot {
-    display: inline-block; width: 5px; height: 5px; border-radius: 50%;
-    background: var(--m-gold); margin-right: 10px; vertical-align: middle;
-    box-shadow: 0 0 12px rgba(212,164,55,0.55);
+    display: inline-block;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--m-gold);
+    margin-right: 10px;
+    vertical-align: middle;
+    box-shadow: 0 0 12px rgba(212,164,55,0.5);
   }
-  /* Show the bespoke stage on mobile — the new cinematic owns it */
+  /* Stage layout: king | board | rook on one rank */
   .castling__stage {
     display: grid !important;
     grid-template-columns: auto 1fr auto;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     width: 100%;
-    max-width: 420px;
+    max-width: 440px;
     margin: 0 auto;
-    transform-style: preserve-3d;
     position: relative;
   }
-  /* Depth sheet 02 — chess pieces float HIGH above the canvas */
   .castling__piece {
     position: relative;
-    width: 84px;
+    width: 88px;
     aspect-ratio: 100 / 115;
-    transform-style: preserve-3d;
-    filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.8));
+    filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.65));
     will-change: transform;
   }
   .castling__piece svg { width: 100%; height: 100%; display: block; }
-  /* Castling swap: king and rook glide laterally, crossing paths cleanly */
-  .castling__piece--king {
-    transform: translate3d(
-      calc(70% * var(--castle-swap)),
-      0,
-      calc(120px * var(--castle-rise))
-    );
-  }
-  .castling__piece--rook {
-    transform: translate3d(
-      calc(-70% * var(--castle-swap)),
-      0,
-      calc(120px * var(--castle-rise))
-    );
-  }
+  /* GSAP owns the x transform — CSS provides only the rest position. */
+  .castling__piece--king,
+  .castling__piece--rook { transform: translate3d(0, 0, 0); }
   .castling__label {
-    font-size: 9px; letter-spacing: 0.22em;
-    text-transform: uppercase; color: var(--m-text-dim);
+    position: absolute;
+    left: 50%;
     bottom: -22px;
+    transform: translateX(-50%);
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--m-text-dim);
   }
-  /* The brass board strip — subtly recedes into the depth */
+  /* The brass board strip */
   .castling__board {
-    height: 38px;
-    margin: 0 8px;
+    height: 40px;
+    margin: 0 10px;
     border: 1px solid rgba(212,164,55,0.18);
-    border-radius: 4px;
+    border-radius: 6px;
     background: rgba(13, 24, 40, 0.45);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    transform: translateZ(calc(20px * var(--castle-rise)));
-    transform-style: preserve-3d;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    position: relative;
+    overflow: hidden;
   }
-  .castling__square:nth-child(odd) { background: rgba(212,164,55,0.05); }
+  .castling__square:nth-child(odd) { background: rgba(212,164,55,0.04); }
   .castling__square:nth-child(even) { background: rgba(244,237,224,0.02); }
-  .castling__trail {
-    transform: translateY(-50%) scaleX(var(--castle-swap));
-  }
-  /* The brass trails reveal during the swap (driven by --castle-swap) */
   .castling__trail--king { transform-origin: left center; }
   .castling__trail--rook { transform-origin: right center; }
-  /* Depth sheet 03 — caption unmasks last, fading + sliding up smoothly.
-     !important required to defeat global .is-visible utility (added by
-     the fade-up observer for the desktop reveal path).                     */
+  /* Caption — GSAP scrubs opacity + y; CSS sets only resting visibility. */
   .castling__caption,
   .castling__caption.is-visible,
   .castling__caption.is-in {
@@ -3127,36 +3095,30 @@ html.lenis, html.lenis body { height: auto; }
     text-align: center;
     margin: 0 auto;
     max-width: 480px;
-    opacity: var(--castle-reveal) !important;
-    transform: translate3d(0, calc(20px - 20px * var(--castle-reveal)), 60px) !important;
-    transform-style: preserve-3d;
-    transition: opacity 600ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
     will-change: opacity, transform;
   }
   .castling__line {
     font-family: var(--font-display); font-weight: 500;
-    font-size: clamp(1.1rem, 2vw + 1rem, 1.75rem);
-    line-height: 1.3;
-    color: var(--m-text-dim); margin: 0;
+    font-size: clamp(1.15rem, 2vw + 1rem, 1.8rem);
+    line-height: 1.4;
+    color: var(--m-text); margin: 0;
     text-wrap: balance;
   }
   .castling__line--accent {
-    color: var(--m-gold); font-style: italic; margin-top: 4px;
+    color: var(--m-gold); font-style: italic; margin-top: 6px;
   }
-  /* prefers-reduced-motion: collapse all 3D into a clean instant opacity fade */
+  /* prefers-reduced-motion: pieces rest at start, caption fully visible */
   @media (prefers-reduced-motion: reduce) {
-    .castling { perspective: none; }
-    .castling::before { display: none !important; }
-    .castling__eyebrow,
+    .castling { height: auto; min-height: 100svh; }
     .castling__piece--king,
-    .castling__piece--rook,
-    .castling__board,
+    .castling__piece--rook { transform: none !important; }
     .castling__caption {
-      transform: none !important;
       opacity: 1 !important;
-      transition: opacity 200ms ease !important;
+      transform: none !important;
+      transition: opacity 200ms ease;
     }
-    .castling__trail { transform: translateY(-50%) scaleX(1) !important; }
   }
 
   /* ── PROBLEM (diagnosis) — CSS-native sticky pin ─── */
@@ -3253,36 +3215,51 @@ html.lenis, html.lenis body { height: auto; }
     height: auto; overflow: visible;
     padding: 24px 0 0; position: relative; z-index: 1;
   }
+  /* ── HORIZONTAL SNAP CAROUSEL ──
+     Native overflow-x scroll + scroll-snap. No JS. */
   .services__track {
     position: static; transform: none !important;
-    display: flex; flex-direction: column;
-    gap: 2.5rem; /* high breathing space between cards */
-    padding: 0 var(--m-pad);
+    display: flex; flex-direction: row !important;
+    flex-wrap: nowrap;
+    gap: 16px;
+    padding: 8px var(--m-pad) 28px;
     width: 100%;
-    overflow: visible;
-    scroll-snap-type: none;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    scroll-padding-inline: var(--m-pad);
   }
+  .services__track::-webkit-scrollbar { display: none; }
   .svc-card {
-    flex: 0 0 auto; width: 100%;
-    height: auto; min-height: 0;
+    flex: 0 0 85vw;
+    width: 85vw; max-width: 380px;
+    height: auto; min-height: 420px;
+    scroll-snap-align: center;
     position: relative; isolation: isolate;
-    border-radius: 6px;
-    padding: clamp(1.1rem, 3.6vw, 1.5rem);
-    background: rgba(13, 24, 40, 0.65);
-    backdrop-filter: blur(8px) saturate(120%);
-    -webkit-backdrop-filter: blur(8px) saturate(120%);
-    border: 1px solid rgba(255,255,255,0.06);
-    box-shadow: 0 10px 28px rgba(0,0,0,0.5);
+    border-radius: 16px;
+    padding: clamp(1.25rem, 4.5vw, 1.75rem);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      0 20px 50px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
     display: flex; flex-direction: column;
     overflow: hidden;
     z-index: 1;
     cursor: pointer;
-    transition: border-color 240ms ease, background 240ms ease, box-shadow 240ms ease;
+    transition: border-color 240ms ease, background 240ms ease, box-shadow 240ms ease, transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1);
   }
   .svc-card[data-open] {
     border-color: rgba(212, 164, 55, 0.45);
-    background: rgba(13, 24, 40, 0.85);
-    box-shadow: 0 14px 34px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,164,55,0.15) inset;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow:
+      0 24px 60px rgba(0, 0, 0, 0.55),
+      0 0 0 1px rgba(212, 164, 55, 0.18) inset,
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
   /* Card header — title + chevron, always visible */
   .svc-card__title {
@@ -3416,22 +3393,24 @@ html.lenis, html.lenis body { height: auto; }
     padding: 0 var(--m-pad); margin: 16px 0 0;
   }
   .svc-card--pillar {
-    background: linear-gradient(155deg,
-      rgba(28, 63, 138, 0.14) 0%,
-      var(--m-surface) 70%,
-      var(--m-bg) 100%);
-    border: 1px solid rgba(255,255,255,0.06);
+    background:
+      linear-gradient(155deg,
+        rgba(28, 63, 138, 0.18) 0%,
+        rgba(255, 255, 255, 0.03) 70%,
+        rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.10);
     border-top: 2px solid var(--m-gold);
     padding: clamp(1.5rem, 5vw, 2rem);
-    margin-top: 1rem;
+    margin-top: 0;
   }
   .svc-card--pillar::before,
   .svc-card--pillar::after { content: none !important; }
   .svc-card--pillar-rare {
-    background: linear-gradient(155deg,
-      rgba(212, 164, 55, 0.10) 0%,
-      var(--m-surface) 70%,
-      var(--m-bg) 100%);
+    background:
+      linear-gradient(155deg,
+        rgba(212, 164, 55, 0.14) 0%,
+        rgba(255, 255, 255, 0.03) 70%,
+        rgba(255, 255, 255, 0.02) 100%);
   }
   .svc-pillar__rule {
     width: 40px; height: 1px; background: var(--m-gold);
@@ -3647,38 +3626,61 @@ html.lenis, html.lenis body { height: auto; }
     pointer-events: none;
     z-index: 0;
   }
+  /* ── PRIVILEGES · HORIZONTAL SNAP CAROUSEL ── */
   .privileges__list {
     position: relative; z-index: 1;
-    padding: 20px var(--m-pad) 0;
-    gap: 12px;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap;
+    gap: 16px;
+    padding: 20px var(--m-pad) 28px;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    scroll-padding-inline: var(--m-pad);
   }
+  .privileges__list::-webkit-scrollbar { display: none; }
   .privilege {
-    background: rgba(13, 24, 40, 0.55) !important;
-    backdrop-filter: blur(10px) saturate(125%) !important;
-    -webkit-backdrop-filter: blur(10px) saturate(125%) !important;
-    border: 1px solid rgba(255,255,255,0.06) !important;
+    flex: 0 0 85vw;
+    width: 85vw; max-width: 380px;
+    scroll-snap-align: center;
+    display: flex; flex-direction: column;
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(24px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(140%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
     border-left: 3px solid var(--m-gold) !important;
-    border-radius: 6px !important;
+    border-radius: 16px !important;
     box-shadow:
-      0 10px 24px rgba(0,0,0,0.40),
-      inset 0 1px 0 rgba(244,237,224,0.04) !important;
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 700ms cubic-bezier(0.22, 0.61, 0.36, 1),
-                transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1),
-                background 240ms ease, border-color 240ms ease, box-shadow 240ms ease;
+      0 20px 50px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+    opacity: 1;
+    transform: none;
+    transition: background 240ms ease, border-color 240ms ease, box-shadow 240ms ease;
   }
   .privilege.is-in, .privilege.is-visible {
-    opacity: 1; transform: translateY(0);
+    opacity: 1; transform: none;
   }
   .privilege[data-open] {
-    background: rgba(13, 24, 40, 0.78) !important;
-    border-color: rgba(212, 164, 55, 0.40) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(212, 164, 55, 0.45) !important;
     box-shadow:
-      0 14px 32px rgba(0,0,0,0.55),
-      inset 0 1px 0 rgba(244,237,224,0.06) !important;
+      0 24px 60px rgba(0, 0, 0, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
   }
   .privilege::before { content: none !important; }
+  /* On a horizontal carousel, the accordion body must always render —
+     each card stays a self-contained, readable unit. */
+  .privilege__body {
+    display: block !important;
+    max-height: none !important;
+    overflow: visible !important;
+    opacity: 1 !important;
+  }
+  .privilege__chev { display: none !important; }
+  .privilege__head { cursor: default; pointer-events: none; }
 
   /* ── WHY — glass cells + cinematic scroll-in ─────── */
   .why {
@@ -3910,10 +3912,12 @@ html.lenis, html.lenis body { height: auto; }
   .castling .cast3d { display: none !important; }
   .castling__inner > .castling__eyebrow { margin-bottom: 0; }
 
-  /* Solid base + ordered z-index so no section bleeds into another */
+  /* Solid base + ordered z-index so no section bleeds into another.
+     NOTE: .castling intentionally omitted — it needs position: sticky
+     for the scroll-scrubbed cinematic; setting position: relative here
+     would override the @media sticky declaration. */
   .hero,
   .trust,
-  .castling,
   .privileges,
   .problem,
   .services,
@@ -3965,10 +3969,12 @@ html.lenis, html.lenis body { height: auto; }
      ── Larger radius + softer fade so cards float instead of boxing
      ── Applies to every card-like surface on mobile
      ============================================================ */
+  /* NOTE: .privilege and .svc-card omitted — the new horizontal snap
+     carousels apply their own translucent-white premium glass earlier
+     in the cascade. Overriding them here would re-introduce the heavy
+     navy gradient we deliberately abandoned. */
   .trust__item,
   .why-cell,
-  .privilege,
-  .svc-card:not(.svc-card--pillar),
   .step {
     /* Remove hard frame: bottom/right/top borders out, keep only brass rule */
     border-top: none !important;
@@ -4001,26 +4007,27 @@ html.lenis, html.lenis body { height: auto; }
   }
   .trust__item, .privilege { position: relative; }
 
-  /* Service & process pillar chapter cards — soften & match */
+  /* Service pillar chapter cards — translucent-white glass to match
+     the surrounding horizontal carousel; brass left rule preserved. */
   .svc-card--pillar {
-    border: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.10) !important;
     border-left: 3px solid var(--m-gold) !important;
-    border-radius: 14px !important;
+    border-radius: 16px !important;
     background: linear-gradient(155deg,
-      rgba(28, 63, 138, 0.22) 0%,
-      rgba(13, 24, 40, 0.45) 60%,
-      rgba(8, 17, 30, 0.30) 100%) !important;
-    backdrop-filter: blur(14px) saturate(135%) !important;
-    -webkit-backdrop-filter: blur(14px) saturate(135%) !important;
+      rgba(28, 63, 138, 0.18) 0%,
+      rgba(255, 255, 255, 0.03) 70%,
+      rgba(255, 255, 255, 0.02) 100%) !important;
+    backdrop-filter: blur(24px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(140%) !important;
     box-shadow:
-      0 20px 44px rgba(0, 0, 0, 0.50),
-      inset 0 1px 0 rgba(244, 237, 224, 0.05) !important;
+      0 20px 50px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
   }
   .svc-card--pillar-rare {
     background: linear-gradient(155deg,
-      rgba(212, 164, 55, 0.16) 0%,
-      rgba(13, 24, 40, 0.45) 60%,
-      rgba(8, 17, 30, 0.30) 100%) !important;
+      rgba(212, 164, 55, 0.14) 0%,
+      rgba(255, 255, 255, 0.03) 70%,
+      rgba(255, 255, 255, 0.02) 100%) !important;
   }
 
   /* Privilege badge — make it a brass chip, not a box */

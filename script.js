@@ -82,7 +82,7 @@
     onLoad(() => {
       setTimeout(initMobileFadeUp, 80);
       setTimeout(initMobileCastling3D, 100);
-      setTimeout(initMobileCastling3DSection, 100);
+      setTimeout(initMobileCastlingScrub, 120);
       setTimeout(initMobileDiagnosis, 100);
       setTimeout(initMobileServicesAccordion, 100);
       setTimeout(initMobileProcessAccordion, 100);
@@ -408,83 +408,50 @@
   }
 
   /* ==========================================================
-     MOBILE CASTLING · 3D SCROLL CINEMATIC (section-level)
-     ── Drives --castle-p (master) and three eased sub-phases on
-        .castling. Maps the section's viewport entry % to a clean
-        rise → swap → reveal sequence. Honors prefers-reduced-motion
-        by short-circuiting to a one-shot fade.
+     MOBILE CASTLING · GSAP ScrollTrigger scrub
+     ── .castling is position: sticky, height 220svh. We scrub the
+        King/Rook horizontal swap + caption reveal across the full
+        scroll distance. Reverses perfectly on scroll-up.
      ========================================================== */
-  function initMobileCastling3DSection() {
-    const section = document.querySelector('.castling');
-    if (!section) return;
+  function initMobileCastlingScrub() {
+    if (window.innerWidth > 768) return;
+    if (!window.gsap || !window.ScrollTrigger) return;
 
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) {
-      // Snap to a clean final state; CSS handles the 200ms opacity fade.
-      section.style.setProperty('--castle-p', '1');
-      section.style.setProperty('--castle-rise', '1');
-      section.style.setProperty('--castle-swap', '1');
-      section.style.setProperty('--castle-reveal', '1');
+    const section = document.querySelector('.castling');
+    const king    = document.querySelector('.castling__piece--king');
+    const rook    = document.querySelector('.castling__piece--rook');
+    const caption = document.querySelector('.castling__caption');
+    if (!section || !king || !rook) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if (caption) {
+        caption.style.opacity = '1';
+        caption.style.transform = 'none';
+      }
       return;
     }
 
-    // Cubic ease-in-out — luxury feel, zero bounce
-    const ease = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    const phase = (p, start, end) => {
-      if (p <= start) return 0;
-      if (p >= end)   return 1;
-      return ease((p - start) / (end - start));
-    };
+    gsap.set([king, rook], { xPercent: 0, force3D: true });
+    if (caption) gsap.set(caption, { opacity: 0, y: 20, force3D: true });
 
-    let inView = false;
-    let ticking = false;
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 1,
+        invalidateOnRefresh: true,
+      },
+    });
 
-    const update = () => {
-      const r = section.getBoundingClientRect();
-      const vh = window.innerHeight || document.documentElement.clientHeight;
-      // Master progress: 0 when section top hits bottom of viewport,
-      //                  1 when section bottom passes top of viewport.
-      const total = r.height + vh;
-      const traveled = vh - r.top;
-      const p = Math.max(0, Math.min(1, traveled / total));
+    // 0.0 – 0.6 : pieces cross paths
+    tl.to(king, { xPercent: 70,  ease: 'power2.inOut', duration: 0.6 }, 0)
+      .to(rook, { xPercent: -70, ease: 'power2.inOut', duration: 0.6 }, 0);
 
-      // Re-time the master across the active center zone for cinematic pacing
-      const active = Math.max(0, Math.min(1, (p - 0.10) / 0.75));
-
-      const rise   = phase(active, 0.00, 0.35);   // Approach: Z rise + grid scale
-      const swap   = phase(active, 0.35, 0.70);   // Castling Swap: clean X glide
-      const reveal = phase(active, 0.68, 0.95);   // Unmasking: caption fade-up
-
-      section.style.setProperty('--castle-p',      active.toFixed(3));
-      section.style.setProperty('--castle-rise',   rise.toFixed(3));
-      section.style.setProperty('--castle-swap',   swap.toFixed(3));
-      section.style.setProperty('--castle-reveal', reveal.toFixed(3));
-    };
-
-    // Gate the scroll listener on visibility to keep cost near-zero off-screen
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        inView = e.isIntersecting;
-        if (inView) update();
-      });
-    }, { threshold: 0, rootMargin: '40% 0px 40% 0px' });
-    io.observe(section);
-
-    window.addEventListener('scroll', () => {
-      if (!inView || ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        update();
-        ticking = false;
-      });
-    }, { passive: true });
-
-    // Re-evaluate on resize / orientation change
-    window.addEventListener('resize', () => {
-      if (inView) update();
-    }, { passive: true });
-
-    update();
+    // 0.6 – 1.0 : caption rises into view
+    if (caption) {
+      tl.to(caption, { opacity: 1, y: 0, ease: 'power2.out', duration: 0.4 }, 0.6);
+    }
   }
 
   /* ==========================================================
