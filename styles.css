@@ -1915,6 +1915,13 @@ html.lenis, html.lenis body { height: auto; }
 /* Mobile-only floating action button — hidden by default; flex inside mobile media query */
 .m-cta-bar, .m-fab { display: none; }
 
+/* Mobile-only cinematic stages — hidden by default so they never leak into desktop.
+   The mobile media query below re-enables them with the correct display value.
+   Without this, the .cast3d castling cinematic and .diag diagnosis stage render
+   as raw block divs on desktop, stacking large king/rook pieces and unstyled
+   chapter text down the page. */
+.cast3d, .diag { display: none; }
+
 /* ============================================================
    MOBILE — From-scratch mobile-first landing  (<=768px)
    Native smooth scroll. Sticky section headers. CSS-driven.
