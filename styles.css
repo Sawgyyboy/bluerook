@@ -1949,9 +1949,12 @@ html.lenis, html.lenis body { height: auto; }
     scroll-snap-type: none;
     background: var(--m-bg);
     -webkit-text-size-adjust: 100%;
-    /* iOS Safari needs the lock on the html root too — otherwise the
-       viewport itself can scroll horizontally even with body locked. */
-    overflow-x: hidden;
+    /* overflow-x: clip (NOT hidden) — clip prevents horizontal pan
+       without turning <html> into a scroll container. Using `hidden`
+       here breaks every position:sticky + GSAP ScrollTrigger scrub
+       on the page (castling, diagnosis, why-bluerook stacking, etc.)
+       because sticky elements then pin to <html> instead of the viewport. */
+    overflow-x: clip;
     max-width: 100vw;
     width: 100%;
   }
@@ -1959,7 +1962,7 @@ html.lenis, html.lenis body { height: auto; }
     background: var(--m-bg); color: var(--m-text);
     font-family: var(--font-sans);
     font-size: 15px; line-height: 1.65;
-    overflow-x: hidden; max-width: 100vw; width: 100%;
+    overflow-x: clip; max-width: 100vw; width: 100%;
     /* leave room at bottom so floating FAB never overlaps last-section content */
     padding-bottom: calc(var(--m-tap) + var(--m-nav-h) + env(safe-area-inset-bottom, 0px));
   }
