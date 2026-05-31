@@ -2932,8 +2932,49 @@ html.lenis, html.lenis body { height: auto; }
     color: var(--m-text-dim);
     text-wrap: pretty;
   }
-  /* In-content hero CTAs hidden — bottom CTA bar handles it */
-  .hero__ctas { display: none !important; }
+  /* In-content hero CTAs — primary "Book a Call" + ghost "See Services".
+     Vertical stack on mobile, full-width with comfortable tap height. */
+  .hero__ctas {
+    display: flex !important;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 320px;
+    margin: 20px auto 0;
+    order: 5;
+    position: relative;
+    z-index: 2;
+  }
+  .hero__ctas .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 10px;
+    width: 100%;
+    min-height: var(--m-tap);
+    padding: 14px 22px;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  }
+  .hero__ctas .btn svg { width: 14px; height: 14px; }
+  .hero__ctas .btn--primary {
+    background: var(--m-gold);
+    color: var(--m-bg);
+    border: 1px solid var(--m-gold);
+    box-shadow: 0 14px 32px -12px rgba(212, 164, 55, 0.55);
+  }
+  .hero__ctas .btn--primary:active { transform: translateY(1px); }
+  .hero__ctas .btn--ghost {
+    background: transparent;
+    color: var(--m-text);
+    border: 1px solid rgba(244, 237, 224, 0.22);
+    backdrop-filter: blur(8px);
+  }
+  .hero__ctas .btn--ghost:active {
+    background: rgba(244, 237, 224, 0.06);
+    border-color: rgba(212, 164, 55, 0.55);
+  }
 
   /* ── TRUST BAR — glassmorphism 2x2 grid ───────────── */
   .trust {
