@@ -1630,6 +1630,48 @@ html.lenis, html.lenis body { height: auto; }
   box-shadow: var(--shadow-card);
 }
 
+/* Click-to-activate wrapper: shield sits over the Calendly iframe and
+   absorbs wheel/click events, so the page can scroll freely when the
+   cursor hovers the widget. First click dismisses the shield and the
+   user interacts with Calendly directly; shield re-arms on mouseleave. */
+.contact__calendly-wrap {
+  position: relative;
+  width: 100%;
+}
+.contact__calendly-wrap .contact__calendly { margin-top: var(--space-6); }
+.contact__calendly-shield {
+  position: absolute;
+  inset: var(--space-6) 0 0 0;   /* match calendly's margin-top */
+  width: 100%;
+  height: 630px;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  z-index: 2;
+  /* Hint on hover so users know the widget is interactive */
+  transition: background 160ms ease;
+}
+.contact__calendly-wrap:hover .contact__calendly-shield::after {
+  content: 'Click to book';
+  position: absolute;
+  top: 16px; right: 16px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(8, 17, 30, 0.85);
+  color: #D4A437;
+  font-family: var(--font-mono, ui-monospace, Menlo, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: 1px solid rgba(212, 164, 55, 0.35);
+  pointer-events: none;
+}
+.contact__calendly-wrap.is-active .contact__calendly-shield {
+  display: none;
+}
+
 /* Booking buttons row — gold primary + outlined secondary */
 .contact__cta-row {
   margin-top: var(--space-6);
@@ -3286,10 +3328,11 @@ html.lenis, html.lenis body { height: auto; }
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     scroll-padding-inline: var(--m-pad);
-    /* CRITICAL: lock to horizontal panning only — vertical gestures
-       must fall through to the page so users can scroll past the
-       carousel without it hijacking their swipe. */
-    touch-action: pan-x pinch-zoom;
+    /* Allow BOTH axes — the browser locks to whichever direction the
+       initial finger motion picks. Using only `pan-x` blocks vertical
+       gestures outright, trapping the user inside the carousel when
+       they try to scroll the page from on top of it. */
+    touch-action: pan-x pan-y pinch-zoom;
     overscroll-behavior-x: contain;
   }
   .services__track::-webkit-scrollbar { display: none; }
@@ -3748,8 +3791,9 @@ html.lenis, html.lenis body { height: auto; }
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     scroll-padding-inline: var(--m-pad);
-    /* See .services__track — pan-x only so vertical swipes scroll the page */
-    touch-action: pan-x pinch-zoom;
+    /* Allow both axes — browser picks the dominant direction so vertical
+       gestures fall through to the page instead of being trapped here. */
+    touch-action: pan-x pan-y pinch-zoom;
     overscroll-behavior-x: contain;
   }
   .privileges__list::-webkit-scrollbar { display: none; }

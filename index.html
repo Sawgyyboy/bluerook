@@ -845,12 +845,23 @@
       </p>
 
       <!-- Calendly inline widget (initialised in script below) -->
-      <div
-        id="calendly-embed"
-        class="contact__calendly"
-        aria-label="Calendly booking widget"
-        style="min-width:320px;height:630px;"
-      ></div>
+      <div class="contact__calendly-wrap" data-calendly-wrap>
+        <div
+          id="calendly-embed"
+          class="contact__calendly"
+          aria-label="Calendly booking widget"
+          style="min-width:320px;height:630px;"
+        ></div>
+        <!-- Transparent click-to-activate shield so the page scrolls
+             freely when the cursor is over the iframe. Removed on
+             first click and re-armed when the mouse leaves the wrap. -->
+        <button
+          type="button"
+          class="contact__calendly-shield"
+          data-calendly-shield
+          aria-label="Click to interact with the booking calendar"
+        ></button>
+      </div>
 
       <!-- Booking buttons row -->
       <div class="contact__cta-row">
@@ -946,6 +957,20 @@
       });
     }
     initCalendly();
+
+    // Click-to-activate shield: lets the page scroll past the iframe
+    // until the user clicks into it. Shield re-arms on mouseleave so
+    // subsequent scrolling continues to pass through to the page.
+    var wrap = document.querySelector('[data-calendly-wrap]');
+    var shield = document.querySelector('[data-calendly-shield]');
+    if (wrap && shield) {
+      shield.addEventListener('click', function () {
+        wrap.classList.add('is-active');
+      });
+      wrap.addEventListener('mouseleave', function () {
+        wrap.classList.remove('is-active');
+      });
+    }
   })();
 </script>
 
