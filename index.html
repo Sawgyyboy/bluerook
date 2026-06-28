@@ -56,27 +56,42 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
 
-  <!-- Structured data: ProfessionalService (rich results + brand entity) -->
+  <!-- Structured data: Organization (brand entity, knowledge panel eligibility).
+       Uses Organization rather than the LocalBusiness/ProfessionalService
+       subtypes because Bluerook is a worldwide remote agency with no physical
+       storefront — those subtypes warn on missing address/telephone. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
+    "@type": "Organization",
     "@id": "https://bluerook.co/#organization",
     "name": "Bluerook",
     "url": "https://bluerook.co/",
-    "logo": "https://bluerook.co/web-app-manifest-512x512.png",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://bluerook.co/web-app-manifest-512x512.png",
+      "width": 512,
+      "height": 512
+    },
     "image": "https://bluerook.co/og-image.png",
     "description": "Premium BPO and virtual assistant agency for high-performing entrepreneurs — dedicated VAs, workflow automations, AI builds, and social media, engineered and owned.",
     "slogan": "We run your operations. You run your empire.",
-    "priceRange": "$$$",
+    "email": "hatim@bluerook.co",
     "areaServed": "Worldwide",
-    "serviceType": [
+    "knowsAbout": [
       "Business Process Outsourcing",
       "Virtual Assistant Services",
       "Workflow Automation",
       "AI Automation",
       "Social Media Management"
     ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "sales",
+      "email": "hatim@bluerook.co",
+      "url": "https://calendar.app.google/pjQKiGLntog19k9Y9",
+      "availableLanguage": ["English"]
+    },
     "sameAs": []
   }
   </script>
