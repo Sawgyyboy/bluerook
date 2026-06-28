@@ -1,0 +1,23 @@
+{
+  "name": "Bluerook — Premium BPO & Virtual Assistant Agency",
+  "short_name": "Bluerook",
+  "description": "Premium BPO and virtual assistant agency for high-performing entrepreneurs.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#08111E",
+  "theme_color": "#08111E",
+  "icons": [
+    {
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
