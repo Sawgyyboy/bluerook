@@ -11,7 +11,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#08111E">
-  <meta name="description" content="One continuous scroll through the Bluerook operation: the automation floor, connected commerce, enrollment operations, follow-up recovery, voice reception and the owner's cockpit — all running as you scroll.">
+  <meta name="description" content="One continuous scroll through the Bluerook operation: the automation floor, connected commerce, enrollment operations, follow-up recovery, voice reception and the owner's cockpit, all running as you scroll.">
   <title>The Operation — Bluerook</title>
   <link rel="canonical" href="https://bluerook.co/work/">
 
@@ -41,7 +41,7 @@
   <link rel="stylesheet" href="/tokens.css">
   <link rel="stylesheet" href="/styles.css?v=20260805g">
   <link rel="stylesheet" href="/css/portfolio/showcase.css?v=20260807f">
-  <link rel="stylesheet" href="/css/portfolio/funnel.css?v=20260808a">
+  <link rel="stylesheet" href="/css/portfolio/funnel.css?v=20260808b">
 
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="/favicon-src.svg">
@@ -731,15 +731,18 @@
               <span data-try-label>Call me now</span>
             </button>
             <div class="fn-try__clock">
-              <strong data-try-clock>00:00</strong>
+              <strong data-try-clock>0.0s</strong>
               <span data-try-clocknote>Clock starts when you show intent</span>
             </div>
           </div>
 
-          <ol class="fn-try__steps" aria-hidden="true">
-            <li data-try-step="0">Intent captured</li>
-            <li data-try-step="1">Lead recorded</li>
-            <li data-try-step="2">Agent dialling</li>
+          <!-- Before submit these are what will happen. After submit the list
+               is replaced by what did happen, timed by the workflow that ran
+               it. No step is drawn that the server did not report. -->
+          <ol class="fn-try__steps" data-try-steps aria-live="polite">
+            <li>Intent captured</li>
+            <li>Lead recorded</li>
+            <li>Agent dialling</li>
           </ol>
 
           <!-- Usage budget. The dots are the honest bit of the promise: this
@@ -750,7 +753,7 @@
           </div>
 
           <p class="pf-live-note" data-try-note>Add your name and mobile to enable it.</p>
-          <p class="pf-live-note">Requesting it confirms this is your own number. One call per number per day, and nothing you type here is stored.</p>
+          <p class="pf-live-note">Requesting it confirms this is your own number. One call per number per day. Your name and number are recorded as a lead and sent to us, the same way a real enquiry would be. Ask and we will delete it: <a href="mailto:hatim@bluerook.co">hatim@bluerook.co</a>.</p>
         </form>
 
         <aside class="fn-try__alts" data-pf-fade>
@@ -872,6 +875,6 @@
 <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <script defer src="/js/portfolio/showcase.js?v=20260808a"></script>
 <script defer src="/js/nav.js?v=20260808a"></script>
-<script defer src="/js/portfolio/funnel.js?v=20260808a"></script>
+<script defer src="/js/portfolio/funnel.js?v=20260808b"></script>
 </body>
 </html>

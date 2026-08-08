@@ -125,9 +125,9 @@
 <main id="main"><article class="doc">
 <p class="stamp">Last updated 8 August 2026</p>
 <h1>Privacy at <em>Bluerook</em></h1>
-<p class="lede">Short version: this website stores nothing about you. The two things that do
-send data anywhere are the callback form and the chat, and both only run when you choose to
-use them.</p>
+<p class="lede">Short version: browsing this website stores nothing about you. Three things send
+data anywhere, and all three only run when you choose to use them: the callback form, the
+chat, and the booking calendar. Of those, only the callback form keeps a record.</p>
 
 <div class="box"><p><strong>We do not run analytics, advertising pixels or tracking cookies
 on this site.</strong> No Google Analytics, no Meta pixel, no session recording.</p></div>
@@ -138,10 +138,15 @@ Vercel keeps short-lived server logs that include IP addresses, for security and
 prevention. We do not read those logs to build a profile of you.</p>
 
 <h2>When you ask for a callback</h2>
-<p>If you enter a name and mobile number and press the button, that name and number are sent
-to Retell AI, the service that places the call, so the agent can dial you. We do not save
-them on our own servers and we do not add you to any list. There is a limit of one call per
-number per day.</p>
+<p>Pressing the button treats you as a real enquiry, because that is what the demonstration
+is. Your name and mobile number go to our own workflow system, which records the lead, tells
+us about it, and then hands the number to Retell AI so the agent can dial you.</p>
+<p>That record is how we know someone asked to be contacted. It holds your name, your number,
+which channel you picked, and the time. Your IP address is not part of it: the system stores
+a one-way hash of it instead, purely so the same person cannot loop the demo. There is a
+limit of one call per number per day.</p>
+<p>We do not add you to a mailing list and we do not sell or share the record. Email
+<a href="mailto:hatim@bluerook.co">hatim@bluerook.co</a> and we will delete it.</p>
 <p>Please only enter a number that belongs to you.</p>
 
 <h2>When you use the chat or the browser voice demo</h2>
@@ -157,6 +162,7 @@ provider under their own terms, and by us as a record of the meeting.</p>
 <ul>
   <li><strong>Vercel</strong> for hosting and server logs</li>
   <li><strong>Retell AI</strong> for outbound calls and browser voice</li>
+  <li><strong>n8n</strong>, self-hosted, for recording callback requests and alerting us</li>
   <li><strong>Anthropic</strong> for chat replies</li>
   <li><strong>Google</strong> for fonts and calendar bookings</li>
   <li><strong>Calendly</strong> as an alternative booking route</li>

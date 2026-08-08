@@ -18,6 +18,9 @@ ships to the browser.
 | `script.js` | All interactivity: desktop GSAP scenes, discrete mobile narrative state, navigation, loader, service dossier, and lazy Retell SDK setup. |
 | `api/create-web-call.js` | Vercel function that exchanges the server-only Retell API key for a single-call browser access token. |
 | `api/retell-calendar.js` | Protected Retell custom-function endpoint for Google Calendar availability and confirmed event creation. |
+| `api/lead.js` | Speed to lead. Validates, asks the n8n gate for a decision, then places the Retell call. Returns the real step trace the `/work/` page draws. |
+| `api/_lead-core.js` | Shared spine for the two lead endpoints. Underscore prefix keeps Vercel from turning it into a function. |
+| `api/create-phone-call.js` | The original speed-to-lead URL, now a delegate to `lead.js` so there is one code path and no way around the gate. |
 | `CNAME` | `bluerook.co` (GitHub Pages legacy / domain marker). |
 
 ### Web-served assets (must stay at root — referenced by absolute path)
@@ -70,6 +73,31 @@ ships to the browser.
   It accepts only protected Retell POST requests, returns live timezone-aware
   slots, re-checks the selected slot immediately before booking, and sends the
   attendee invitation with the Google Meet event.
+- **Speed to lead runs behind an n8n gate.** `/api/lead` validates the request,
+  then asks the workflow `BLUEROOK — Speed to Lead` whether it may proceed. The
+  gate holds the durable limits in workflow static data: one call per number per
+  day, a 15-minute window per address for numberless "text me" leads, and a
+  daily ceiling of 40. Vercel keeps a 30-second per-address speed bump in front
+  so a flood costs nothing, and a copy of the quota as a fallback.
+
+  The counters could not stay in the function: module scope dies with the
+  instance, so a recycle reset every limit. That is the whole reason the
+  decision moved out.
+
+  Needs `N8N_LEAD_WEBHOOK_URL` and `N8N_LEAD_TOKEN`. Without them the endpoint
+  still works but falls back to the in-memory counters and marks the response
+  `degraded: true`. If the gate times out (5s) the same fallback applies, so the
+  gate being down never takes the demo down.
+
+  `POST {"mode":"health"}` to the webhook for a read-only status: whether Slack
+  is reachable, how many numbers are being tracked, and the remaining budget.
+
+  The gate spends the slot at the decision, not after the call connects. When
+  Retell then fails, `/api/lead` sends `{"mode":"release"}` so the visitor's
+  number is not locked out for a day over our error.
+- **The `/work/` step list is a trace, not an animation.** Each row comes from
+  the server response with the milliseconds it actually took. Nothing is drawn
+  that the server did not report.
 
 ## Running / previewing locally
 

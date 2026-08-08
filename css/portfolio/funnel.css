@@ -1583,7 +1583,29 @@
   color: var(--color-live);
   border-color: color-mix(in srgb, var(--color-live) 45%, transparent);
   background: rgba(255, 182, 39, 0.08);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
 }
+/* The elapsed time is the point of the trace, so it is set apart rather than
+   run into the label. */
+/* Same size as the label. Shrinking it would drop the type under 11px, which
+   is the floor this page is held to; the tone carries the distinction. */
+.fn-try__steps li em {
+  font-style: normal;
+  font-variant-numeric: tabular-nums;
+  font-size: 1em;
+  color: color-mix(in srgb, var(--color-live) 68%, var(--color-text));
+  opacity: 0.72;
+}
+/* A step that ran and did not land. The lead still went through, so this is
+   a note, not an alarm. */
+.fn-try__steps li.is-warn {
+  color: var(--color-text-muted);
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.03);
+}
+.fn-try__steps li.is-warn em { color: var(--color-text-muted); }
 
 /* The budget. Dots first, because a count of remaining runs is read faster
    as objects than as a sentence. */

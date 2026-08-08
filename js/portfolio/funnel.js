@@ -555,16 +555,16 @@
      Owns the whole live block, so showcase.js's `initLiveChannels` no longer
      binds here (its `[data-stl-*]` hooks are gone from the markup).
 
-     HONESTY NOTE: "Call me" is a real outbound call through
-     /api/create-phone-call. "Text me" opens WhatsApp with the message
-     prepared — the visitor presses send — because there is no outbound
-     SMS/WhatsApp endpoint yet. The copy says exactly that. The `channel`
-     field is sent with every request so a real send path can be switched on
-     server-side without touching this file.
+     HONESTY NOTE: "Call me" is a real outbound call. "Text me" opens WhatsApp
+     with the message prepared — the visitor presses send — because Bluerook
+     has no outbound message sender of its own. Either way the lead is recorded
+     by the workflow behind /api/lead, so the step list below is a trace of
+     work that happened rather than an animation on a timer.
 
-     The quota below is a courtesy guard, not security: localStorage is
-     trivially cleared. The enforceable limits live in api/create-phone-call.js
-     (one call per number per day, 30s per address, 40/day ceiling). */
+     The quota here is a courtesy guard, not security: localStorage is
+     trivially cleared. The enforceable limits live in the n8n gate (one call
+     per number per day, a daily ceiling) with api/_lead-core.js holding a
+     30s-per-address speed bump in front of it. */
   const TRY_QUOTA = 2;
   const TRY_KEY = 'bluerook.try.v1';
   const WA_NUMBER = '447716623966';
@@ -584,7 +584,7 @@
     const dots = $('[data-try-dots]', form);
     const clockFace = $('[data-try-clock]', form);
     const clockNote = $('[data-try-clocknote]', form);
-    const steps = $$('[data-try-step]', form);
+    const stepList = $('[data-try-steps]', form);
     const channels = $$('[data-try-channel]', form);
     if (!nameField || !phoneField || !go) return;
 
@@ -632,7 +632,11 @@
     const sync = () => {
       if (sent) return;
       const remaining = left();
-      const ready = nameField.value.trim().length > 0 && (!needsPhone() || validPhone()) && remaining > 0;
+      const typed = phoneField.value.trim().length > 0;
+      // Text-only can go without a number, but a half-typed one is still an
+      // error — better caught here than by a 400 after the click.
+      const phoneReady = needsPhone() ? validPhone() : (!typed || validPhone());
+      const ready = nameField.value.trim().length > 0 && phoneReady && remaining > 0;
       go.disabled = !ready;
       if (label) label.textContent = LABELS[channel()];
       if (phoneWrap) phoneWrap.classList.toggle('is-optional', !needsPhone());
@@ -641,44 +645,93 @@
       if (!note) return;
       if (remaining === 0) note.textContent = 'You have used today’s demo runs. Book a call instead and we will talk properly.';
       else if (!nameField.value.trim()) note.textContent = 'Add your name to enable it.';
-      else if (needsPhone() && !validPhone()) {
-        note.textContent = phoneField.value.trim()
+      else if (!phoneReady) {
+        note.textContent = typed
           ? 'Include the country code, for example +44 7700 900123.'
           : 'Add your mobile to enable it.';
-      } else if (channel() === 'text') note.textContent = 'Ready. WhatsApp opens with the message written — you press send.';
+      } else if (channel() === 'text') note.textContent = 'Ready. We record the lead, then WhatsApp opens with your message written. You press send.';
       else if (channel() === 'both') note.textContent = 'Ready. Arden dials once, and WhatsApp opens for the thread.';
       else note.textContent = 'Ready. Arden will dial this number once.';
     };
 
-    /* --- clock --- */
+    /* --- clock ---
+       Counted in seconds and tenths, not mm:ss. The whole claim in this
+       section is measured under a minute, and a face that can only read 00:00
+       for the first second makes a system that answered in 700ms look broken. */
     let timer = 0;
+    let began = 0;
+    const face = (ms) => {
+      if (ms < 60000) return `${(ms / 1000).toFixed(1)}s`;
+      const seconds = Math.floor(ms / 1000);
+      return `${pad(Math.floor(seconds / 60))}:${pad(seconds % 60)}`;
+    };
+    const tick = () => { if (clockFace) clockFace.textContent = face(Date.now() - began); };
     const startClock = (message) => {
-      const began = Date.now();
+      began = Date.now();
       window.clearInterval(timer);
       if (clockNote && message) clockNote.textContent = message;
-      timer = window.setInterval(() => {
-        if (!clockFace) return;
-        const seconds = Math.floor((Date.now() - began) / 1000);
-        clockFace.textContent = `${pad(Math.floor(seconds / 60))}:${pad(seconds % 60)}`;
-      }, 200);
+      tick();
+      timer = window.setInterval(tick, 100);
     };
-    const markStep = (index, message) => {
-      steps.forEach((step, i) => step.classList.toggle('is-done', i <= index));
-      if (clockNote && message) clockNote.textContent = message;
-    };
+    /* Freeze on the real elapsed figure rather than wherever the interval
+       happened to land. */
     const stopClock = (message) => {
       window.clearInterval(timer);
+      if (began) tick();
       if (clockNote && message) clockNote.textContent = message;
     };
 
+    /* --- the trace ---
+       Every line drawn here came back from the server with the time it took.
+       Nothing is padded to make the list look busier than the work was. */
+    const readMs = (ms) => {
+      if (typeof ms !== 'number' || ms < 0) return '';
+      return ms < 1000 ? `${Math.round(ms)}ms` : `${(ms / 1000).toFixed(1)}s`;
+    };
+    const paintSteps = (list) => {
+      if (!stepList || !Array.isArray(list) || !list.length) return;
+      stepList.replaceChildren();
+      list.forEach((step) => {
+        const row = doc.createElement('li');
+        row.className = step.ok === false ? 'is-done is-warn' : 'is-done';
+        const label = doc.createElement('span');
+        label.textContent = step.label || step.id || '';
+        row.append(label);
+        const took = readMs(step.ms);
+        if (took) {
+          const time = doc.createElement('em');
+          time.textContent = took;
+          row.append(time);
+        }
+        stepList.append(row);
+      });
+    };
+    /* One local line while the request is in flight, so the list is never
+       empty between the click and the answer. */
+    const paintPending = () => paintSteps([{ id: 'captured', label: 'Intent captured', ms: 0 }]);
+
     const FAILURES = {
       consent_required: 'Consent is required before any call is placed.',
+      name_required: 'Add your name first.',
       invalid_number: 'That number was not accepted. Use the full international format.',
+      invalid_channel: 'Pick call, text or both.',
       number_already_called: 'This number has already been called today. That limit is deliberate.',
+      recently_submitted: 'You have just sent one. Give it a few minutes.',
       too_many_requests: 'Give it a moment before trying again.',
       daily_cap_reached: 'The demo has hit its daily call limit. Book a call instead and we will talk properly.',
-      speed_to_lead_unconfigured: 'The outbound channel is not switched on for this environment yet.'
+      speed_to_lead_unconfigured: 'The outbound channel is not switched on for this environment yet.',
+      call_creation_failed: 'The call did not go through. Your number was not used up, so try once more, or book a call.',
+      retell_unavailable: 'The voice provider did not answer. Book a call instead and we will talk properly.'
     };
+
+    /* One request for every channel. Text-only has nothing to dial, but the
+       lead is still recorded — otherwise a visitor asks to be contacted and
+       nobody finds out. */
+    const submit = (payload) => fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
 
     channels.forEach((radio) => radio.addEventListener('change', () => {
       form.dataset.channel = channel();
@@ -698,35 +751,20 @@
          await would be swallowed by the popup blocker. */
       if (wantsText) window.open(waHref, '_blank', 'noopener');
 
-      if (!wantsCall) {
-        spend();
-        paintQuota();
-        startClock('WhatsApp opened');
-        markStep(1, 'Message handed to WhatsApp. Send it and the reply lands here.');
-        stopClock('Message handed to WhatsApp. Send it and the reply lands here.');
-        if (note) note.textContent = 'WhatsApp is open with the message ready. Nothing was sent for you.';
-        sync();
-        return;
-      }
-
       go.disabled = true;
       sent = true;
-      if (label) label.textContent = 'Placing the call…';
+      if (label) label.textContent = wantsCall ? 'Placing the call…' : 'Recording the lead…';
       startClock('Intent captured');
-      markStep(0, 'Intent captured');
+      paintPending();
       if (note) note.textContent = 'Recording the lead and handing it to the agent.';
 
       try {
-        const response = await fetch('/api/create-phone-call', {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({
-            name: nameField.value.trim(),
-            phone: phoneField.value.trim(),
-            consent: true,
-            channel: mode,
-            whatsappFollowUp: wantsText
-          })
+        const response = await submit({
+          name: nameField.value.trim(),
+          phone: phoneField.value.trim(),
+          consent: true,
+          channel: mode,
+          source: 'bluerook.co/work #try'
         });
         const payload = await response.json().catch(() => ({}));
 
@@ -735,24 +773,41 @@
           sent = false;
           if (label) label.textContent = LABELS[mode];
           stopClock('Not placed');
-          if (note) note.textContent = reason;
+          paintSteps([{ id: 'stopped', label: 'Stopped at the gate', ms: 0, ok: false }]);
+          // sync() rewrites the note, so it has to run before the reason is
+          // put there or the visitor never learns why it stopped.
           sync();
+          if (note) note.textContent = wantsText ? `${reason} WhatsApp is still open.` : reason;
           return;
         }
 
         spend();
         paintQuota();
-        markStep(2, 'Agent dialling. Answer when it rings.');
-        if (label) label.textContent = 'Calling you now';
-        if (note) note.textContent = wantsText
-          ? 'On its way. WhatsApp is open too if you would rather type.'
-          : 'On its way. Answer when it rings.';
+
+        /* The server's trace, plus the one step it could not have seen: the
+           tab this browser opened. */
+        const trace = Array.isArray(payload.steps) ? payload.steps.slice() : [];
+        if (wantsText) trace.push({ id: 'thread', label: 'WhatsApp opened here', ms: Date.now() - began });
+        paintSteps(trace);
+
+        if (payload.dispatched && payload.dispatched.call) {
+          stopClock('Agent dialling. Answer when it rings.');
+          if (label) label.textContent = 'Calling you now';
+          if (note) note.textContent = wantsText
+            ? 'On its way. WhatsApp is open too if you would rather type.'
+            : 'On its way. Answer when it rings.';
+        } else {
+          stopClock('Lead recorded. Send the message and we pick it up.');
+          if (label) label.textContent = 'Lead recorded';
+          if (note) note.textContent = 'Recorded, and we can see it. WhatsApp is open with your message ready. Nothing was sent for you.';
+        }
       } catch (error) {
         sent = false;
         if (label) label.textContent = LABELS[mode];
         stopClock('Not placed');
-        if (note) note.textContent = 'The network refused that request. Book a call instead and we will talk properly.';
+        paintSteps([{ id: 'stopped', label: 'Request never left the browser', ms: 0, ok: false }]);
         sync();
+        if (note) note.textContent = 'The network refused that request. Book a call instead and we will talk properly.';
       }
     });
 
