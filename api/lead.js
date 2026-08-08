@@ -37,6 +37,8 @@ const STATUS = {
   invalid_number: 400,
   invalid_channel: 400,
   destination_rejected: 400,
+  // Not the visitor's fault and not fixable by them, so it is ours, not a 4xx.
+  country_not_supported: 503,
   number_already_called: 429,
   recently_submitted: 429,
   too_many_requests: 429,
@@ -127,7 +129,12 @@ module.exports = async function handler(request, response) {
       await releaseGate(gatePayload);
       const reason = STATUS[error.message] ? error.message : 'retell_unavailable';
       return fail(response, reason, {
+        // The lead is still recorded. The call is what failed, not the
+        // capture, and someone who asked to be contacted should not vanish
+        // because our carrier does not reach them.
         leadId: verdict.leadId,
+        recorded: Boolean(verdict.leadId),
+        country: error.country || null,
         // The provider's status and the shape of its complaint, with every
         // phone number stripped out. Without this a dead outbound line and an
         // unroutable destination are the same opaque failure.

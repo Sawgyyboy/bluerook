@@ -248,6 +248,12 @@ function classifyCallFailure(status, detail) {
   const text = String(detail || '').toLowerCase();
   if (status === 401 || status === 403) return 'outbound_not_authorised';
   if (status === 402) return 'outbound_billing';
+  /* The provider does not carry every country, and the ones it refuses are
+     refused for everybody. Telling that visitor to check their own number
+     sends them to correct something that was never wrong. */
+  if (/country not supported|country is not in the allowed/.test(text)) {
+    return 'country_not_supported';
+  }
   if (/from[_ ]?number|not owned|not purchased|no such number|does not exist/.test(text)) {
     return 'outbound_line_unavailable';
   }
@@ -255,6 +261,13 @@ function classifyCallFailure(status, detail) {
     return 'destination_rejected';
   }
   return 'call_creation_failed';
+}
+
+/* "Call country not supported: MA, +212…" — pull the ISO code so the page can
+   name the country instead of gesturing at it. */
+function countryFrom(detail) {
+  const m = String(detail || '').match(/country (?:not supported|is not in the allowed[^:]*):\s*([A-Z]{2})/i);
+  return m ? m[1].toUpperCase() : null;
 }
 
 /* Enough of the provider's wording to diagnose, with every phone number taken
@@ -297,6 +310,7 @@ async function placeCall({ name, phone, leadId }) {
     const error = new Error(classifyCallFailure(response.status, detail));
     error.upstream = response.status;
     error.hint = redactNumbers(detail);
+    error.country = countryFrom(detail);
     throw error;
   }
   return response.json();
@@ -304,6 +318,7 @@ async function placeCall({ name, phone, leadId }) {
 
 module.exports = {
   classifyCallFailure,
+  countryFrom,
   redactNumbers,
   isAllowedCaller,
   normalizePhone,
