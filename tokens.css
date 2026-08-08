@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 /* =========================================================
    BLUEROOK — DESIGN TOKENS
    Single source of truth. Every component imports from here.
@@ -5,6 +7,20 @@
    ========================================================= */
 
 :root {
+  /* ---------- 2026 TYPE SYSTEM ----------
+     Live site-wide, so the shared header renders identically everywhere.
+     Display stays Cormorant Garamond — the wordmark's own face — and carries
+     the big titles; Plus Jakarta Sans takes body and UI; JetBrains Mono takes
+     labels and metadata. Serif display against a geometric sans is a real
+     contrast pairing rather than two sans fighting each other. */
+  --font-sans-alt: 'Plus Jakarta Sans', 'Geist', system-ui, sans-serif;
+  --font-mono-alt: 'JetBrains Mono', 'Geist Mono', ui-monospace, monospace;
+
+  /* One vibrant accent, reserved for live state and the primary CTA. */
+  --color-live:      #FFB627;
+  --color-live-ink:  #120C00;
+  --color-live-glow: rgba(255, 182, 39, 0.45);
+
   /* ---------- BRAND PALETTE (Vol. II — Midnight / Paper / Blue / Brass) ---------- */
   /* Per Brand Standards Vol. II:
      Midnight carries the page · Paper carries the type ·
@@ -30,14 +46,14 @@
 
   --color-overlay:       rgba(8, 17, 30, 0.75);
 
-  /* ---------- AMBIENT (YouTube-style ambient mode) ---------- */
-  /* Multiple hues drift across the page, blended with screen */
-  --amb-1: #1E4FBA;   /* electric royal blue */
-  --amb-2: #5EE6E0;   /* soft cyan */
-  --amb-3: #C9A84C;   /* brand gold */
-  --amb-4: #6B5BA8;   /* dusk purple */
-  --amb-5: #E58A45;   /* warm amber */
-  --amb-opacity: 0.22;
+  /* ---------- AMBIENT ---------- */
+  /* Canonical blue/brass atmosphere only — no rainbow field. */
+  --amb-1: var(--color-mark);
+  --amb-2: var(--color-surface-2);
+  --amb-3: var(--color-accent);
+  --amb-4: var(--color-line);
+  --amb-5: var(--color-mark);
+  --amb-opacity: 0.16;
   --amb-blur: 80px;
 
   /* ---------- GLASS (frosted, Midnight-tinted) ---------- */
@@ -51,9 +67,9 @@
      Sans:    Geist — modern grotesque, all body and UI
      Mono:    Geist Mono — eyebrows, meta, page numbers */
   --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  --font-sans:    'Geist', 'Helvetica Neue', system-ui, Arial, sans-serif;
+  --font-sans:    var(--font-sans-alt);
   --font-body:    var(--font-sans);
-  --font-mono:    'Geist Mono', ui-monospace, Menlo, monospace;
+  --font-mono:    var(--font-mono-alt);
 
   /* Editorial type scale — fluid clamp() so it scales 360 → 1920 */
   --fs-display-xl: clamp(2.75rem, 5.5vw + 0.5rem, 6.5rem);

@@ -1,0 +1,17 @@
+.git/
+.env
+.env.*
+*.local
+.claude/
+.impeccable/
+.vercel/
+process-to-sop/
+voice-agent-demo/
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+PRODUCT.md
+gemini_cli.py
+styles_backup.css
+docs/
+scripts/

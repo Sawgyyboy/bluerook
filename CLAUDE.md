@@ -1,3 +1,5 @@
+@AGENTS.md
+
 # CLAUDE.md — Bluerook
 
 > Entry point for any AI/agent session working in this repo. Read this first, then
@@ -6,10 +8,11 @@
 
 ## What this is
 
-Bluerook is a **premium BPO & virtual-assistant agency** for high-performing
-entrepreneurs. This repo is its **marketing website** — a single-page, hand-built
-**static site** (vanilla HTML/CSS/JS, no build step) deployed on Vercel at
-**https://bluerook.co**.
+Bluerook is an **AI operations and business-process agency** for high-performing
+entrepreneurs. Its VA offer means role-based **AI System VAs**, not human virtual
+assistants. This repo is its **marketing website** — a single-page, hand-built
+vanilla frontend plus one serverless voice-token endpoint (no build step),
+deployed on Vercel at **https://bluerook.co**.
 
 ## The 30-second orientation
 

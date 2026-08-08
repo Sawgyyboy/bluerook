@@ -2,18 +2,22 @@
 
 ## Stack
 
-**Vanilla static site. No build step, no framework, no bundler.** Plain HTML + CSS +
-JS, served as-is. Node version pinned to **24.x** on Vercel (only relevant to the
-platform runtime; the site itself ships no server code).
+**Vanilla site with one serverless voice-token endpoint. No build step, framework,
+or bundler.** The page remains plain HTML + CSS + JS. Vercel runs the small
+`/api/create-web-call` function on Node **24.x** so the Retell private API key never
+ships to the browser.
 
 ## File map (repo root)
 
 | File | Role |
 |------|------|
-| `index.html` | The entire single-page site. All sections, `<head>` SEO, inline Calendly init script. |
+| `index.html` | The entire single-page site. All sections, `<head>` SEO, and desktop-only Calendly loader. |
 | `tokens.css` | **Design tokens** — brand colors, type, spacing, motion, z-index. Single source of truth. Imported first. |
 | `styles.css` | All component + layout CSS. Contains a large **`@media (max-width:768px)`** block that is effectively a **separate mobile stylesheet** (own `:root` tokens prefixed `--m-`). |
-| `script.js` | All interactivity: GSAP scroll animations, mobile castling scrub, carousels, swipe hints, nav, loader, tilt init. |
+| `cinematic-mobile.css` | Late portrait-phone layer for the bounded Diagnosis, Systems, Services, Process, and Arden scenes. |
+| `script.js` | All interactivity: desktop GSAP scenes, discrete mobile narrative state, navigation, loader, service dossier, and lazy Retell SDK setup. |
+| `api/create-web-call.js` | Vercel function that exchanges the server-only Retell API key for a single-call browser access token. |
+| `api/retell-calendar.js` | Protected Retell custom-function endpoint for Google Calendar availability and confirmed event creation. |
 | `CNAME` | `bluerook.co` (GitHub Pages legacy / domain marker). |
 
 ### Web-served assets (must stay at root — referenced by absolute path)
@@ -34,35 +38,50 @@ platform runtime; the site itself ships no server code).
 |---------|---------|---------|
 | GSAP + ScrollTrigger | 3.12.2 | Desktop scroll-linked animations (hero, castling, diagnosis, stacking). |
 | vanilla-tilt | 1.8.1 | Card tilt on service cards (`data-tilt`). |
-| Calendly widget | external | Inline booking embed on contact section. |
+| Calendly widget | external | Desktop-only inline booking alternative in the contact section. |
 | Google Fonts | — | Cormorant Garamond, Geist, Geist Mono. |
+| Retell Web SDK | 2.0.8 | Branded in-console browser voice call; loaded as a pinned ESM module when the trial starts. |
 
 ## Key implementation notes
 
-- **Mobile is a distinct experience**, not just responsive tweaks. The
-  `@media (max-width:768px)` block re-declares tokens and rebuilds the hero, castling
-  (a bespoke scroll-scrubbed King⇄Rook swap in `script.js`), services & privileges as
-  horizontal snap **carousels**, and a cinematic "diagnosis" stage (`.diag`).
+- **Mobile is a distinct experience**, not just responsive tweaks. On portrait
+  phones at least 640px tall, native vertical scroll advances bounded, discrete
+  Diagnosis, Systems, and Services stages. There is no sideways gesture, nested
+  scroller, or per-frame transform rewrite. Short, landscape, and reduced-motion
+  phones retain normal-flow fallbacks.
+- **Systems uses dedicated phone maps.** Each system renders as a four- or
+  five-stage macro architecture rather than compressing its desktop node map.
+  A 190ms dwell, 34px hysteresis, and adjacent-only state commit keep inertial
+  scrolling from skipping or strobing workflows.
 - **Mobile-only cinematic stages** (`.cast3d`, `.diag`) are `display:none` by default
   and only shown inside the mobile media query — otherwise they leak onto desktop.
 - **Scroll integrity:** `html`/`body` use `overflow-x: clip` (NOT `hidden` — `hidden`
-  turns them into scroll containers and breaks every `position:sticky` +
-  ScrollTrigger). Carousels use `touch-action: pan-x pan-y pinch-zoom` so vertical
-  swipes fall through to the page.
-- **Calendly scroll trap:** the embed is wrapped with a transparent click-to-activate
-  "shield" (`[data-calendly-shield]`) so the page scrolls over the iframe until
-  clicked; re-arms on mouseleave.
+  turns them into scroll containers and breaks `position:sticky` + ScrollTrigger).
+  The document's vertical gesture is the only gesture used by the mobile narrative.
+- **Calendly is desktop-only.** Phones omit the iframe and its script, then show
+  one Google Calendar booking action plus email fallback. Desktop retains the
+  click-to-activate shield so the iframe cannot trap page scrolling.
+- **Retell voice trial:** `/api/create-web-call` requires `RETELL_API_KEY` in the
+  Vercel environment. It returns only a short-lived call token. The pinned Retell
+  Web SDK is imported only after the visitor starts the trial, and playback PCM
+  updates the branded voice meter through one `requestAnimationFrame`.
+- **Voice booking:** `/api/retell-calendar` uses the Google OAuth client ID,
+  client secret, refresh token, calendar ID, and `RETELL_CALENDAR_TOOL_SECRET`.
+  It accepts only protected Retell POST requests, returns live timezone-aware
+  slots, re-checks the selected slot immediately before booking, and sends the
+  attendee invitation with the Google Meet event.
 
 ## Running / previewing locally
 
 Any static server works (no build). Examples:
 ```
-python -m http.server 5173        # then open http://localhost:5173
+python -m http.server 5173 --bind 127.0.0.1        # then open http://localhost:5173
 # or
 npx serve .
 ```
 In agent sessions this was previewed via the harness preview server on port 5173.
-**Always verify UI changes at mobile 390×844 and desktop before pushing.**
+**Always verify UI changes at 360×800, 390×844, 430×932, 1280×720, and
+1440×900 before pushing.**
 
 ## Conventions
 

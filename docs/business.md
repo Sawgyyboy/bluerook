@@ -2,18 +2,22 @@
 
 ## What it is
 
-**Bluerook** — a premium BPO (business process outsourcing) & virtual-assistant agency
-for high-performing entrepreneurs. Positions above commodity VA services: bespoke,
-SLA-backed, "premium execution," asset ownership, no lock-in.
+**Bluerook** — an AI operations and business-process agency for high-performing
+entrepreneurs. It designs and runs role-based AI System VAs and connected
+automation systems with defined ownership, permissions, human controls,
+exception paths, and reporting.
+
+“VA” in current Bluerook product language means an **AI System VA**, not a human
+virtual assistant.
 
 ## What it sells
 
 Two operating models (see [`content.md`](content.md) for full copy):
 
-1. **Recurring Infrastructure** — monthly retainer. Operational VAs, Social Ecosystems,
-   AI Maintenance & Optimization.
-2. **Managed Implementations** — milestone-priced bespoke builds. Custom AI Builds,
-   System Audits & Architecture.
+1. **Recurring Infrastructure** — monthly retainer. AI System VAs, Social
+   Ecosystems, AI Maintenance & Optimization.
+2. **Managed Implementations** — milestone-priced bespoke builds. Automation
+   Systems, System Audits & Architecture.
 
 Standard included in every retainer: Priority Bandwidth (4H SLA), Innovation Audits,
 Sandbox Staging, Asset Ownership.

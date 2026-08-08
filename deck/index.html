@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!--
+  THESIS: A deck about operations should look like the operation — restrained, dark, exact.
+  BRAND: Vol. II — Midnight carries the page · Paper carries the type · Blue carries the mark ·
+         Brass appears once per spread, never twice. That last rule is enforced slide by slide.
+  FORM: 16:9 keyboard deck. Depth-of-field transitions, frosted glass, ambient blur field.
+  -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08111E">
+  <meta name="description" content="Bluerook — selected operations. A presentation deck covering the operating model, the six builds, and the controls that make them safe.">
+  <!-- Shared by direct link, not a search destination: it would otherwise
+       compete with the marketing pages for the same terms. Delete this line to
+       make the deck public. -->
+  <meta name="robots" content="noindex, follow">
+  <title>Bluerook — Selected Operations</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600;1,700&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/tokens.css">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="/favicon-src.svg">
+
+<style>
+/* =========================================================
+   DECK — all values inherited from tokens.css.
+   No brand hex is written here; that file is the authority.
+   ========================================================= */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { height: 100%; }
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-weight: var(--fw-light);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* ---------- Ambient blur field: the only light in the room ---------- */
+.amb { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.amb i {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(var(--amb-blur));
+  opacity: var(--amb-opacity);
+  will-change: transform;
+}
+.amb i:nth-child(1) { width: 52vw; height: 52vw; left: -14vw; top: -18vw; background: var(--amb-1); animation: drift-a 26s ease-in-out infinite alternate; }
+.amb i:nth-child(2) { width: 40vw; height: 40vw; right: -10vw; top: 8vh;  background: var(--amb-3); opacity: 0.10; animation: drift-b 32s ease-in-out infinite alternate; }
+.amb i:nth-child(3) { width: 46vw; height: 46vw; right: 6vw;  bottom: -22vw; background: var(--amb-5); animation: drift-c 29s ease-in-out infinite alternate; }
+@keyframes drift-a { to { transform: translate3d(7vw, 5vh, 0) scale(1.12); } }
+@keyframes drift-b { to { transform: translate3d(-6vw, 8vh, 0) scale(0.9); } }
+@keyframes drift-c { to { transform: translate3d(4vw, -7vh, 0) scale(1.08); } }
+
+/* Grain + vignette: stops the flat fields from banding on a projector. */
+.grain {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.vignette {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(130% 100% at 50% 40%, transparent 42%, var(--color-bg) 100%);
+}
+
+/* ---------- Stage: locked to 16:9, letterboxed ---------- */
+.deck {
+  position: relative;
+  z-index: 2;
+  width: 100vw; height: 100vh;
+  overflow: hidden;
+}
+@media (min-width: 861px) and (orientation: landscape) {
+  .deck {
+    position: absolute; inset: 0; margin: auto;
+    max-width: calc(100vh * 16 / 9);
+    max-height: calc(100vw * 9 / 16);
+  }
+}
+
+.slide {
+  position: absolute; inset: 0;
+  display: grid;
+  align-content: center;
+  gap: clamp(14px, 2.2vh, 26px);
+  padding: clamp(30px, 6vw, 96px);
+  opacity: 0;
+  visibility: hidden;
+  /* Depth of field: a slide arrives out of focus and settles. */
+  filter: blur(16px);
+  transform: scale(1.015);
+  transition: opacity 620ms var(--ease-out, cubic-bezier(.22,.61,.36,1)),
+              filter 620ms var(--ease-out, cubic-bezier(.22,.61,.36,1)),
+              transform 620ms var(--ease-out, cubic-bezier(.22,.61,.36,1)),
+              visibility 0s linear 620ms;
+}
+.slide.is-live {
+  opacity: 1; visibility: visible;
+  filter: blur(0); transform: none;
+  transition-delay: 0s;
+}
+
+/* ---------- Type ---------- */
+.eyebrow {
+  display: flex; align-items: center; gap: 11px;
+  color: var(--color-text-dim);
+  font-family: var(--font-mono);
+  font-size: clamp(0.56rem, 0.78vw, 0.72rem);
+  font-weight: var(--fw-regular);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.eyebrow b { width: 20px; height: 1px; background: currentColor; }
+
+h1, h2 { font-weight: var(--fw-medium); letter-spacing: -0.03em; line-height: 1.02; text-wrap: balance; }
+h1 { font-size: clamp(2.1rem, 6.2vw, 5.6rem); }
+h2 { font-size: clamp(1.7rem, 4.3vw, 3.7rem); }
+h3 { font-size: clamp(0.95rem, 1.35vw, 1.28rem); font-weight: var(--fw-medium); letter-spacing: -0.015em; }
+
+/* The typographic voice rule: accent words are the italic display serif. */
+em {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--fw-regular);
+}
+/* Brass is the single jewellery point. One per slide — the `.jewel` class marks it. */
+.jewel { color: var(--color-accent); }
+
+.lead {
+  max-width: 58ch;
+  color: var(--color-text-muted);
+  font-size: clamp(0.95rem, 1.35vw, 1.3rem);
+  line-height: 1.6;
+}
+.dim { color: var(--color-text-dim); }
+p { text-wrap: pretty; }
+
+/* ---------- Frosted panels ---------- */
+.glass {
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur) saturate(1.15);
+  -webkit-backdrop-filter: var(--glass-blur) saturate(1.15);
+  border-radius: 14px;
+}
+
+/* ---------- Layouts ---------- */
+.split { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(26px, 4vw, 68px); align-items: center; }
+.stack { display: grid; gap: clamp(12px, 1.8vh, 22px); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 1.4vw, 20px); }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(12px, 1.4vw, 20px); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(10px, 1.2vw, 18px); }
+
+.card {
+  display: grid; align-content: start; gap: 9px;
+  padding: clamp(15px, 1.7vw, 26px);
+}
+.card small {
+  color: var(--color-text-dim);
+  font-family: var(--font-mono);
+  font-size: clamp(0.5rem, 0.7vw, 0.62rem);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.card p { color: var(--color-text-muted); font-size: clamp(0.78rem, 1.02vw, 0.95rem); line-height: 1.55; }
+
+/* Numbered statement rows — the diagnosis rhythm from the site */
+.rows { display: grid; gap: clamp(10px, 1.6vh, 20px); }
+.row {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(16px, 2vw, 30px);
+  align-items: baseline;
+  padding: clamp(13px, 1.7vh, 22px) 0;
+  border-top: 1px solid var(--color-line);
+}
+.row > span {
+  color: var(--color-text-fade);
+  font-family: var(--font-mono);
+  font-size: clamp(0.56rem, 0.78vw, 0.7rem);
+  letter-spacing: 0.16em;
+}
+.row p { font-size: clamp(1rem, 1.75vw, 1.65rem); font-weight: var(--fw-light); line-height: 1.28; letter-spacing: -0.02em; }
+
+/* Metric tiles */
+.metric { display: grid; gap: 4px; padding: clamp(14px, 1.6vw, 24px); }
+.metric strong {
+  font-family: var(--font-mono);
+  font-size: clamp(1.5rem, 3.4vw, 3rem);
+  font-weight: var(--fw-regular);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.metric small { color: var(--color-text-dim); font-family: var(--font-mono); font-size: clamp(0.5rem, 0.68vw, 0.6rem); letter-spacing: 0.14em; text-transform: uppercase; }
+.metric span { color: var(--color-text-muted); font-size: clamp(0.72rem, 0.92vw, 0.86rem); line-height: 1.45; }
+
+/* Rook + King marks */
+.mark { display: flex; align-items: flex-end; gap: 14px; }
+.mark svg { display: block; }
+
+/* Chess board strip for the castling slide */
+.board { display: flex; gap: 6px; align-items: flex-end; }
+.board i {
+  width: clamp(26px, 3.4vw, 46px);
+  height: clamp(26px, 3.4vw, 46px);
+  border: 1px solid var(--color-line);
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--color-surface) 70%, transparent);
+}
+.board i.is-king, .board i.is-rook { border-color: color-mix(in srgb, var(--color-text) 26%, transparent); }
+.board i.is-king { background: color-mix(in srgb, var(--color-text) 12%, transparent); }
+.board i.is-rook { background: color-mix(in srgb, var(--color-mark) 55%, transparent); }
+
+/* Evidence label chips */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  padding: 6px 13px;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: clamp(0.5rem, 0.68vw, 0.62rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* A quiet rule used to close a composition */
+.rule { height: 1px; background: linear-gradient(90deg, var(--color-line), transparent); }
+
+/* ---------- Entrance choreography ---------- */
+.slide.is-live [data-in] {
+  animation: rise 720ms var(--ease-out, cubic-bezier(.22,.61,.36,1)) backwards;
+  animation-delay: calc(var(--d, 0) * 90ms + 120ms);
+}
+@keyframes rise { from { opacity: 0; transform: translate3d(0, 18px, 0); filter: blur(6px); } }
+
+/* ---------- Chrome ---------- */
+.rail {
+  position: fixed; top: 0; left: 0; z-index: 30;
+  height: 2px; width: 100%;
+  background: var(--color-accent);
+  /* Scaled, not resized: a width transition relayouts on every frame. */
+  transform: scaleX(var(--p, 0));
+  transform-origin: 0 50%;
+  transition: transform 500ms var(--ease-out, cubic-bezier(.22,.61,.36,1));
+}
+.hud {
+  position: fixed; z-index: 30;
+  left: 50%; bottom: clamp(14px, 2.6vh, 30px);
+  translate: -50% 0;
+  display: flex; align-items: center; gap: 16px;
+  padding: 8px 10px 8px 16px;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+.hud button {
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border: 0; border-radius: 50%;
+  background: color-mix(in srgb, var(--color-text) 7%, transparent);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 260ms, transform 160ms;
+}
+.hud button:hover { background: color-mix(in srgb, var(--color-text) 15%, transparent); }
+.hud button:active { transform: scale(0.93); }
+.hud button:disabled { opacity: 0.3; cursor: default; }
+.hud .count {
+  color: var(--color-text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  font-variant-numeric: tabular-nums;
+}
+.brandline {
+  position: fixed; z-index: 30;
+  left: clamp(18px, 3vw, 44px); bottom: clamp(18px, 3vh, 34px);
+  color: var(--color-text-fade);
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+@media (max-width: 860px) { .brandline { display: none; } }
+
+/* ---------- Small screens: readable, not letterboxed ---------- */
+@media (max-width: 860px), (orientation: portrait) {
+  .split, .grid-3, .grid-2, .grid-4 { grid-template-columns: 1fr; }
+  .slide { align-content: start; padding-top: clamp(52px, 12vh, 90px); overflow-y: auto; }
+  .grid-4 .metric { padding: 12px 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .amb i { animation: none; }
+  .slide { transition: opacity 200ms linear, visibility 0s linear 200ms; filter: none; transform: none; }
+  .slide.is-live { filter: none; }
+  .slide.is-live [data-in] { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="amb" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<div class="rail" id="rail" aria-hidden="true"></div>
+<p class="brandline">Bluerook · Selected operations · 2026</p>
+
+<main class="deck" id="deck" aria-label="Bluerook presentation">
+
+  <!-- 01 · TITLE — jewel: the brass rule beneath the rook -->
+  <section class="slide" aria-label="Title">
+    <div class="mark" data-in style="--d:0">
+      <svg viewBox="0 0 100 115" width="54" height="62" aria-hidden="true">
+        <path d="M 26,0 L 32,0 L 32,14 L 40,14 L 40,0 L 46,0 L 46,14 L 54,14 L 54,0 L 60,0 L 60,14 L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 26,26 Z" fill="#F4EDE0"/>
+        <rect x="4" y="111" width="92" height="4" fill="#D4A437"/>
+      </svg>
+    </div>
+    <h1 data-in style="--d:1">We run your operations.<br><em>You run your empire.</em></h1>
+    <p class="lead" data-in style="--d:2">
+      An AI operations agency for founders who have become the bottleneck in
+      their own business. This is the work, and the controls that make it safe
+      to hand over.
+    </p>
+    <div class="rule" data-in style="--d:3"></div>
+    <p class="eyebrow" data-in style="--d:4"><b></b> Selected operations · portfolio review</p>
+  </section>
+
+  <!-- 02 · DIAGNOSIS — jewel: the third statement's accent word -->
+  <section class="slide" aria-label="The diagnosis">
+    <p class="eyebrow" data-in style="--d:0"><b></b> The diagnosis</p>
+    <div class="rows">
+      <div class="row" data-in style="--d:1"><span>01</span><p>Routine work is consuming your <em>highest-leverage thinking.</em></p></div>
+      <div class="row" data-in style="--d:2"><span>02</span><p>Your inbox is running your <em>calendar.</em></p></div>
+      <div class="row" data-in style="--d:3"><span>03</span><p>You built a company, not a job. It became <em class="jewel">both.</em></p></div>
+    </div>
+  </section>
+
+  <!-- 03 · CASTLING — jewel: the rook square on the board -->
+  <section class="slide" aria-label="Castling">
+    <div class="split">
+      <div class="stack">
+        <p class="eyebrow" data-in style="--d:0"><b></b> The move</p>
+        <h2 data-in style="--d:1">The King steps aside.<br><em>The Rook takes the board.</em></h2>
+        <p class="lead" data-in style="--d:2">
+          Castling is the only move where two pieces move at once: the King
+          reaches safety and the Rook takes the centre. It is the whole
+          engagement in one gesture. <em class="jewel">You focus on the kingdom.
+          We run the board.</em>
+        </p>
+      </div>
+      <div class="stack" data-in style="--d:3">
+        <div class="board" aria-hidden="true">
+          <i></i><i class="is-rook"></i><i class="is-king"></i><i></i><i></i><i></i>
+        </div>
+        <p class="dim" style="font-size:0.82rem;line-height:1.55;max-width:34ch">
+          Before: the founder holds the centre and absorbs every exception.
+          After: the operation holds it, and the founder is free to think.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 · THE CONTRACT — jewel: the fourth card's label -->
+  <section class="slide" aria-label="The contract">
+    <p class="eyebrow" data-in style="--d:0"><b></b> What we build</p>
+    <h2 data-in style="--d:1">Every signal owes you <em>four answers.</em></h2>
+    <div class="grid-4" style="margin-top:clamp(8px,1.4vh,18px)">
+      <article class="card glass" data-in style="--d:2"><small>Source</small><h3>Where did this come from?</h3><p>A form, a call, a message. If the source is unknown, nothing downstream can be trusted.</p></article>
+      <article class="card glass" data-in style="--d:3"><small>Legal moves</small><h3>What may happen next?</h3><p>Validation before action. The set of permitted moves is decided before anything runs.</p></article>
+      <article class="card glass" data-in style="--d:4"><small>Judgement</small><h3>Who decides the rest?</h3><p>Approval, sensitive calls, irreversible actions. Named people, not implied ones.</p></article>
+      <article class="card glass" data-in style="--d:5"><small class="jewel">Completion</small><h3>What does finished mean?</h3><p>An owner, a next action, a written outcome. Not "the workflow ran".</p></article>
+    </div>
+  </section>
+
+  <!-- 05 · THE SIX BUILDS — jewel: the count -->
+  <section class="slide" aria-label="The six builds">
+    <div class="split">
+      <div class="stack">
+        <p class="eyebrow" data-in style="--d:0"><b></b> Selected work</p>
+        <h2 data-in style="--d:1"><em class="jewel">Six</em> operations,<br>each one running.</h2>
+        <p class="lead" data-in style="--d:2">
+          Not screenshots. Each build opens as a working system with its own
+          interfaces, failure paths and human controls, and every record in it
+          is synthetic.
+        </p>
+      </div>
+      <div class="stack">
+        <div class="grid-2">
+          <article class="card glass" data-in style="--d:3"><small>01</small><h3>Connected commerce</h3><p>Approval gates and one fan-out to every surface.</p></article>
+          <article class="card glass" data-in style="--d:4"><small>02</small><h3>Enrollment operations</h3><p>An enquiry becomes an owned next action.</p></article>
+          <article class="card glass" data-in style="--d:5"><small>03</small><h3>Follow-up recovery</h3><p>Deterministic gap review that never sends.</p></article>
+          <article class="card glass" data-in style="--d:6"><small>04</small><h3>Voice reception</h3><p>After-hours calls with the state visible.</p></article>
+          <article class="card glass" data-in style="--d:7"><small>05</small><h3>Products</h3><p>Small systems you can run yourself.</p></article>
+          <article class="card glass" data-in style="--d:8"><small>06</small><h3>Technical</h3><p>The path a signal takes, end to end.</p></article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 · COMMERCE — jewel: the approval state -->
+  <section class="slide" aria-label="Connected commerce">
+    <div class="split">
+      <div class="stack">
+        <p class="eyebrow" data-in style="--d:0"><b></b>01 · Connected commerce</p>
+        <h2 data-in style="--d:1">One approved edit.<br><em>Every surface agrees.</em></h2>
+        <p class="lead" data-in style="--d:2">
+          A price changes in the back office. On most stacks the storefront
+          updates, the support macro does not, and a customer is quoted last
+          month's price. Here the edit is held as a draft with a named approver,
+          and one approval writes to every connected surface in the same pass.
+        </p>
+      </div>
+      <div class="stack" data-in style="--d:3">
+        <div class="card glass">
+          <small>Back office · draft held</small>
+          <div class="rows" style="gap:0">
+            <div class="row" style="grid-template-columns:1fr auto;border-top:0;padding:9px 0"><p style="font-size:0.9rem">Storefront</p><p style="font-size:0.9rem" class="dim">awaiting approval</p></div>
+            <div class="row" style="grid-template-columns:1fr auto;padding:9px 0"><p style="font-size:0.9rem">Support macro</p><p style="font-size:0.9rem" class="dim">awaiting approval</p></div>
+            <div class="row" style="grid-template-columns:1fr auto;padding:9px 0"><p style="font-size:0.9rem">Dashboard</p><p style="font-size:0.9rem" class="dim">awaiting approval</p></div>
+            <div class="row" style="grid-template-columns:1fr auto;padding:9px 0"><p style="font-size:0.9rem">Approver</p><p style="font-size:0.9rem" class="jewel">Commerce lead</p></div>
+          </div>
+        </div>
+        <p class="dim" style="font-size:0.78rem">Nothing publishes on its own. An accidental keystroke never reaches a customer.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 · ENROLLMENT — jewel: the handoff state -->
+  <section class="slide" aria-label="Enrollment operations">
+    <div class="split">
+      <div class="stack">
+        <p class="eyebrow" data-in style="--d:0"><b></b> 02 · Enrollment operations</p>
+        <h2 data-in style="--d:1">An enquiry at 21:40.<br><em>Nobody chases it.</em></h2>
+        <p class="lead" data-in style="--d:2">
+          It arrives after hours, from a phone, half the fields blank. It
+          qualifies itself against real capacity, holds a trial, writes the CRM
+          record with an owner and a next action — and the moment a payment
+          question appears, the machine stops and a named person inherits the
+          whole conversation.
+        </p>
+      </div>
+      <div class="stack" data-in style="--d:3">
+        <div class="card glass">
+          <small>Lead record · synthetic</small>
+          <div class="rows" style="gap:0">
+            <div class="row" style="grid-template-columns:auto 1fr;border-top:0;padding:9px 0"><span>SPORT</span><p style="font-size:0.9rem">Basketball · U12</p></div>
+            <div class="row" style="grid-template-columns:auto 1fr;padding:9px 0"><span>OWNER</span><p style="font-size:0.9rem">Enrollment desk</p></div>
+            <div class="row" style="grid-template-columns:auto 1fr;padding:9px 0"><span>NEXT</span><p style="font-size:0.9rem">Confirm attendance</p></div>
+            <div class="row" style="grid-template-columns:auto 1fr;padding:9px 0"><span>STATE</span><p style="font-size:0.9rem" class="jewel">human_control</p></div>
+          </div>
+        </div>
+        <p class="dim" style="font-size:0.78rem">One field flips, the bot goes quiet on that thread only, and every other lead keeps moving.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 · FOLLOW-UP — jewel: the zero -->
+  <section class="slide" aria-label="Follow-up recovery">
+    <div class="stack">
+      <p class="eyebrow" data-in style="--d:0"><b></b> 03 · Follow-up recovery</p>
+      <h2 data-in style="--d:1">Finding the leads the CRM <em>quietly forgot.</em></h2>
+    </div>
+    <div class="grid-4" style="margin-top:clamp(8px,1.6vh,20px)">
+      <div class="metric glass" data-in style="--d:2"><small>Flagged</small><strong>5</strong><span>No owner, overdue, no next action</span></div>
+      <div class="metric glass" data-in style="--d:3"><small>Excluded</small><strong>1</strong><span>Healthy record, left untouched</span></div>
+      <div class="metric glass" data-in style="--d:4"><small>Contact fields used</small><strong>0</strong><span>Phone and email never reach the analysis</span></div>
+      <div class="metric glass" data-in style="--d:5"><small>Messages sent</small><strong class="jewel">0</strong><span>Detection never becomes outreach</span></div>
+    </div>
+    <p class="lead" data-in style="--d:6; margin-top:clamp(6px,1.2vh,14px)">
+      Deterministic rules a founder can read and argue with. The package prepares
+      a review digest and stops there; the outreach node is disabled on the
+      canvas itself.
+    </p>
+  </section>
+
+  <!-- 09 · VOICE — jewel: the live state -->
+  <section class="slide" aria-label="Voice reception">
+    <div class="split">
+      <div class="stack">
+        <p class="eyebrow" data-in style="--d:0"><b></b> 04 · Voice reception</p>
+        <h2 data-in style="--d:1">The caller hears a voice.<br>The operation <em>sees a state.</em></h2>
+        <p class="lead" data-in style="--d:2">
+          Arden answers inside approved coverage: known questions, prepared
+          availability, structured capture. It cannot invent a price at midnight,
+          it prepares a hold rather than assuming a booking, and one sentence
+          from the caller is enough to reach a person.
+        </p>
+      </div>
+      <div class="stack" data-in style="--d:3">
+        <div class="card glass">
+          <small>Line 01 · 21:47 · after hours</small>
+          <div class="rows" style="gap:0">
+            <div class="row" style="grid-template-columns:auto 1fr;border-top:0;padding:9px 0"><span>INTENT</span><p style="font-size:0.9rem">Booking</p></div>
+            <div class="row" style="grid-template-columns:auto 1fr;padding:9px 0"><span>STATE</span><p style="font-size:0.9rem">Availability checked</p></div>
+            <div class="row" style="grid-template-columns:auto 1fr;padding:9px 0"><span>ACTION</span><p style="font-size:0.9rem">Hold prepared</p></div>
+            <div class="row" style="grid-template-columns:auto 1fr;padding:9px 0"><span>BOUNDARY</span><p style="font-size:0.9rem" class="jewel">Confirmation required</p></div>
+          </div>
+        </div>
+        <p class="dim" style="font-size:0.78rem">Every reply carries an intent, a safe state and a business action beside it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · HUMAN BOUNDARY — jewel: the handoff card label -->
+  <section class="slide" aria-label="The human boundary">
+    <p class="eyebrow" data-in style="--d:0"><b></b> Control before automation</p>
+    <h2 data-in style="--d:1">A useful system knows <em>where it must stop.</em></h2>
+    <div class="grid-3" style="margin-top:clamp(8px,1.6vh,20px)">
+      <article class="card glass" data-in style="--d:2"><small>Approved scope</small><h3>Routine, reversible work</h3><p>Approved answers, prepared availability, structured capture, consistent logging.</p></article>
+      <article class="card glass" data-in style="--d:3"><small class="jewel">Immediate handoff</small><h3>Relationship and exceptions</h3><p>Human requests, complaints, payment, sensitive judgement, unresolved uncertainty.</p></article>
+      <article class="card glass" data-in style="--d:4"><small>Completion</small><h3>An owned next state</h3><p>The work ends when the outcome, the owner and the next action are all visible.</p></article>
+    </div>
+    <p class="lead" data-in style="--d:5">
+      A handoff is not a transferred call ringing into the void. The automation
+      goes quiet on that one thread, a person inherits the full context, and
+      control returns only when they are done.
+    </p>
+  </section>
+
+  <!-- 11 · EVIDENCE — jewel: the first chip -->
+  <section class="slide" aria-label="Evidence discipline">
+    <div class="split">
+      <div class="stack">
+        <p class="eyebrow" data-in style="--d:0"><b></b> Evidence discipline</p>
+        <h2 data-in style="--d:1">Status stated,<br><em>never implied.</em></h2>
+        <p class="lead" data-in style="--d:2">
+          Every surface in the portfolio says what it is at the point of use. A
+          prototype is labelled a prototype. An inactive package says so. No
+          client identity, no production URL, no real customer record and no
+          performance claim appears anywhere.
+        </p>
+      </div>
+      <div class="stack" data-in style="--d:3">
+        <div class="chips">
+          <span class="chip" style="border-color:var(--color-accent);color:var(--color-accent)">Implemented · anonymized</span>
+          <span class="chip">Bluerook product</span>
+          <span class="chip">Capability prototype</span>
+          <span class="chip">Fictional demonstration</span>
+        </div>
+        <div class="rule"></div>
+        <p class="dim" style="font-size:0.82rem;line-height:1.6;max-width:40ch">
+          Fictional identities carry the demonstrations: Aster &amp; Vale for
+          commerce, Northline Athletics for enrollment. Both are invented, and
+          both are labelled on the page.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · LIVE — jewel: the clock -->
+  <section class="slide" aria-label="The live channel">
+    <div class="stack">
+      <p class="eyebrow" data-in style="--d:0"><b></b> Not a simulation</p>
+      <h2 data-in style="--d:1">Everything else is a demonstration.<br><em>This part calls you back.</em></h2>
+      <p class="lead" data-in style="--d:2">
+        The portfolio ends with a channel that reaches a real service. Show
+        intent the way a lead would, and the gap between that and your phone
+        ringing is the entire product. Consent gated, one call per number per
+        day, nothing stored.
+      </p>
+    </div>
+    <div class="grid-3" style="margin-top:clamp(8px,1.6vh,20px)">
+      <div class="metric glass" data-in style="--d:3"><small>Speed to lead</small><strong class="jewel">&lt;60s</strong><span>Intent captured to agent dialling</span></div>
+      <div class="metric glass" data-in style="--d:4"><small>Channels</small><strong>3</strong><span>Voice callback, browser call, WhatsApp</span></div>
+      <div class="metric glass" data-in style="--d:5"><small>Stored</small><strong>0</strong><span>Nothing typed or said is retained</span></div>
+    </div>
+  </section>
+
+  <!-- 13 · THE STANDARD — jewel: the accent word -->
+  <section class="slide" aria-label="The standard">
+    <p class="eyebrow" data-in style="--d:0"><b></b> The standard</p>
+    <h1 data-in style="--d:1; max-width:20ch">Systems do not impress anyone. <em class="jewel">Finished work does.</em></h1>
+    <p class="lead" data-in style="--d:2">
+      The standard holds whether you are watching or not.
+    </p>
+  </section>
+
+  <!-- 14 · CLOSE — jewel: the brass rule -->
+  <section class="slide" aria-label="Book a call">
+    <p class="eyebrow" data-in style="--d:0"><b></b> Next</p>
+    <h2 data-in style="--d:1">Bring the bottleneck.<br><em>We map it in thirty minutes.</em></h2>
+    <p class="lead" data-in style="--d:2">
+      We define the workflow, the failure point, the system of record and the
+      human boundary, then scope the smallest useful first system. No obligation
+      and no deck at the end of it.
+    </p>
+    <div class="rule" data-in style="--d:3; background:linear-gradient(90deg,var(--color-accent),transparent)"></div>
+    <div class="stack" data-in style="--d:4; gap:6px">
+      <p style="font-size:clamp(0.95rem,1.3vw,1.2rem)">hatim@bluerook.co</p>
+      <p class="dim" style="font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.14em">BLUEROOK.CO · WE RUN YOUR OPERATIONS. YOU RUN YOUR EMPIRE.</p>
+    </div>
+  </section>
+
+</main>
+
+<nav class="hud" aria-label="Slide navigation">
+  <button type="button" id="prev" aria-label="Previous slide">&larr;</button>
+  <span class="count"><span id="now">1</span> / <span id="all">14</span></span>
+  <button type="button" id="next" aria-label="Next slide">&rarr;</button>
+</nav>
+
+<script>
+(function () {
+  'use strict';
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const rail = document.getElementById('rail');
+  const now = document.getElementById('now');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  document.getElementById('all').textContent = String(slides.length);
+
+  let index = 0;
+
+  function show(target) {
+    index = Math.max(0, Math.min(slides.length - 1, target));
+    slides.forEach((slide, i) => {
+      const live = i === index;
+      slide.classList.toggle('is-live', live);
+      // Keep off-screen slides out of the tab order and the a11y tree.
+      slide.setAttribute('aria-hidden', String(!live));
+      if ('inert' in slide) slide.inert = !live;
+    });
+    now.textContent = String(index + 1);
+    rail.style.setProperty('--p', ((index + 1) / slides.length).toFixed(4));
+    prev.disabled = index === 0;
+    next.disabled = index === slides.length - 1;
+    if (location.hash !== '#' + (index + 1)) {
+      history.replaceState(null, '', '#' + (index + 1));
+    }
+  }
+
+  prev.addEventListener('click', () => show(index - 1));
+  next.addEventListener('click', () => show(index + 1));
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight' || event.key === 'PageDown') { event.preventDefault(); show(index + 1); }
+    if (event.key === 'ArrowLeft' || event.key === 'PageUp') { event.preventDefault(); show(index - 1); }
+    if (event.key === ' ' && !event.target.closest('button')) { event.preventDefault(); show(index + 1); }
+    if (event.key === 'Home') { event.preventDefault(); show(0); }
+    if (event.key === 'End') { event.preventDefault(); show(slides.length - 1); }
+  });
+
+  // Advance on a click anywhere that is not a control, the way a remote does.
+  document.addEventListener('click', (event) => {
+    if (event.target.closest('.hud') || event.target.closest('a')) return;
+    show(index + 1);
+  });
+
+  // Touch: swipe left and right.
+  let startX = 0;
+  document.addEventListener('touchstart', (e) => { startX = e.changedTouches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 55) show(index + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+
+  const fromHash = parseInt((location.hash || '').slice(1), 10);
+  show(Number.isFinite(fromHash) && fromHash > 0 ? fromHash - 1 : 0);
+})();
+</script>
+</body>
+</html>

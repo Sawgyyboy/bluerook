@@ -1,0 +1,859 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!--
+  THESIS: One scroll. No branches. The visitor is walked through the operation
+          from signal to outcome and cannot get lost on the way.
+  FORM:   A linear funnel. Every panel locks to the centre of the viewport and
+          drives its own state from scroll position — nothing waits for a click.
+  RULE:   Copy is captions. The synthetic UI is the argument.
+  -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08111E">
+  <meta name="description" content="One continuous scroll through the Bluerook operation: the automation floor, connected commerce, enrollment operations, follow-up recovery, voice reception and the owner's cockpit — all running as you scroll.">
+  <title>The Operation — Bluerook</title>
+  <link rel="canonical" href="https://bluerook.co/work/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Bluerook">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:url" content="https://bluerook.co/work/">
+  <meta property="og:title" content="The Operation — Bluerook">
+  <meta property="og:description" content="One scroll, end to end. The automation floor, the systems that run on it, and the cockpit an owner watches it from.">
+  <meta property="og:image" content="https://bluerook.co/og-image.png">
+  <meta property="og:image:secure_url" content="https://bluerook.co/og-image.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Bluerook — we run your operations, you run your empire.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Operation — Bluerook">
+  <meta name="twitter:description" content="One scroll, end to end. Every panel runs itself as you move.">
+  <meta name="twitter:image" content="https://bluerook.co/og-image.png">
+  <meta name="twitter:image:alt" content="Bluerook — we run your operations, you run your empire.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/tokens.css">
+  <link rel="stylesheet" href="/styles.css?v=20260805g">
+  <link rel="stylesheet" href="/css/portfolio/showcase.css?v=20260807f">
+  <link rel="stylesheet" href="/css/portfolio/funnel.css?v=20260808a">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="/favicon-src.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+</head>
+<body class="pf-body fn-body">
+
+<a class="pf-skip" href="#main">Skip to the operation</a>
+<div class="pf-live" aria-live="polite" data-pf-live></div>
+
+<div class="ambient" aria-hidden="true">
+  <span class="ambient__orb ambient__orb--1" data-orb="1"></span>
+  <span class="ambient__orb ambient__orb--2" data-orb="2"></span>
+  <span class="ambient__orb ambient__orb--3" data-orb="3"></span>
+  <span class="ambient__orb ambient__orb--4" data-orb="4"></span>
+  <span class="ambient__cursor" data-cursor-glow></span>
+  <span class="ambient__grain"></span>
+</div>
+
+<header class="nav" data-nav>
+  <div class="nav__inner">
+    <a href="/" class="nav__logo" aria-label="Bluerook home">
+      <svg class="nav__logo-mark" viewBox="0 0 100 115" width="32" height="37" aria-hidden="true">
+        <path d="M 26,0 L 32,0 L 32,14 L 40,14 L 40,0 L 46,0 L 46,14 L 54,14 L 54,0 L 60,0 L 60,14 L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 26,26 Z" fill="#1C3F8A"/>
+        <rect x="4" y="111" width="92" height="4" fill="#D4A437"/>
+      </svg>
+      <span class="nav__logo-text">Bluerook</span>
+    </a>
+    <!-- Three doors. Everything else lives one level down, revealed on hover
+         (or focus, or tap) so the header never grows past three words.
+         Home is the logo. -->
+    <nav class="nav__links fn-nav" aria-label="Primary" data-fn-nav>
+      <div class="fn-nav__item" data-fn-navitem>
+        <a href="/work/" aria-current="page" aria-expanded="false" aria-haspopup="true">Work<i aria-hidden="true"></i></a>
+        <div class="fn-nav__pop" data-fn-pop role="group" aria-label="Work">
+          <span class="fn-nav__sheen" aria-hidden="true"></span>
+          <a href="/work/"><b>The operation</b><span>One scroll, end to end</span></a>
+          <a href="/work/ecommerce-operations/"><b>Connected commerce</b><span>One approval, every surface</span></a>
+          <a href="/work/sports-enrollment-operations/"><b>Enrollment operations</b><span>Enquiry to booking, unattended</span></a>
+          <a href="/work/follow-up-gap-detector/"><b>Follow-up recovery</b><span>The leads that went quiet</span></a>
+          <a href="/work/operations-dashboard/"><b>Operations dashboard</b><span>The owner&rsquo;s cockpit</span></a>
+          <a href="/work/sports-operations-os/"><b>Sports Operations OS</b><span>A full club system</span></a>
+          <a href="/products/"><b>Products</b><span>Systems you run yourself</span></a>
+        </div>
+      </div>
+
+      <div class="fn-nav__item" data-fn-navitem>
+        <a href="/capabilities/" aria-expanded="false" aria-haspopup="true">Capabilities<i aria-hidden="true"></i></a>
+        <div class="fn-nav__pop" data-fn-pop role="group" aria-label="Capabilities">
+          <span class="fn-nav__sheen" aria-hidden="true"></span>
+          <a href="/capabilities/"><b>Speed to lead</b><span>Answered before they cool</span></a>
+          <a href="/capabilities/voice/"><b>Voice reception</b><span>The call nobody was awake for</span></a>
+          <a href="/capabilities/managed-operations/"><b>Managed execution</b><span>We run it, monthly</span></a>
+          <a href="/capabilities/system-builder/"><b>System builder</b><span>Build your own shape</span></a>
+        </div>
+      </div>
+
+      <div class="fn-nav__item" data-fn-navitem>
+        <a href="/technical-portfolio/" class="fn-nav__solo">Technical</a>
+      </div>
+    </nav>
+    <div class="nav__actions">
+      <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle very dark mode" title="Toggle very dark mode">
+        <svg viewBox="0 0 24 24" class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+          <path d="M21 13.5A9 9 0 1 1 10.5 3a7 7 0 0 0 10.5 10.5z" fill="currentColor"/>
+        </svg>
+        <svg viewBox="0 0 24 24" class="theme-toggle__icon theme-toggle__icon--void" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
+          <circle cx="12" cy="12" r="4" fill="currentColor"/>
+        </svg>
+      </button>
+      <a href="https://calendar.app.google/pjQKiGLntog19k9Y9" target="_blank" rel="noopener" class="btn btn--primary nav__cta">Book a call</a>
+      <button type="button" class="nav__hamburger" data-pf-menu-toggle aria-label="Open menu" aria-expanded="false" aria-controls="pf-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="pf-menu" id="pf-menu" data-pf-menu role="dialog" aria-modal="true" aria-label="Navigation" aria-hidden="true" hidden>
+  <button type="button" class="pf-menu__close" data-pf-menu-close aria-label="Close menu">&times;</button>
+  <!-- No hover on a phone, so the menu stays a flat list of everything. -->
+  <nav aria-label="Sections">
+    <a href="/">Home</a>
+    <a href="/work/">The operation</a>
+    <a href="/capabilities/">Capabilities</a>
+    <a href="/products/">Products</a>
+    <a href="/technical-portfolio/">Technical portfolio</a>
+  </nav>
+  <a href="https://calendar.app.google/pjQKiGLntog19k9Y9" target="_blank" rel="noopener" class="btn btn--primary">Book a call</a>
+</div>
+
+<div class="pf-progress" data-pf-progress aria-hidden="true"></div>
+
+<!-- The visitor's position in one continuous story. It is the only navigation
+     on the page, and it never leaves it. -->
+<nav class="fn-rail" data-fn-rail aria-label="Progress through the operation">
+  <a href="#floor"     data-fn-railitem><i></i><span>The floor</span></a>
+  <a href="#commerce"  data-fn-railitem><i></i><span>Commerce</span></a>
+  <a href="#enrollment"data-fn-railitem><i></i><span>Enrollment</span></a>
+  <a href="#recovery"  data-fn-railitem><i></i><span>Recovery</span></a>
+  <a href="#voice"     data-fn-railitem><i></i><span>Reception</span></a>
+  <a href="#cockpit"   data-fn-railitem><i></i><span>Cockpit</span></a>
+  <a href="#try"       data-fn-railitem><i></i><span>Try it</span></a>
+  <a href="#pick"      data-fn-railitem><i></i><span>Deep dives</span></a>
+</nav>
+
+<main id="main">
+
+  <!-- ══════════════════ 00 · HERO ══════════════════ -->
+  <section class="fn-hero fn-lock" id="hero">
+    <div class="fn-hero__bg" aria-hidden="true">
+      <picture class="fn-hero__plate">
+        <source srcset="/assets/portfolio/hero-plate.webp" type="image/webp">
+        <img src="/assets/portfolio/hero-plate.jpg" width="1920" height="815" alt="" fetchpriority="high" decoding="async">
+      </picture>
+      <div class="fn-hero__grid"></div>
+      <div class="fn-hero__vignette"></div>
+    </div>
+
+    <div class="fn-hero__inner">
+      <p class="fn-kicker" data-pf-fade><span class="pf-dot"></span> One scroll · nothing to click</p>
+      <h1 class="fn-hero__title" data-pf-split>
+        <span class="pf-line">We run the operation</span>
+        <span class="pf-line"><em>behind</em> the outcome.</span>
+      </h1>
+      <p class="fn-hero__lead" data-pf-fade>Keep scrolling. It runs itself.</p>
+      <a class="btn btn--primary fn-hero__cta" data-pf-fade href="https://calendar.app.google/pjQKiGLntog19k9Y9" target="_blank" rel="noopener">
+        <span>Book a free 30-minute call</span>
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="square"/></svg>
+      </a>
+    </div>
+
+    <div class="pf-scrollhint" aria-hidden="true"><span>SCROLL</span><i></i></div>
+  </section>
+
+  <!-- ══════════════════ 01 · THE PROBLEM ══════════════════ -->
+  <section class="fn-lock fn-thesis">
+    <div class="fn-wrap">
+      <p class="pf-statement pf-statement--big" data-pf-words>
+        You do not need more software. You need someone to own what software leaves behind.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 02 · WHAT WE DO (sticky two-column) ══════════════════ -->
+  <section class="fn-wwd" id="what" data-fn-wwd>
+    <div class="fn-wrap fn-wwd__grid">
+
+      <!-- Left: sticky. Only ever shows the system you are currently inside. -->
+      <div class="fn-wwd__left">
+        <div class="fn-wwd__stick">
+          <p class="fn-kicker">What we do</p>
+          <div class="fn-wwd__slides">
+            <article class="fn-wwd__slide is-live" data-wwd-slide="0">
+              <span class="fn-wwd__num">01</span>
+              <h2 class="fn-wwd__name">Recurring<br><em>infrastructure</em></h2>
+              <p class="fn-wwd__line">We run it. Monthly.</p>
+              <ul class="fn-wwd__facts">
+                <li><b>4h</b> response SLA</li>
+                <li><b>48h</b> onboarding</li>
+                <li><b>You</b> own every asset</li>
+              </ul>
+            </article>
+            <article class="fn-wwd__slide" data-wwd-slide="1">
+              <span class="fn-wwd__num">02</span>
+              <h2 class="fn-wwd__name">Managed<br><em>implementations</em></h2>
+              <p class="fn-wwd__line">We build it. Milestone priced.</p>
+              <ul class="fn-wwd__facts">
+                <li><b>Fixed</b> scope per milestone</li>
+                <li><b>Sandbox</b> staged before live</li>
+                <li><b>No</b> lock-in</li>
+              </ul>
+            </article>
+          </div>
+          <div class="fn-wwd__bar" aria-hidden="true"><i data-wwd-bar></i></div>
+        </div>
+      </div>
+
+      <!-- Right: scrolls through the nested detail of each system. -->
+      <div class="fn-wwd__right">
+
+        <article class="fn-det" data-wwd-det data-wwd-of="0">
+          <header><span class="fn-det__tag">01 · A</span><h3>AI System VAs</h3></header>
+          <p>A role, not a chatbot. Defined permissions, a named escalation, working hours.</p>
+          <div class="fn-mini fn-mini--role">
+            <div class="fn-mini__bar"><span>role · reception</span><b>Active</b></div>
+            <div class="fn-mini__rows">
+              <div><span>Can</span><b>Answer, qualify, book, log</b></div>
+              <div><span>Cannot</span><b>Price, promise, refund</b></div>
+              <div><span>Escalates to</span><b>Named owner · 4h SLA</b></div>
+              <div><span>Hours</span><b>24/7 · GMT+3 handover</b></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="fn-det" data-wwd-det data-wwd-of="0">
+          <header><span class="fn-det__tag">01 · B</span><h3>Reception &amp; speed to lead</h3></header>
+          <p>Every inbound channel answered on the same clock, whoever is asleep.</p>
+          <div class="fn-mini fn-mini--clock">
+            <div class="fn-mini__bar"><span>median first response</span><b>last 30 days</b></div>
+            <div class="fn-clockrow"><span>Web form</span><i style="--w:.08"></i><b>11s</b></div>
+            <div class="fn-clockrow"><span>WhatsApp</span><i style="--w:.14"></i><b>19s</b></div>
+            <div class="fn-clockrow"><span>Phone</span><i style="--w:.05"></i><b>2 rings</b></div>
+            <div class="fn-clockrow is-bad"><span>Industry inbox</span><i style="--w:1"></i><b>13h</b></div>
+          </div>
+        </article>
+
+        <article class="fn-det" data-wwd-det data-wwd-of="0">
+          <header><span class="fn-det__tag">01 · C</span><h3>Maintenance &amp; optimization</h3></header>
+          <p>Systems rot. Someone has to watch the seams every week.</p>
+          <div class="fn-mini fn-mini--health">
+            <div class="fn-mini__bar"><span>weekly integrity run</span><b>6 / 6 pass</b></div>
+            <ul class="fn-checks">
+              <li>Credentials &amp; token expiry</li>
+              <li>Failed executions replayed</li>
+              <li>Record drift across surfaces</li>
+              <li>Escalations that never closed</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="fn-det" data-wwd-det data-wwd-of="1">
+          <header><span class="fn-det__tag">02 · A</span><h3>Automation systems</h3></header>
+          <p>The build itself. Branches, service calls, approval gates, an exit for humans.</p>
+          <div class="fn-mini fn-mini--spec">
+            <div class="fn-mini__bar"><span>build manifest</span><b>signed off</b></div>
+            <div class="fn-spec">
+              <div><strong>40</strong><span>nodes</span></div>
+              <div><strong>11</strong><span>branches</span></div>
+              <div><strong>10</strong><span>service calls</span></div>
+              <div><strong>3</strong><span>record writes</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="fn-det" data-wwd-det data-wwd-of="1">
+          <header><span class="fn-det__tag">02 · B</span><h3>Audits &amp; architecture</h3></header>
+          <p>Before anything is built: what breaks, who owns it, what is worth automating.</p>
+          <div class="fn-mini fn-mini--audit">
+            <div class="fn-mini__bar"><span>bottleneck map</span><b>9 steps traced</b></div>
+            <ul class="fn-audit">
+              <li data-own="you">Quote approval<span>you</span></li>
+              <li data-own="sys">Enquiry intake<span>system</span></li>
+              <li data-own="none">Follow-up after day 3<span>nobody</span></li>
+              <li data-own="sys">Record write<span>system</span></li>
+              <li data-own="none">Refund exceptions<span>nobody</span></li>
+            </ul>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 03 · THE SYSTEM FLOOR (n8n) ══════════════════ -->
+  <section class="fx fn-floor" id="floor" data-fx="floor" data-fx-steps="5" style="--fx-len:5">
+    <div class="fx__track">
+      <div class="fx__pin">
+        <div class="fn-wrap fx__inner">
+          <header class="fx__head">
+            <p class="fn-kicker">03 · The floor</p>
+            <h2 class="fx__title">Everything above this line<br><em>runs on this.</em></h2>
+            <p class="fx__cap" data-fx-cap>A message arrives. Nothing has run yet.</p>
+          </header>
+
+          <div class="n8n" data-n8n>
+            <div class="n8n__bar">
+              <span class="n8n__file">enrollment-intake.json</span>
+              <span class="n8n__pill"><i></i>Active</span>
+              <span class="n8n__exec">execution <b data-n8n-exec>4182</b></span>
+            </div>
+
+            <div class="n8n__canvas">
+              <svg class="n8n__wires" viewBox="0 0 1000 520" preserveAspectRatio="none" aria-hidden="true">
+                <g class="n8n__base">
+                  <path d="M130 260 C 170 260 190 260 230 260"/>
+                  <path d="M310 260 C 350 260 370 260 410 260"/>
+                  <path d="M490 260 C 545 260 555 104 600 104"/>
+                  <path d="M490 260 C 545 260 555 260 600 260"/>
+                  <path d="M490 260 C 545 260 555 406 600 406"/>
+                  <path d="M680 104 C 730 104 740 182 800 182"/>
+                  <path d="M680 260 C 730 260 740 182 800 182"/>
+                  <path d="M680 406 C 730 406 740 406 800 406"/>
+                </g>
+                <g class="n8n__flow">
+                  <path pathLength="1" data-wire="0" d="M130 260 C 170 260 190 260 230 260"/>
+                  <path pathLength="1" data-wire="1" d="M310 260 C 350 260 370 260 410 260"/>
+                  <path pathLength="1" data-wire="2" d="M490 260 C 545 260 555 104 600 104"/>
+                  <path pathLength="1" data-wire="3" d="M490 260 C 545 260 555 260 600 260"/>
+                  <path pathLength="1" data-wire="4" d="M490 260 C 545 260 555 406 600 406"/>
+                  <path pathLength="1" data-wire="5" d="M680 104 C 730 104 740 182 800 182"/>
+                  <path pathLength="1" data-wire="6" d="M680 260 C 730 260 740 182 800 182"/>
+                  <path pathLength="1" data-wire="7" d="M680 406 C 730 406 740 406 800 406"/>
+                </g>
+              </svg>
+
+              <div class="n8n__node n8n__node--trigger" data-node="0" style="--x:9;--y:50">
+                <span class="n8n__box">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" fill="currentColor"/></svg>
+                  <i class="n8n__io n8n__io--out"></i>
+                </span>
+                <span class="n8n__label"><strong>Webhook</strong><small>Trigger</small></span>
+              </div>
+
+              <div class="n8n__node" data-node="1" style="--x:27;--y:50">
+                <span class="n8n__box">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6 4 12l5 6M15 6l5 6-5 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <i class="n8n__io n8n__io--in"></i><i class="n8n__io n8n__io--out"></i>
+                </span>
+                <span class="n8n__label"><strong>Normalize</strong><small>Code</small></span>
+              </div>
+
+              <div class="n8n__node n8n__node--switch" data-node="2" style="--x:45;--y:50">
+                <span class="n8n__box">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h5m0 0 4-6h9m-13 6 4 6h9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <i class="n8n__io n8n__io--in"></i>
+                  <i class="n8n__io n8n__io--out n8n__io--o1"></i>
+                  <i class="n8n__io n8n__io--out n8n__io--o2"></i>
+                  <i class="n8n__io n8n__io--out n8n__io--o3"></i>
+                </span>
+                <span class="n8n__label"><strong>Classify</strong><small>Switch · 11</small></span>
+              </div>
+
+              <div class="n8n__node" data-node="3" style="--x:64;--y:20">
+                <span class="n8n__box">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 0c3 3 3 15 0 18M3 12h18" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+                  <i class="n8n__io n8n__io--in"></i><i class="n8n__io n8n__io--out"></i>
+                </span>
+                <span class="n8n__label"><strong>Capacity</strong><small>HTTP</small></span>
+              </div>
+
+              <div class="n8n__node n8n__node--agent" data-node="4" style="--x:64;--y:50">
+                <span class="n8n__box">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="7" width="16" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v4M9 13h.01M15 13h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  <i class="n8n__io n8n__io--in"></i><i class="n8n__io n8n__io--out"></i>
+                </span>
+                <span class="n8n__label"><strong>Agent</strong><small>Bounded reply</small></span>
+              </div>
+
+              <div class="n8n__node n8n__node--human" data-node="5" style="--x:64;--y:78">
+                <span class="n8n__box">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 20a7 7 0 0 1 14 0" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+                  <i class="n8n__io n8n__io--in"></i><i class="n8n__io n8n__io--out"></i>
+                </span>
+                <span class="n8n__label"><strong>Human queue</strong><small>Exit</small></span>
+              </div>
+
+              <div class="n8n__node" data-node="6" style="--x:84;--y:35">
+                <span class="n8n__box">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h9l3 3v13H6z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 11h6M9 15h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  <i class="n8n__io n8n__io--in"></i>
+                </span>
+                <span class="n8n__label"><strong>Write record</strong><small>Notion · 3</small></span>
+              </div>
+
+              <div class="n8n__node" data-node="7" style="--x:84;--y:78">
+                <span class="n8n__box">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+                  <i class="n8n__io n8n__io--in"></i>
+                </span>
+                <span class="n8n__label"><strong>Notify owner</strong><small>Send</small></span>
+              </div>
+            </div>
+
+            <div class="n8n__log" data-n8n-log aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 04 · CONNECTED COMMERCE ══════════════════ -->
+  <section class="fx" id="commerce" data-fx="commerce" data-fx-steps="4" style="--fx-len:4">
+    <div class="fx__track">
+      <div class="fx__pin">
+        <div class="fn-wrap fx__inner">
+          <header class="fx__head">
+            <p class="fn-kicker">04 · Connected commerce</p>
+            <h2 class="fx__title">One approved edit.<br><em>Every surface agrees.</em></h2>
+            <p class="fx__cap" data-fx-cap>A price changes in the back office.</p>
+          </header>
+
+          <div class="fn-console" data-console>
+            <div class="fn-console__bar">
+              <span class="fn-console__dot"></span>
+              <span>Aster &amp; Vale · operations</span>
+              <b data-fx-step>01 / 04</b>
+            </div>
+
+            <div class="fn-surfaces">
+              <article class="fn-srf">
+                <header><span>Back office</span><b data-c-state>Editing</b></header>
+                <div class="fn-row"><span>SKU</span><b>AV-104</b></div>
+                <div class="fn-row"><span>Title</span><b>Field Notes No. 04</b></div>
+                <div class="fn-row is-hot"><span>Price</span><b data-c-price>$48.00</b></div>
+                <div class="fn-gate" data-c-gate>
+                  <span>Approver · commerce lead</span>
+                  <b data-c-pill>Awaiting</b>
+                </div>
+              </article>
+
+              <article class="fn-srf">
+                <header><span>Storefront</span><b data-c-store-state>Live</b></header>
+                <div class="fn-product">
+                  <picture>
+                    <source srcset="/assets/portfolio/av-104-field-notes.webp" type="image/webp">
+                    <img src="/assets/portfolio/av-104-field-notes.jpg" width="720" height="720" loading="lazy" decoding="async"
+                         alt="Field Notes No. 04, a navy pocket notebook standing on a concrete surface.">
+                  </picture>
+                  <strong>Field Notes No. 04</strong>
+                  <span class="fn-product__price" data-c-store>$48.00</span>
+                </div>
+              </article>
+
+              <article class="fn-srf">
+                <header><span>Connected records</span></header>
+                <div class="fn-rec" data-c-rec="dash"><span>Dashboard</span><b>$48.00</b></div>
+                <div class="fn-rec" data-c-rec="crm"><span>Support macro</span><b>$48.00</b></div>
+                <div class="fn-rec" data-c-rec="feed"><span>Channel feed</span><b>$48.00</b></div>
+              </article>
+            </div>
+
+            <div class="fn-stream" data-stream aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 05 · ENROLLMENT OPERATIONS ══════════════════ -->
+  <section class="fx" id="enrollment" data-fx="enrollment" data-fx-steps="4" style="--fx-len:4">
+    <div class="fx__track">
+      <div class="fx__pin">
+        <div class="fn-wrap fx__inner">
+          <header class="fx__head">
+            <p class="fn-kicker">05 · Enrollment operations</p>
+            <h2 class="fx__title">An enquiry becomes a booking.<br><em>Nobody chases it.</em></h2>
+            <p class="fx__cap" data-fx-cap>21:40, from a phone, half the fields blank.</p>
+          </header>
+
+          <div class="fn-console" data-console>
+            <div class="fn-console__bar">
+              <span class="fn-console__dot"></span>
+              <span>Northline Athletics · enrollment desk</span>
+              <b data-fx-step>01 / 04</b>
+            </div>
+
+            <div class="fn-pipe" aria-hidden="true">
+              <span data-e-node="0">Enquiry</span>
+              <span data-e-node="1">Qualified</span>
+              <span data-e-node="2">Booked</span>
+              <span data-e-node="3">Human</span>
+            </div>
+
+            <div class="fn-surfaces fn-surfaces--2">
+              <article class="fn-srf">
+                <header><span>Lead record</span><b data-e-state>Unqualified</b></header>
+                <div class="fn-row"><span>Programme</span><b data-e-prog>—</b></div>
+                <div class="fn-row"><span>Age band</span><b data-e-age>—</b></div>
+                <div class="fn-row"><span>Owner</span><b data-e-owner>Unassigned</b></div>
+                <div class="fn-row is-hot"><span>Next action</span><b data-e-next>None</b></div>
+              </article>
+
+              <article class="fn-srf">
+                <header><span>Capacity</span><b data-e-cap-state>Open</b></header>
+                <div class="fn-caps">
+                  <span data-e-slot="0">Sat 10:00</span>
+                  <span data-e-slot="1">Sat 15:00</span>
+                  <span data-e-slot="2">Sun 11:30</span>
+                </div>
+                <div class="fn-row"><span>Places left</span><b data-e-places>4</b></div>
+              </article>
+            </div>
+
+            <div class="fn-stream" data-stream aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 06 · FOLLOW-UP RECOVERY ══════════════════ -->
+  <section class="fx" id="recovery" data-fx="recovery" data-fx-steps="6" style="--fx-len:4">
+    <div class="fx__track">
+      <div class="fx__pin">
+        <div class="fn-wrap fx__inner">
+          <header class="fx__head">
+            <p class="fn-kicker">06 · Follow-up recovery</p>
+            <h2 class="fx__title">The lead everyone forgot.<br><em>Found in one pass.</em></h2>
+            <p class="fx__cap" data-fx-cap>L-047 &mdash; checking the owner field.</p>
+          </header>
+
+          <div class="fn-console" data-console>
+            <div class="fn-console__bar">
+              <span class="fn-console__dot"></span>
+              <span>Follow-Up Gap Detector · synthetic records</span>
+              <b data-scan-progress>0%</b>
+            </div>
+
+            <div class="fn-scan" data-scan>
+              <div class="fn-scan__row" data-scan-row data-gap="No owner"><span>L-047</span><em>Anya R. · day 6</em><small>Queued</small></div>
+              <div class="fn-scan__row" data-scan-row data-gap="Overdue follow-up"><span>L-043</span><em>Marc D. · day 9</em><small>Queued</small></div>
+              <div class="fn-scan__row" data-scan-row data-gap="No next action"><span>L-018</span><em>Priya S. · day 4</em><small>Queued</small></div>
+              <div class="fn-scan__row" data-scan-row data-healthy="1"><span>L-052</span><em>Tom B. · day 1</em><small>Queued</small></div>
+              <div class="fn-scan__row" data-scan-row data-gap="Trial never booked"><span>L-027</span><em>Lena K. · day 12</em><small>Queued</small></div>
+              <div class="fn-scan__row" data-scan-row data-gap="Missing context"><span>L-049</span><em>Sam O. · day 7</em><small>Queued</small></div>
+            </div>
+
+            <div class="fn-meter">
+              <strong data-scan-count>0</strong>
+              <span>gaps found · <b data-scan-healthy>0</b> healthy left alone</span>
+              <span class="fn-stamp">Never sends. Reviews only.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 07 · VOICE RECEPTION ══════════════════ -->
+  <section class="fx" id="voice" data-fx="voice" data-fx-steps="6" style="--fx-len:5">
+    <div class="fx__track">
+      <div class="fx__pin">
+        <div class="fn-wrap fx__inner">
+          <header class="fx__head">
+            <p class="fn-kicker">07 · Reception</p>
+            <h2 class="fx__title">The call nobody was awake for.<br><em>Answered in two rings.</em></h2>
+            <p class="fx__cap" data-fx-cap>22:14. Unknown number, nobody in the building.</p>
+          </header>
+
+          <div class="fn-call">
+            <div class="fn-phone">
+              <div class="fn-phone__top">
+                <span class="fn-phone__live"><i></i>On call</span>
+                <b data-v-timer>00:00</b>
+              </div>
+              <div class="fn-phone__who">
+                <span class="fn-phone__avatar">+44</span>
+                <strong>Unknown number</strong>
+                <small>Northline Athletics · main line</small>
+              </div>
+              <div class="fn-wave" data-v-wave aria-hidden="true"></div>
+              <div class="fn-phone__foot" aria-hidden="true">
+                <span></span><span class="is-end"></span><span></span>
+              </div>
+            </div>
+
+            <div class="fn-transcript">
+              <div class="fn-transcript__bar"><span>Live transcript</span><b data-v-conf>confidence 0.97</b></div>
+              <div class="fn-transcript__body" data-v-lines></div>
+            </div>
+
+            <aside class="fn-vmeta">
+              <div class="fn-vmeta__block"><span>Detected intent</span><strong data-v-intent>—</strong></div>
+              <div class="fn-vmeta__block"><span>Action taken</span><strong data-v-action>Listening</strong></div>
+              <div class="fn-vmeta__block"><span>Record</span><strong data-v-record>Not yet written</strong></div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 08 · THE COCKPIT ══════════════════ -->
+  <section class="fx" id="cockpit" data-fx="cockpit" data-fx-steps="4" style="--fx-len:4">
+    <div class="fx__track">
+      <div class="fx__pin">
+        <div class="fn-wrap fx__inner">
+          <header class="fx__head">
+            <p class="fn-kicker">08 · The cockpit</p>
+            <h2 class="fx__title">What the owner opens<br><em>on a Monday.</em></h2>
+            <p class="fx__cap" data-fx-cap>Empty. The night has run, nothing is gathered yet.</p>
+          </header>
+
+          <div class="fn-cockpit" data-cockpit>
+            <div class="fn-console__bar">
+              <span class="fn-console__dot"></span>
+              <span>Operations · last 7 days</span>
+              <b data-k-range>syncing…</b>
+            </div>
+
+            <div class="fn-kpis">
+              <div class="fn-kpi"><span>Handled by system</span><strong data-k-count data-to="284">0</strong><i data-k-delta>—</i></div>
+              <div class="fn-kpi"><span>Escalated to a human</span><strong data-k-count data-to="17">0</strong><i data-k-delta>—</i></div>
+              <div class="fn-kpi"><span>Median first response</span><strong data-k-count data-to="14" data-suffix="s">0</strong><i data-k-delta>—</i></div>
+              <div class="fn-kpi fn-kpi--money"><span>Revenue at risk in queue</span><strong data-k-count data-to="9400" data-prefix="$">0</strong><i data-k-delta>—</i></div>
+            </div>
+
+            <div class="fn-cockpit__grid">
+              <div class="fn-chart">
+                <div class="fn-chart__bar"><span>Volume by channel</span></div>
+                <div class="fn-bars">
+                  <div class="fn-bar"><span>Web</span><i style="--v:.92"></i><b>131</b></div>
+                  <div class="fn-bar"><span>WhatsApp</span><i style="--v:.68"></i><b>97</b></div>
+                  <div class="fn-bar"><span>Phone</span><i style="--v:.34"></i><b>49</b></div>
+                  <div class="fn-bar"><span>Email</span><i style="--v:.05"></i><b>7</b></div>
+                </div>
+              </div>
+
+              <div class="fn-queue">
+                <div class="fn-chart__bar"><span>Decisions that cannot wait</span><b data-q-count>0</b></div>
+                <div class="fn-queue__rows" data-q-rows>
+                  <div class="fn-qrow" data-q-row><span class="fn-pri fn-pri--hi">High</span><em>Refund over policy · L-047</em><b>$1,240</b></div>
+                  <div class="fn-qrow" data-q-row><span class="fn-pri fn-pri--hi">High</span><em>Payment failed twice · L-031</em><b>$3,600</b></div>
+                  <div class="fn-qrow" data-q-row><span class="fn-pri">Med</span><em>Schedule clash · Sat 10:00</em><b>$980</b></div>
+                  <div class="fn-qrow" data-q-row><span class="fn-pri">Med</span><em>Bulk enquiry · 14 places</em><b>$3,580</b></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 09 · LIVE ══════════════════ -->
+  <section class="fn-lock pf-live-section" id="try">
+    <div class="fn-wrap">
+      <div class="pf-live-head">
+        <p class="fn-kicker" data-pf-fade>09 · Live · not a simulation</p>
+        <h2 class="pf-live-title" data-pf-fade>Everything above was a demo.<br><em>This part calls you back.</em></h2>
+        <p class="pf-live-lead" data-pf-fade>Leave a number. The gap between that and your phone ringing is the product.</p>
+      </div>
+
+      <div class="fn-try">
+        <form class="fn-try__main" data-pf-fade data-try-form>
+
+          <!-- Channel first: the choice changes what the button does, so it
+               has to be made before the button is read. -->
+          <fieldset class="fn-try__ch">
+            <legend>How should Arden reach you?</legend>
+            <label class="fn-try__opt">
+              <input type="radio" name="fn-channel" value="call" checked data-try-channel>
+              <span class="fn-try__optbody">
+                <b>Call me</b>
+                <small>Arden rings this number in about twenty seconds.</small>
+              </span>
+            </label>
+            <label class="fn-try__opt">
+              <input type="radio" name="fn-channel" value="text" data-try-channel>
+              <span class="fn-try__optbody">
+                <b>Text me</b>
+                <small>Opens WhatsApp with your message ready. You press send.</small>
+              </span>
+            </label>
+            <label class="fn-try__opt">
+              <input type="radio" name="fn-channel" value="both" data-try-channel>
+              <span class="fn-try__optbody">
+                <b>Both</b>
+                <small>The call first, then the thread to carry on in.</small>
+              </span>
+            </label>
+          </fieldset>
+
+          <div class="fn-try__fields">
+            <div class="pf-field">
+              <label for="try-name">First name</label>
+              <input id="try-name" type="text" autocomplete="given-name" maxlength="40" placeholder="Hatim" data-try-name required>
+            </div>
+            <div class="pf-field" data-try-phonefield>
+              <label for="try-phone">Mobile, with country code</label>
+              <input id="try-phone" type="tel" autocomplete="tel" inputmode="tel"
+                     placeholder="+44 7700 900123" pattern="^\+[1-9][0-9\s\(\)\-.]{7,20}$" data-try-phone required>
+            </div>
+          </div>
+
+          <div class="fn-try__go">
+            <button class="btn btn--primary" type="submit" data-try-go disabled>
+              <span data-try-label>Call me now</span>
+            </button>
+            <div class="fn-try__clock">
+              <strong data-try-clock>00:00</strong>
+              <span data-try-clocknote>Clock starts when you show intent</span>
+            </div>
+          </div>
+
+          <ol class="fn-try__steps" aria-hidden="true">
+            <li data-try-step="0">Intent captured</li>
+            <li data-try-step="1">Lead recorded</li>
+            <li data-try-step="2">Agent dialling</li>
+          </ol>
+
+          <!-- Usage budget. The dots are the honest bit of the promise: this
+               demo costs real money per run, so it is capped. -->
+          <div class="fn-try__quota" data-try-quota>
+            <span class="fn-try__dots" data-try-dots aria-hidden="true"></span>
+            <span data-try-quotatext>2 of 2 demo runs left today</span>
+          </div>
+
+          <p class="pf-live-note" data-try-note>Add your name and mobile to enable it.</p>
+          <p class="pf-live-note">Requesting it confirms this is your own number. One call per number per day, and nothing you type here is stored.</p>
+        </form>
+
+        <aside class="fn-try__alts" data-pf-fade>
+          <p class="fn-try__altstitle">No number at all?</p>
+          <div class="pf-alt" data-call-card>
+            <div>
+              <strong>Talk in the browser</strong>
+              <span>Uses your mic for the conversation only.</span>
+            </div>
+            <label class="pf-alt__consent">
+              <input type="checkbox" data-call-consent>
+              <span class="sr-only">Allow microphone use</span>
+            </label>
+            <button class="btn btn--ghost pf-btn-sm" type="button" data-call-go disabled><span data-call-label>Start</span></button>
+          </div>
+          <p class="pf-live-note" data-call-note>Tick the box to enable the microphone.</p>
+        </aside>
+      </div>
+    </div>
+</section>
+
+  <!-- ══════════════════ 10 · PICK YOUR PROBLEM ══════════════════
+       The story is over. This is the exit ramp for anyone who wants the full
+       interactive build for the one thing that is actually breaking for them.
+       It travels sideways on scroll like the rest of the page, rather than
+       sitting there as a static grid. -->
+  <section class="fx fn-pick" id="pick" data-fx="pick" data-fx-steps="6" style="--fx-len:5">
+    <div class="fx__track">
+      <div class="fx__pin">
+        <div class="fn-wrap fx__inner">
+          <header class="fx__head">
+            <p class="fn-kicker">10 · Go deeper</p>
+            <h2 class="fx__title">Which one is <em>yours?</em></h2>
+            <p class="fx__cap" data-fx-cap>Keep scrolling. Stop on the one that sounds like your week.</p>
+          </header>
+
+          <div class="fn-pick__rail">
+            <div class="fn-pick__track" data-pick-track>
+            <a class="fn-pick__card" data-pick-card href="/work/ecommerce-operations/">
+              <span class="fn-pick__tag">Connected commerce</span>
+              <strong>“My storefront, dashboard and support all say different things.”</strong>
+              <span class="fn-pick__meta">Approval gate · fan-out · audit line</span>
+              <span class="fn-pick__go">Open the build<i aria-hidden="true">&rarr;</i></span>
+            </a>
+            <a class="fn-pick__card" data-pick-card href="/work/sports-enrollment-operations/">
+              <span class="fn-pick__tag">Enrollment operations</span>
+              <strong>“Enquiries arrive at night and nobody follows them up.”</strong>
+              <span class="fn-pick__meta">Intake · CRM record · booking · handoff</span>
+              <span class="fn-pick__go">Open the build<i aria-hidden="true">&rarr;</i></span>
+            </a>
+            <a class="fn-pick__card" data-pick-card href="/work/follow-up-gap-detector/">
+              <span class="fn-pick__tag">Follow-up recovery</span>
+              <strong>“Leads go quiet and I never find out until it&rsquo;s too late.”</strong>
+              <span class="fn-pick__meta">Deterministic scan · digest · never sends</span>
+              <span class="fn-pick__go">Open the build<i aria-hidden="true">&rarr;</i></span>
+            </a>
+            <a class="fn-pick__card" data-pick-card href="/capabilities/voice/">
+              <span class="fn-pick__tag">Voice reception</span>
+              <strong>“Calls go unanswered after hours and the caller rings someone else.”</strong>
+              <span class="fn-pick__meta">Call UI · six scenarios · handoff queue</span>
+              <span class="fn-pick__go">Open the build<i aria-hidden="true">&rarr;</i></span>
+            </a>
+            <a class="fn-pick__card" data-pick-card href="/work/operations-dashboard/">
+              <span class="fn-pick__tag">The management view</span>
+              <strong>“I cannot see what is actually happening in my own business.”</strong>
+              <span class="fn-pick__meta">Priorities · risk · funnel · brand switcher</span>
+              <span class="fn-pick__go">Open the build<i aria-hidden="true">&rarr;</i></span>
+            </a>
+            <a class="fn-pick__card" data-pick-card href="/products/">
+              <span class="fn-pick__tag">Products</span>
+              <strong>“I want something I can run myself, without hiring anyone.”</strong>
+              <span class="fn-pick__meta">Process to SOP · workflow packages</span>
+              <span class="fn-pick__go">Open the build<i aria-hidden="true">&rarr;</i></span>
+            </a>
+            </div>
+          </div>
+
+          <div class="fn-pick__dots" role="tablist" aria-label="Jump to a build">
+        <button type="button" data-pick-dot aria-label="Connected commerce"></button>
+        <button type="button" data-pick-dot aria-label="Enrollment operations"></button>
+        <button type="button" data-pick-dot aria-label="Follow-up recovery"></button>
+        <button type="button" data-pick-dot aria-label="Voice reception"></button>
+        <button type="button" data-pick-dot aria-label="The management view"></button>
+        <button type="button" data-pick-dot aria-label="Products"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 11 · CLOSE ══════════════════ -->
+  <section class="fn-lock fn-close">
+    <div class="fn-wrap fn-close__inner">
+      <p class="pf-statement pf-statement--big" data-pf-words>
+        Systems do not impress anyone. Finished work does.
+      </p>
+      <a class="btn btn--primary fn-close__cta" data-pf-fade href="https://calendar.app.google/pjQKiGLntog19k9Y9" target="_blank" rel="noopener">
+        <span>Book a free 30-minute call</span>
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="square"/></svg>
+      </a>
+      <p class="fn-close__note" data-pf-fade>
+        Bring the thing you keep doing twice. Or email
+        <a href="mailto:hatim@bluerook.co">hatim@bluerook.co</a>.
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer class="pf-foot">
+  <div class="fn-wrap pf-foot__inner">
+    <span>Bluerook · We run your operations. You run your empire.</span>
+    <span>Every record on this page is synthetic. No live customer system is connected.</span>
+  </div>
+</footer>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script defer src="/js/portfolio/showcase.js?v=20260808a"></script>
+<script defer src="/js/nav.js?v=20260808a"></script>
+<script defer src="/js/portfolio/funnel.js?v=20260808a"></script>
+</body>
+</html>

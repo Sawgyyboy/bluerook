@@ -1,4 +1,15 @@
 .claude/
+.vercel/
 .DS_Store
 node_modules/
+.next/
+.env
+.env.*
+!.env.example
 *.log
+
+# Agent tooling state — local only, not part of the site.
+.impeccable/
+
+# Dead backup of the stylesheet, superseded by git history.
+styles_backup.css

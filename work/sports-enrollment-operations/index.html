@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!--
+  THESIS: Enrollment succeeds when every enquiry gains context, an owner and a next action; show the conversation becoming state.
+  OWN-WORLD: Same Midnight scroll world as /work/ — one system across the portfolio.
+  STORY: A WhatsApp enquiry at 21:40 becomes a qualified record, a held trial and a clean human handoff; then the visitor runs the desk.
+  FORM: One scroll-driven stage plus a hands-on enrollment desk. Every person and record is synthetic.
+  -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08111E">
+  <meta name="description" content="Multi-channel sports enrollment operations, shown working: intake, qualification against real capacity, trial booking, follow-up and human handoff. All people and records are synthetic.">
+  <title>Enrollment Operations — Bluerook</title>
+  <link rel="canonical" href="https://bluerook.co/work/sports-enrollment-operations/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Bluerook">
+  <meta property="og:url" content="https://bluerook.co/work/sports-enrollment-operations/">
+  <meta property="og:title" content="Enrollment Operations — Bluerook">
+  <meta property="og:description" content="An enquiry becomes a booking and nobody chases it. Run the enrollment desk yourself — every record is synthetic.">
+  <meta property="og:image" content="https://bluerook.co/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Enrollment Operations — Bluerook">
+  <meta name="twitter:image" content="https://bluerook.co/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600;1,700&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/tokens.css">
+  <link rel="stylesheet" href="/styles.css?v=20260805g">
+  <link rel="stylesheet" href="/css/portfolio/showcase.css?v=20260807f">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="/favicon-src.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+</head>
+<body class="pf-body">
+
+<a class="pf-skip" href="#main">Skip to the case study</a>
+<div class="pf-live" aria-live="polite" data-pf-live></div>
+
+<div class="ambient" aria-hidden="true">
+  <span class="ambient__orb ambient__orb--1" data-orb="1"></span>
+  <span class="ambient__orb ambient__orb--2" data-orb="2"></span>
+  <span class="ambient__orb ambient__orb--3" data-orb="3"></span>
+  <span class="ambient__orb ambient__orb--4" data-orb="4"></span>
+  <span class="ambient__cursor" data-cursor-glow></span>
+  <span class="ambient__grain"></span>
+</div>
+
+<header class="nav" data-nav>
+  <div class="nav__inner">
+    <a href="/" class="nav__logo" aria-label="Bluerook home">
+      <svg class="nav__logo-mark" viewBox="0 0 100 115" width="32" height="37" aria-hidden="true">
+        <path d="M 26,0 L 32,0 L 32,14 L 40,14 L 40,0 L 46,0 L 46,14 L 54,14 L 54,0 L 60,0 L 60,14 L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 26,26 Z" fill="#1C3F8A"/>
+        <rect x="4" y="111" width="92" height="4" fill="#D4A437"/>
+      </svg>
+      <span class="nav__logo-text">Bluerook</span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/work/">Work</a>
+      <a href="/products/">Products</a>
+      <a href="/capabilities/">Capabilities</a>
+      <a href="/technical-portfolio/">Technical</a>
+    </nav>
+    <div class="nav__actions">
+      <a href="https://calendar.app.google/pjQKiGLntog19k9Y9" target="_blank" rel="noopener" class="btn btn--ghost nav__cta">Book a call</a>
+      <button type="button" class="nav__hamburger" data-pf-menu-toggle aria-label="Open menu" aria-expanded="false" aria-controls="pf-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="pf-menu" id="pf-menu" data-pf-menu role="dialog" aria-modal="true" aria-label="Navigation" aria-hidden="true" hidden>
+  <button type="button" class="pf-menu__close" data-pf-menu-close aria-label="Close menu">&times;</button>
+  <nav aria-label="Sections">
+    <a href="/">Home</a>
+    <a href="/work/">Work</a>
+    <a href="/products/">Products</a>
+    <a href="/capabilities/">Capabilities</a>
+    <a href="/technical-portfolio/">Technical portfolio</a>
+  </nav>
+  <a href="https://calendar.app.google/pjQKiGLntog19k9Y9" target="_blank" rel="noopener" class="btn btn--primary">Book a call</a>
+</div>
+
+<div class="pf-progress" data-pf-progress aria-hidden="true"></div>
+
+<main id="main">
+
+  <!-- ════════ HERO ════════ -->
+  <section class="pf-hero" id="hero">
+    <div class="pf-hero__bg" aria-hidden="true">
+      <div class="pf-hero__grid"></div>
+      <div class="pf-hero__motif pf-hero__motif--chat"><i></i><i></i><i></i></div>
+      <div class="pf-hero__particles" data-pf-particles></div>
+      <div class="pf-hero__vignette"></div>
+    </div>
+
+    <div class="pf-shell pf-hero__inner">
+      <p class="pf-eyebrow" data-pf-fade><span class="pf-dot"></span> Enrollment operations · Northline Athletics, a fictional academy</p>
+      <h1 class="pf-hero__title" data-pf-split>
+        <span class="pf-line">Every enquiry becomes</span>
+        <span class="pf-line">an <em>owned</em> next action.</span>
+      </h1>
+      <p class="pf-hero__lead" data-pf-fade>
+        Watch one enquiry travel from a late-night message to a held trial and a
+        clean handoff. Then run the desk yourself.
+      </p>
+      <div class="pf-hero__meta" data-pf-fade>
+        <span>Anonymized implementation</span>
+        <span>All people synthetic</span>
+        <span>Nothing is sent</span>
+      </div>
+    </div>
+    <div class="pf-scrollhint" aria-hidden="true"><span>SCROLL</span><i></i></div>
+  </section>
+
+  <!-- ════════ 01 · INTAKE — scroll-driven stage ════════ -->
+  <section class="pf-stage" id="intake" data-stage="intake">
+    <div class="pf-shell pf-stage__grid">
+
+      <div class="pf-stage__script">
+        <p class="pf-chapter__num">01 · Intake to handoff</p>
+        <h2 class="pf-stage__title">An enquiry at 21:40.<br><em>Nobody chases it.</em></h2>
+
+        <ol class="pf-beats">
+          <li class="pf-beat" data-beat="0">
+            <h3>It arrives after hours</h3>
+            <p>From a phone, half the details missing. On most setups this waits in
+               an inbox until somebody opens it tomorrow morning, and the parent has
+               already messaged two other academies.</p>
+          </li>
+          <li class="pf-beat" data-beat="1">
+            <h3>It qualifies itself against real constraints</h3>
+            <p>Age band, programme, location and schedule are checked against actual
+               capacity, not a generic autoresponder. The reply is specific because
+               the system knows what is actually available.</p>
+          </li>
+          <li class="pf-beat" data-beat="2">
+            <h3>A trial is held and the record is written</h3>
+            <p>The slot decrements, the CRM record carries an owner and a next
+               action, and the confirmation is queued. Three systems changed;
+               the parent typed one sentence.</p>
+          </li>
+          <li class="pf-beat" data-beat="3">
+            <h3>Judgement stops the machine</h3>
+            <p>A payment question is not an automation decision. The sequence halts,
+               a named person inherits the full conversation, and the booking is
+               preserved either way.</p>
+          </li>
+        </ol>
+
+        <div class="pf-tags">
+          <span class="pf-status">Synthetic conversation · nothing sent</span>
+        </div>
+      </div>
+
+      <div class="pf-stage__sticky">
+        <div class="pf-console" data-console data-beat-state="0">
+          <div class="pf-console__chrome">
+            <span class="pf-console__dot"></span>
+            <span class="pf-console__title">Enrollment desk · intake</span>
+            <span class="pf-console__step" data-console-step>01 / 04</span>
+          </div>
+
+          <div class="tool-chat" style="border-radius:0">
+            <div class="tool-chat__bar">
+              <span class="tool-chat__avatar">N</span>
+              <div>Northline Athletics<small>WhatsApp · synthetic conversation</small></div>
+            </div>
+            <div class="tool-chat__body" data-int-chat></div>
+          </div>
+
+          <div class="pf-ops">
+            <div><small>Record</small><strong data-int-record>Not created</strong></div>
+            <div><small>Owner</small><strong data-int-owner>Unassigned</strong></div>
+            <div><small>Next action</small><strong data-int-next>None</strong></div>
+          </div>
+
+          <div class="pf-stream" data-stream aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 02 · THE RECORD — inside the CRM board ════════ -->
+  <section class="pf-stage pf-stage--alt" id="record" data-stage="record">
+    <div class="pf-shell pf-stage__grid pf-stage__grid--flip">
+
+      <div class="pf-stage__script">
+        <p class="pf-chapter__num">02 · One record, every channel</p>
+        <h2 class="pf-stage__title">The conversation becomes<br><em>a record you can trust.</em></h2>
+
+        <ol class="pf-beats">
+          <li class="pf-beat" data-beat="0">
+            <h3>Every channel lands on one board</h3>
+            <p>WhatsApp, Instagram, forms and calls create cards in the same
+               tracker, deduplicated by phone number. There is no second list to
+               reconcile on Friday.</p>
+          </li>
+          <li class="pf-beat" data-beat="1">
+            <h3>The agent fills the record, not a form</h3>
+            <p>Sport, age band, region, date of birth, lead score: extracted from
+               the conversation and written to the card. Click any lead on the
+               board to read what was collected.</p>
+          </li>
+          <li class="pf-beat" data-beat="2">
+            <h3>Handoff is a state, not a hope</h3>
+            <p>One field flips to human_control and the bot goes quiet on this
+               thread only. Staff see exactly why, with the full message history
+               attached. Every other lead keeps moving.</p>
+          </li>
+          <li class="pf-beat" data-beat="3">
+            <h3>Resolved, and the bot resumes</h3>
+            <p>The staff outcome is logged on the same record, control returns to
+               the bot, and the card moves on. One record, zero retyping, nothing
+               lost between tools.</p>
+          </li>
+        </ol>
+
+        <div class="pf-tags">
+          <span class="pf-status">Synthetic board · numbers masked by design</span>
+        </div>
+      </div>
+
+      <div class="pf-stage__sticky">
+        <div class="pf-console" data-console data-beat-state="0">
+          <div class="pf-console__chrome">
+            <span class="pf-console__dot"></span>
+            <span class="pf-console__title">CRM · lead tracker</span>
+            <span class="pf-console__step" data-console-step>01 / 04</span>
+          </div>
+
+          <div class="tool-board" style="border-radius:0" data-board>
+            <div class="tool-board__bar">
+              <span><b>Leads</b> · Northline Athletics</span>
+              <span class="tool-board__tabs"><span class="is-on">By status</span><span>AI pipeline</span><span>Needs human</span></span>
+            </div>
+            <div class="tool-board__cols">
+              <div class="tool-board__col" data-bd-col="new" data-tone="blue">
+                <div class="tool-board__colhead"><i></i><b>New lead</b><small>2</small></div>
+                <div class="tool-board__cards">
+                  <div class="tool-board__card is-focus" data-bd-card="lea">
+                    <strong>Samira Cole · for Lea</strong>
+                    <span class="tool-board__tag" data-bd-cardstatus>New lead</span>
+                    <small>+212 6•• ••• •37</small>
+                  </div>
+                  <button class="tool-board__card" type="button" data-bd-card="jon">
+                    <strong>Jon Bell</strong>
+                    <span class="tool-board__tag tool-board__tag--season">Holiday camp</span>
+                    <small>+212 6•• ••• •88</small>
+                  </button>
+                </div>
+              </div>
+              <div class="tool-board__col" data-bd-col="hand" data-tone="red">
+                <div class="tool-board__colhead"><i></i><b>Human handoff</b><small>0</small></div>
+                <div class="tool-board__cards">
+                  <button class="tool-board__card is-ghost" type="button" data-bd-card="amina">
+                    <strong>Amina Reed</strong>
+                    <span class="tool-board__tag tool-board__tag--season">Follow-up</span>
+                    <small>+212 6•• ••• •12</small>
+                  </button>
+                </div>
+              </div>
+              <div class="tool-board__col" data-bd-col="trial" data-tone="green">
+                <div class="tool-board__colhead"><i></i><b>Trial confirmed</b><small>1</small></div>
+                <div class="tool-board__cards">
+                  <button class="tool-board__card" type="button" data-bd-card="nora">
+                    <strong>Nora Patel</strong>
+                    <span class="tool-board__tag">Basketball</span>
+                    <small>+212 6•• ••• •54</small>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="tool-board__detail">
+              <div class="tool-board__dhead">
+                <strong data-bd-name>Samira Cole · for Lea</strong>
+                <small data-bd-sub>WhatsApp · +212 6•• ••• •37</small>
+              </div>
+              <div class="tool-board__props">
+                <dl class="tool-board__prop"><dt>Status</dt><dd><span class="tool-board__pill" data-bd-status>New lead</span></dd></dl>
+                <dl class="tool-board__prop"><dt>First contact</dt><dd data-bd-first>Tue 21:40</dd></dl>
+                <dl class="tool-board__prop"><dt>Source</dt><dd data-bd-source>WhatsApp inbound</dd></dl>
+                <dl class="tool-board__prop"><dt>Sport</dt><dd class="is-empty" data-bd-sport>Empty</dd></dl>
+                <dl class="tool-board__prop"><dt>Category</dt><dd class="is-empty" data-bd-category>Empty</dd></dl>
+                <dl class="tool-board__prop"><dt>Region</dt><dd class="is-empty" data-bd-region>Empty</dd></dl>
+                <dl class="tool-board__prop"><dt>Date of birth</dt><dd class="is-empty" data-bd-dob>Empty</dd></dl>
+                <dl class="tool-board__prop"><dt>Lead score</dt><dd class="is-empty" data-bd-score>Empty</dd></dl>
+                <dl class="tool-board__prop"><dt>Handoff state</dt><dd><span class="tool-board__pill tool-board__pill--bot" data-bd-handoff>bot_control</span></dd></dl>
+                <dl class="tool-board__prop"><dt>Awaiting human</dt><dd data-bd-awaiting>No</dd></dl>
+                <dl class="tool-board__prop tool-board__prop--wide"><dt>Last bot message</dt><dd data-bd-lastbot>Which area are you in, and has Lea played before?</dd></dl>
+              </div>
+              <div class="tool-board__log" data-bd-log></div>
+            </div>
+          </div>
+
+          <div class="pf-stream" data-stream aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 03 · HANDS-ON — run the desk ════════ -->
+  <section class="pf-chapter" id="desk" data-pf-chapter>
+    <div class="pf-shell pf-chapter__grid">
+      <div class="pf-chapter__copy">
+        <p class="pf-chapter__num" data-pf-fade>03 · Now run the desk</p>
+        <h2 class="pf-chapter__title" data-pf-fade>Qualify. Book.<br><em>Hit the boundary.</em></h2>
+        <p class="pf-chapter__lead" data-pf-fade>
+          Complete the qualification, hold a trial against real capacity, then
+          trigger the situations automation must not touch. The guards are the
+          demonstration: full sessions refuse, double bookings block, and sensitive
+          reasons stop the machine.
+        </p>
+        <div class="pf-tags" data-pf-fade>
+          <span class="pf-status">Browser-local · capacity and guards enforced</span>
+        </div>
+      </div>
+
+      <div class="pf-panel glass" data-pf-fade data-enroll>
+        <div class="pf-panel__bar">
+          <span class="pf-panel__live"></span>
+          <span>Northline enrollment desk · Lea Cole, synthetic participant</span>
+        </div>
+        <div class="pf-panel__body">
+
+          <div class="pf-lab">
+            <div class="pf-lab__col">
+              <p class="pf-lab__title">Qualification</p>
+              <div class="pf-fields-row">
+                <div class="pf-field">
+                  <label for="en-programme">Programme</label>
+                  <select id="en-programme" data-en-programme>
+                    <option>Basketball</option>
+                    <option>Football</option>
+                    <option>Swimming</option>
+                    <option>Holiday camp</option>
+                  </select>
+                </div>
+                <div class="pf-field">
+                  <label for="en-age">Age</label>
+                  <select id="en-age" data-en-age-field>
+                    <option>11</option>
+                    <option>8</option>
+                    <option>14</option>
+                  </select>
+                </div>
+              </div>
+              <div class="pf-field">
+                <label for="en-schedule">Schedule</label>
+                <select id="en-schedule" data-en-schedule>
+                  <option>Weekend</option>
+                  <option>Weekday evening</option>
+                  <option>School holiday</option>
+                </select>
+              </div>
+              <div class="pf-panel__actions">
+                <button class="btn btn--primary pf-btn-sm" type="button" data-en-qualify>Complete qualification</button>
+              </div>
+
+              <p class="pf-lab__title" style="margin-top:8px">Trial sessions · real capacity</p>
+              <div class="pf-chips" data-pf-stagger role="group" aria-label="Prepared synthetic trial sessions">
+                <button class="pf-chip" type="button" data-en-session="Sat 10:00 · Rabat" data-en-places="4" aria-pressed="false">Sat 10:00 · Rabat<small>4 places left</small></button>
+                <button class="pf-chip" type="button" data-en-session="Sun 11:30 · Rabat" data-en-places="2" aria-pressed="false">Sun 11:30 · Rabat<small>2 places left</small></button>
+                <button class="pf-chip" type="button" data-en-session="Sat 15:00 · Casablanca" data-en-places="0" aria-pressed="false">Sat 15:00 · Casablanca<small>Full — offer an alternative</small></button>
+              </div>
+              <div class="pf-panel__actions">
+                <button class="btn btn--primary pf-btn-sm" type="button" data-en-confirm>Confirm synthetic trial</button>
+              </div>
+            </div>
+
+            <div class="pf-lab__col">
+              <p class="pf-lab__title">The record · what the desk sees</p>
+              <div class="tool-crm">
+                <div class="tool-crm__bar"><span>CRM · <b>Enquiries</b></span><span>Synthetic</span></div>
+                <div class="tool-crm__head"><span>Lead</span><span>Stage</span><span>Owner</span></div>
+                <div class="tool-crm__row is-focus">
+                  <span>Lea Cole · 11</span>
+                  <span><span class="tool-crm__pill tool-crm__pill--idle" data-en-stage>New enquiry</span></span>
+                  <span data-en-owner>Unassigned</span>
+                </div>
+              </div>
+              <div class="pf-rec"><span>Next action</span><b data-en-next>Complete qualification</b></div>
+              <div class="pf-rec"><span>Calendar</span><b data-en-cal>No hold</b></div>
+              <div class="pf-rec"><span>Confirmation</span><b data-en-conf>Not queued</b></div>
+
+              <p class="pf-lab__title" style="margin-top:6px">Judgement stops the machine</p>
+              <div class="pf-chips" data-pf-stagger role="group" aria-label="Synthetic handoff reasons">
+                <button class="pf-chip" type="button" data-en-reason="Payment issue" aria-pressed="false">Payment issue</button>
+                <button class="pf-chip" type="button" data-en-reason="Complaint" aria-pressed="false">Complaint</button>
+                <button class="pf-chip" type="button" data-en-reason="Accessibility question" aria-pressed="false">Accessibility question</button>
+                <button class="pf-chip" type="button" data-en-reason="Asks for a person" aria-pressed="false">Asks for a person</button>
+              </div>
+              <div class="pf-ops" style="border-top:0">
+                <div><small>Handoff</small><strong data-en-hreason>No handoff</strong></div>
+                <div><small>Inherits it</small><strong data-en-howner>—</strong></div>
+                <div><small>Urgency</small><strong data-en-hurgency>None</strong></div>
+              </div>
+              <div class="pf-panel__actions">
+                <button class="btn btn--ghost pf-btn-sm" type="button" data-en-resolve>Record human resolution</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="pf-lablog" data-en-log aria-live="off"></div>
+          <div class="pf-panel__actions">
+            <button class="btn btn--ghost pf-btn-sm" type="button" data-en-reset>Reset the desk</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 04 · MANAGEMENT VIEW — the cockpit ════════ -->
+  <section class="pf-chapter pf-chapter--alt" id="cockpit" data-pf-chapter>
+    <div class="pf-shell pf-chapter__grid pf-chapter__grid--flip">
+      <div class="pf-chapter__copy">
+        <p class="pf-chapter__num" data-pf-fade>04 · The owner's view</p>
+        <h2 class="pf-chapter__title" data-pf-fade>Pull back.<br><em>See only decisions.</em></h2>
+        <p class="pf-chapter__lead" data-pf-fade>
+          The cockpit shows what needs a decision now: hot leads, conversions to
+          close, handoffs owed a reply, and the money at risk if they wait. It is
+          built from the same records the agent writes, so it is never a second
+          truth. Every number here is synthetic.
+        </p>
+        <div class="pf-tags" data-pf-fade>
+          <span class="pf-status">Anonymized implementation · synthetic metrics</span>
+        </div>
+      </div>
+
+      <div class="pf-panel glass" data-pf-fade>
+        <div class="pf-panel__bar">
+          <span class="pf-panel__live"></span>
+          <span>Operations cockpit · Northline Athletics</span>
+        </div>
+        <div class="pf-panel__body">
+          <div class="tool-cockpit">
+            <div class="tool-cockpit__bar"><span>Thursday · good evening</span><span>Auto · every 2 min</span></div>
+            <div class="tool-cockpit__hots">
+              <div class="tool-cockpit__hot"><small>Hot leads</small><strong data-countup="41">0</strong></div>
+              <div class="tool-cockpit__hot"><small>To convert</small><strong data-countup="7">0</strong></div>
+              <div class="tool-cockpit__hot tool-cockpit__hot--calm"><small>Handoffs waiting</small><strong data-countup="0">0</strong></div>
+            </div>
+            <div class="tool-cockpit__rows">
+              <div class="tool-cockpit__row tool-cockpit__row--hot"><strong>7</strong><span>To convert · payment to follow up</span><em>Urgent</em></div>
+              <div class="tool-cockpit__row tool-cockpit__row--warm"><strong>41</strong><span>Hot leads · average score 62 / 100</span><em>To do</em></div>
+              <div class="tool-cockpit__row tool-cockpit__row--ok"><strong>&lt;1m</strong><span>Agent first response · measured, not promised</span><em>Held</em></div>
+            </div>
+          </div>
+          <p class="pf-live-note">
+            Evidence boundary: CRM operations, scoring, booking, handoff queues and
+            reporting are implemented in anonymized source. Channel intake and
+            automated follow-up are labelled capability prototypes.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ CLOSING ════════ -->
+  <section class="pf-close">
+    <div class="pf-shell">
+      <p class="pf-statement pf-statement--big" data-pf-words>
+        Enrollment works when the next action is owned.
+      </p>
+      <div class="pf-close__cta" data-pf-fade>
+        <a class="btn btn--primary" href="https://calendar.app.google/pjQKiGLntog19k9Y9" target="_blank" rel="noopener">
+          <span>Map an enrollment bottleneck</span>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="square"/></svg>
+        </a>
+        <a class="btn btn--ghost" href="/work/follow-up-gap-detector/">Next: Follow-up recovery</a>
+      </div>
+      <nav class="pf-trail" data-pf-fade data-pf-stagger aria-label="Explore the rest of the portfolio">
+        <a href="/work/ecommerce-operations/"><small>Case study</small><strong>Connected commerce</strong></a>
+        <a href="/capabilities/voice/"><small>Case study</small><strong>Voice reception</strong></a>
+        <a href="/work/#explore"><small>Everything</small><strong>All six builds</strong></a>
+      </nav>
+    </div>
+  </section>
+</main>
+
+<footer class="pf-foot">
+  <div class="pf-shell pf-foot__inner">
+    <span>Bluerook · We run your operations. You run your empire.</span>
+    <span>Every person and record on this page is synthetic. Nothing is sent.</span>
+  </div>
+</footer>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script defer src="/js/portfolio/wayfinding.js?v=20260806a"></script>
+<script defer src="/js/portfolio/showcase.js?v=20260807d"></script>
+</body>
+</html>

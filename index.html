@@ -1,15 +1,30 @@
 <!doctype html>
 <html lang="en">
+<!--
+  THESIS: Bluerook makes operational ownership visible; this page refuses the
+  generic agency grid by showing the system moving from signal to completion.
+  OWN-WORLD: Midnight control room, Paper typography, Blue structural marks,
+  one Brass live state, editorial scale, and node-and-connector schematics.
+  STORY: Recognize the bottleneck, inspect concrete systems, understand the
+  operating standard, then book a strategy call.
+  FIRST VIEWPORT: The founding promise fills the left field while the exact rook
+  holds the right; one primary action opens the systems floor.
+  FORM: Control-tower dossier, fourth grounded structure; a sticky live blueprint
+  is the memorable interaction. Surface seed: 79d7d543.
+-->
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <meta name="theme-color" content="#08111E" />
-  <meta name="description" content="Bluerook is a premium BPO and virtual assistant agency for high-performing entrepreneurs — dedicated VAs, workflow automations, AI builds, and social media, engineered and owned." />
-  <meta name="keywords" content="BPO agency, virtual assistant agency, premium VA, workflow automation, AI automation, social media management, executive assistant, operations outsourcing, business process outsourcing" />
+  <meta name="description" content="Bluerook designs and runs AI System VAs and automation systems for founders — inbound reception, speed to lead, CRM operations, dashboards, and bespoke operational infrastructure." />
+  <meta name="keywords" content="AI system virtual assistant, AI receptionist, speed to lead automation, CRM AI agent, workflow automation, AI operations agency, inbound lead automation, operations dashboard" />
   <meta name="author" content="Bluerook" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 
-  <title>Bluerook — Premium BPO &amp; Virtual Assistant Agency | We run your operations</title>
+  <title>Bluerook — AI System VAs &amp; Automation Systems | We run your operations</title>
 
   <!-- Canonical -->
   <link rel="canonical" href="https://bluerook.co/" />
@@ -20,7 +35,7 @@
   <meta property="og:url" content="https://bluerook.co/" />
   <meta property="og:title" content="Bluerook — We run your operations. You run your empire." />
   <!-- (page <title> targets keywords; social title stays on the brand line) -->
-  <meta property="og:description" content="Premium BPO and Virtual Assistant agency for high-performing entrepreneurs. VAs, automations, social media." />
+  <meta property="og:description" content="Role-based AI operating systems that answer, qualify, update, escalate, and report — engineered around your workflows." />
   <meta property="og:image" content="https://bluerook.co/og-image.png" />
   <meta property="og:image:secure_url" content="https://bluerook.co/og-image.png" />
   <meta property="og:image:type" content="image/png" />
@@ -33,7 +48,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Bluerook — We run your operations. You run your empire." />
   <!-- (page <title> targets keywords; social title stays on the brand line) -->
-  <meta name="twitter:description" content="Premium BPO and Virtual Assistant agency for high-performing entrepreneurs. VAs, automations, social media." />
+  <meta name="twitter:description" content="Role-based AI operating systems that answer, qualify, update, escalate, and report — engineered around your workflows." />
   <meta name="twitter:image" content="https://bluerook.co/og-image.png" />
   <meta name="twitter:image:alt" content="Bluerook" />
 
@@ -44,10 +59,12 @@
   <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
   <!-- Brand Standards Vol. II: Cormorant Garamond (italic display) + Geist (sans) + Geist Mono -->
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600;1,700&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="tokens.css" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20260806p" />
+  <link rel="stylesheet" href="cinematic-mobile.css?v=20260806p" />
+  <link rel="stylesheet" href="/css/portfolio/home-integration.css?v=20260802a" />
 
   <!-- Favicons (real crawlable files so Google can show the icon in search results) -->
   <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -74,13 +91,16 @@
       "height": 512
     },
     "image": "https://bluerook.co/og-image.png",
-    "description": "Premium BPO and virtual assistant agency for high-performing entrepreneurs — dedicated VAs, workflow automations, AI builds, and social media, engineered and owned.",
+    "description": "AI operations agency designing and running role-based AI System VAs, workflow automations, CRM agents, and decision systems for high-performing entrepreneurs.",
     "slogan": "We run your operations. You run your empire.",
     "email": "hatim@bluerook.co",
     "areaServed": "Worldwide",
     "knowsAbout": [
       "Business Process Outsourcing",
-      "Virtual Assistant Services",
+      "AI System Virtual Assistants",
+      "AI Receptionists",
+      "CRM Operations Agents",
+      "Speed to Lead Systems",
       "Workflow Automation",
       "AI Automation",
       "Social Media Management"
@@ -92,7 +112,7 @@
       "url": "https://calendar.app.google/pjQKiGLntog19k9Y9",
       "availableLanguage": ["English"]
     },
-    "sameAs": []
+    "sameAs": ["https://www.linkedin.com/company/bluerook/"]
   }
   </script>
   <script type="application/ld+json">
@@ -109,34 +129,25 @@
 </head>
 <body data-theme="navy">
 
-<!-- ============ LOADING SCREEN — cinematic rook construction ============ -->
+<!-- ============ LOADING SCREEN — system handoff ============ -->
 <div class="loader" data-loader aria-hidden="true">
-  <div class="loader__veil" aria-hidden="true"></div>
   <div class="loader__stage">
-    <div class="loader__halo" aria-hidden="true"></div>
-    <svg class="loader__rook" viewBox="0 0 100 115" aria-hidden="true">
-      <!-- Drawn rook outline (stroke-dasharray draw-in) -->
-      <path class="loader__rook-stroke"
-        d="M 26,0 L 32,0 L 32,14 L 40,14 L 40,0 L 46,0 L 46,14 L 54,14 L 54,0 L 60,0 L 60,14 L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 26,26 Z"
-        fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="miter"/>
-      <!-- Fill rook (fades in after stroke completes) -->
-      <path class="loader__rook-fill"
-        d="M 26,0 L 32,0 L 32,14 L 40,14 L 40,0 L 46,0 L 46,14 L 54,14 L 54,0 L 60,0 L 60,14 L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 26,26 Z"
-        fill="currentColor"/>
-      <!-- Brass rule sweep -->
-      <rect class="loader__rule" x="4" y="111" width="92" height="4" fill="var(--color-accent)"/>
-    </svg>
-    <div class="loader__word" aria-hidden="true">
-      <span>B</span><span>L</span><span>U</span><span>E</span><span>R</span><span>O</span><span>O</span><span>K</span>
+    <div class="loader__handoff" aria-hidden="true">
+      <span class="loader__endpoint loader__endpoint--in">Signal</span>
+      <span class="loader__rail loader__rail--in"><i></i></span>
+      <span class="loader__core">
+        <svg class="loader__rook" viewBox="0 0 100 115">
+          <path d="M 26,0 L 32,0 L 32,14 L 40,14 L 40,0 L 46,0 L 46,14 L 54,14 L 54,0 L 60,0 L 60,14 L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 26,26 Z"/>
+          <rect x="4" y="111" width="92" height="4"/>
+        </svg>
+      </span>
+      <span class="loader__rail loader__rail--out"><i></i></span>
+      <span class="loader__endpoint loader__endpoint--out">Owned</span>
     </div>
+    <div class="loader__wordmark" aria-hidden="true">Bluerook</div>
     <div class="loader__caption" aria-hidden="true">
-      <span class="loader__caption-dot"></span>
-      <span class="loader__caption-text">Calibrating premium systems</span>
+      <span class="loader__caption-text">Signal received · system taking ownership</span>
     </div>
-  </div>
-  <div class="loader__horizon" aria-hidden="true">
-    <span class="loader__horizon-rule"></span>
-    <span class="loader__horizon-rule loader__horizon-rule--r"></span>
   </div>
 </div>
 
@@ -162,16 +173,39 @@
       <span class="nav__logo-text">Bluerook</span>
     </a>
 
-    <nav class="nav__links" aria-label="Primary">
-      <a href="#services">Services</a>
-      <a href="#privileges">Standard</a>
-      <a href="#process">Process</a>
-      <a href="#why">Why us</a>
-      <a href="#contact">Contact</a>
+    <nav class="nav__links fn-nav" aria-label="Primary" data-fn-nav>
+      <div class="fn-nav__item" data-fn-navitem>
+        <a href="/work/" aria-expanded="false" aria-haspopup="true">Work<i aria-hidden="true"></i></a>
+        <div class="fn-nav__pop" data-fn-pop role="group" aria-label="Work">
+          <span class="fn-nav__sheen" aria-hidden="true"></span>
+          <a href="/work/"><b>The operation</b><span>One scroll, end to end</span></a>
+          <a href="/work/ecommerce-operations/"><b>Connected commerce</b><span>One approval, every surface</span></a>
+          <a href="/work/sports-enrollment-operations/"><b>Enrollment operations</b><span>Enquiry to booking, unattended</span></a>
+          <a href="/work/follow-up-gap-detector/"><b>Follow-up recovery</b><span>The leads that went quiet</span></a>
+          <a href="/work/operations-dashboard/"><b>Operations dashboard</b><span>The owner&rsquo;s cockpit</span></a>
+          <a href="/work/sports-operations-os/"><b>Sports Operations OS</b><span>A full club system</span></a>
+          <a href="/products/"><b>Products</b><span>Systems you run yourself</span></a>
+        </div>
+      </div>
+
+      <div class="fn-nav__item" data-fn-navitem>
+        <a href="/capabilities/" aria-expanded="false" aria-haspopup="true">Capabilities<i aria-hidden="true"></i></a>
+        <div class="fn-nav__pop" data-fn-pop role="group" aria-label="Capabilities">
+          <span class="fn-nav__sheen" aria-hidden="true"></span>
+          <a href="/capabilities/"><b>Speed to lead</b><span>Answered before they cool</span></a>
+          <a href="/capabilities/voice/"><b>Voice reception</b><span>The call nobody was awake for</span></a>
+          <a href="/capabilities/managed-operations/"><b>Managed execution</b><span>We run it, monthly</span></a>
+          <a href="/capabilities/system-builder/"><b>System builder</b><span>Build your own shape</span></a>
+        </div>
+      </div>
+
+      <div class="fn-nav__item" data-fn-navitem>
+        <a href="/technical-portfolio/" class="fn-nav__solo">Technical</a>
+      </div>
     </nav>
 
     <div class="nav__actions">
-      <button class="theme-toggle" data-theme-toggle aria-label="Toggle very dark mode" title="Toggle very dark mode">
+      <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle very dark mode" title="Toggle very dark mode">
         <svg viewBox="0 0 24 24" class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
           <path d="M21 13.5A9 9 0 1 1 10.5 3a7 7 0 0 0 10.5 10.5z" fill="currentColor"/>
         </svg>
@@ -183,7 +217,7 @@
       <a href="https://calendar.app.google/pjQKiGLntog19k9Y9" target="_blank" rel="noopener" class="btn btn--ghost nav__cta">Book a call</a>
 
       <!-- Hamburger (mobile only) -->
-      <button class="nav__hamburger" data-menu-toggle aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+      <button type="button" class="nav__hamburger" data-menu-toggle aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -191,16 +225,18 @@
 </header>
 
 <!-- ============ MOBILE FULL-SCREEN MENU ============ -->
-<div class="mobile-menu" id="mobile-menu" data-mobile-menu aria-hidden="true">
-  <button class="mobile-menu__close" data-menu-close aria-label="Close menu">
+<div class="mobile-menu" id="mobile-menu" data-mobile-menu role="dialog" aria-modal="true" aria-label="Primary navigation" aria-hidden="true" inert>
+  <button type="button" class="mobile-menu__close" data-menu-close aria-label="Close menu">
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="square"/>
     </svg>
   </button>
   <nav class="mobile-menu__nav" aria-label="Mobile primary">
-    <a href="#services">Services</a>
-    <a href="#process">Process</a>
-    <a href="#why">Why us</a>
+    <a href="/" aria-current="page">Home</a>
+    <a href="/work/">Work</a>
+    <a href="/products/">Products</a>
+    <a href="/capabilities/">Capabilities</a>
+    <a href="/technical-portfolio/">Technical</a>
     <a href="#contact">Contact</a>
   </nav>
   <a href="https://calendar.app.google/pjQKiGLntog19k9Y9" target="_blank" rel="noopener" class="mobile-menu__cta">
@@ -223,7 +259,7 @@
 
     <div class="hero__inner">
       <div class="hero__eyebrow" data-fade>
-        <span class="dot"></span> Premium BPO &amp; Virtual Assistant Agency
+        <span class="dot"></span> AI Operations Systems for Founder-Led Companies
       </div>
 
       <div class="hero__parallax" data-parallax="0.6">
@@ -234,14 +270,13 @@
       </div>
 
       <p class="hero__lead" data-fade>
-        Premium BPO agency for high-performing entrepreneurs.
-        Virtual assistants, workflow automations, and social media
-        — engineered, deployed, owned.
+        Role-based AI systems that answer, qualify, update, escalate,
+        and report across your existing tools — engineered, deployed, owned.
       </p>
 
       <div class="hero__ctas" data-fade>
-        <a href="#services" class="btn btn--primary">
-          <span>See Our Services</span>
+        <a href="#systems" class="btn btn--primary">
+          <span>Explore the Systems</span>
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="square"/></svg>
         </a>
         <a href="https://calendly.com/hatim-bluerook/30min" target="_blank" rel="noopener" class="btn btn--ghost">Book a Call</a>
@@ -320,15 +355,13 @@
                 <div class="cast3d__piece-stand">
                   <svg viewBox="0 0 100 115" aria-hidden="true">
                     <g fill="#F4EDE0">
-                      <rect x="44" y="0" width="12" height="10"/>
-                      <rect x="36" y="10" width="28" height="8"/>
-                      <rect x="22" y="18" width="56" height="8"/>
-                      <rect x="8" y="26" width="84" height="8"/>
-                      <rect x="16" y="34" width="68" height="6"/>
-                      <polygon points="22,40 78,40 92,94 8,94"/>
-                      <rect x="4" y="94" width="92" height="10"/>
+                      <rect x="46" y="0" width="8" height="13"/>
+                      <rect x="39" y="4" width="22" height="7"/>
+                      <polygon points="31,18 69,18 77,40 23,40"/>
+                      <polygon points="27,47 73,47 88,94 12,94"/>
+                      <rect x="6" y="94" width="88" height="10"/>
                     </g>
-                    <rect x="4" y="111" width="92" height="4" fill="#D4A437"/>
+                    <rect x="6" y="111" width="88" height="4" fill="#D4A437"/>
                   </svg>
                 </div>
                 <span class="cast3d__piece-label">King</span>
@@ -375,27 +408,21 @@
       </div>
 
       <div class="castling__stage" data-castling-stage>
-        <!-- King (founder) — Vol. II stepped-crown construction, Paper on Midnight, brass rule -->
+        <!-- King (founder) — owner-approved narrative silhouette, Paper on Midnight, brass rule -->
         <div class="castling__piece castling__piece--king" data-castling-king aria-label="King — the founder">
           <svg viewBox="0 0 100 115" aria-hidden="true">
             <g fill="#F4EDE0">
-              <!-- Top spire -->
-              <rect x="44" y="0" width="12" height="10"/>
-              <!-- Step 01 · narrow shoulders -->
-              <rect x="36" y="10" width="28" height="8"/>
-              <!-- Step 02 · broad shoulders -->
-              <rect x="22" y="18" width="56" height="8"/>
-              <!-- Tiara band -->
-              <rect x="8" y="26" width="84" height="8"/>
-              <!-- Neck -->
-              <rect x="16" y="34" width="68" height="6"/>
-              <!-- Tapered body -->
-              <polygon points="22,40 78,40 92,94 8,94"/>
+              <!-- Compact cross -->
+              <rect x="46" y="0" width="8" height="13"/>
+              <rect x="39" y="4" width="22" height="7"/>
+              <!-- Crown and separated tapered body -->
+              <polygon points="31,18 69,18 77,40 23,40"/>
+              <polygon points="27,47 73,47 88,94 12,94"/>
               <!-- Base shelf -->
-              <rect x="4" y="94" width="92" height="10"/>
+              <rect x="6" y="94" width="88" height="10"/>
             </g>
             <!-- Brass rule -->
-            <rect x="4" y="111" width="92" height="4" fill="#D4A437"/>
+            <rect x="6" y="111" width="88" height="4" fill="#D4A437"/>
           </svg>
           <span class="castling__label">King</span>
         </div>
@@ -433,18 +460,18 @@
   <section class="trust" data-section="trust">
     <div class="trust__inner">
       <div class="trust__item" data-stack>
-        <div class="trust__num">100%</div>
-        <div class="trust__label">Custom</div>
+        <div class="trust__num">Role-based</div>
+        <div class="trust__label">Defined Ownership</div>
       </div>
       <span class="trust__sep" aria-hidden="true"></span>
       <div class="trust__item" data-stack>
-        <div class="trust__num">48h</div>
-        <div class="trust__label">Onboarding</div>
+        <div class="trust__num">Human</div>
+        <div class="trust__label">Approval Gates</div>
       </div>
       <span class="trust__sep" aria-hidden="true"></span>
       <div class="trust__item" data-stack>
-        <div class="trust__num">1:1</div>
-        <div class="trust__label">Dedicated VA</div>
+        <div class="trust__num">Yours</div>
+        <div class="trust__label">Documented Assets</div>
       </div>
       <span class="trust__sep" aria-hidden="true"></span>
       <div class="trust__item" data-stack>
@@ -461,8 +488,8 @@
 
       <div class="problem__stage">
         <p class="problem__statement is-active" data-stmt="0">
-          You&rsquo;re doing <em>$20/hr</em> work
-          <br/>with a <em>$2,000/hr</em> mind.
+          Routine work is consuming
+          <br/>your <em>highest-leverage thinking.</em>
         </p>
         <p class="problem__statement" data-stmt="1">
           Your inbox is running
@@ -483,7 +510,7 @@
     </div>
 
     <!-- ============ MOBILE-ONLY · cinematic diagnosis stage ============ -->
-    <div class="diag" data-diag aria-hidden="true">
+    <div class="diag" data-diag aria-hidden="false">
       <!-- Ambient layer (constellation of low-opacity dots + brass beam sweep) -->
       <div class="diag__atmos">
         <span class="diag__particle" style="--x:12%;--y:18%;--d:0s"></span>
@@ -507,7 +534,7 @@
       <div class="diag__stage">
         <article class="diag__stmt" data-i="0">
           <span class="diag__ghost">01</span>
-          <p class="diag__text">You&rsquo;re doing <em>$20/hr</em> work with a <em>$2,000/hr</em> mind.</p>
+          <p class="diag__text">Routine work is consuming your <em>highest-leverage thinking.</em></p>
         </article>
         <article class="diag__stmt" data-i="1">
           <span class="diag__ghost">02</span>
@@ -528,15 +555,120 @@
     </div>
   </section>
 
+  <!-- ============ 4 · SYSTEM BLUEPRINTS ============ -->
+  <section class="systems" id="systems" data-section="systems" data-systems>
+    <div class="systems__intro">
+      <p class="systems__kicker">The systems floor</p>
+      <h2 class="systems__title">
+        Operational ownership, designed end to end.
+        <span>From signal to completion.</span>
+      </h2>
+      <p class="systems__lede">
+        Each AI System VA is built around a defined role: what wakes it,
+        what it may decide, where a human approves, what it updates, and
+        how exceptions reach the right person.
+      </p>
+    </div>
+
+    <div class="systems__control">
+      <div class="systems__catalog" role="list" aria-label="Illustrative AI system blueprints">
+        <button class="system-selector is-active" type="button" data-system-select="reception" aria-pressed="true">
+          <span class="system-selector__index">A</span>
+          <span class="system-selector__copy">
+            <strong>Inbound Receptionist</strong>
+            <small>Answers, qualifies, routes, and books.</small>
+          </span>
+          <span class="system-selector__state">Selected</span>
+        </button>
+        <button class="system-selector" type="button" data-system-select="speed" aria-pressed="false">
+          <span class="system-selector__index">B</span>
+          <span class="system-selector__copy">
+            <strong>Speed to Lead</strong>
+            <small>Responds while intent is still warm.</small>
+          </span>
+          <span class="system-selector__state">View</span>
+        </button>
+        <button class="system-selector" type="button" data-system-select="activation" aria-pressed="false">
+          <span class="system-selector__index">C</span>
+          <span class="system-selector__copy">
+            <strong>Lead Activation</strong>
+            <small>Reopens dormant opportunities with context.</small>
+          </span>
+          <span class="system-selector__state">View</span>
+        </button>
+        <button class="system-selector" type="button" data-system-select="crm" aria-pressed="false">
+          <span class="system-selector__index">D</span>
+          <span class="system-selector__copy">
+            <strong>CRM Operations Agent</strong>
+            <small>Finds, updates, assigns, and follows through.</small>
+          </span>
+          <span class="system-selector__state">View</span>
+        </button>
+        <button class="system-selector" type="button" data-system-select="chat" aria-pressed="false">
+          <span class="system-selector__index">E</span>
+          <span class="system-selector__copy">
+            <strong>Website Chat Agent</strong>
+            <small>Answers from approved knowledge and hands off.</small>
+          </span>
+          <span class="system-selector__state">View</span>
+        </button>
+        <button class="system-selector" type="button" data-system-select="dashboard" aria-pressed="false">
+          <span class="system-selector__index">F</span>
+          <span class="system-selector__copy">
+            <strong>Operations Dashboard</strong>
+            <small>Turns system events into decisions and exceptions.</small>
+          </span>
+          <span class="system-selector__state">View</span>
+        </button>
+      </div>
+
+      <div class="systems__viewport-wrap">
+        <div class="systems__viewport" data-system-viewport>
+          <div class="systems__viewport-topline" role="status" aria-live="polite">
+            <div>
+              <span class="systems__live-dot" aria-hidden="true"></span>
+              <span data-system-status>Illustrative blueprint · inbound coverage</span>
+            </div>
+            <span data-system-pattern>Routing tree · three outcomes</span>
+          </div>
+
+          <div class="systems__canvas-scroll" data-system-scroll>
+            <div class="systems__canvas" data-system-canvas></div>
+          </div>
+
+          <div class="systems__viewport-footer">
+            <div>
+              <span>Role</span>
+              <strong data-system-role>Own every inbound enquiry</strong>
+            </div>
+            <div>
+              <span>Human control</span>
+              <strong data-system-control>Exceptions and sensitive actions</strong>
+            </div>
+            <div>
+              <span>Completion</span>
+              <strong data-system-complete>Booked, routed, or logged</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ 4 · SERVICES ============ -->
   <section class="services" id="services" data-section="services">
     <div class="services__head">
       <div class="eyebrow"><span class="dot"></span> What we do</div>
-      <h2 class="display-l">Two operating models.<br/><span class="accent">One unfair advantage.</span></h2>
-      <p class="services__lede">Recurring infrastructure to run the business you already have. Bespoke implementations to engineer the one you're building. Both deployed under the same standard.</p>
+      <h2 class="display-l">Two operating models.<br/><span class="accent">One accountable system.</span></h2>
+      <p class="services__lede">Managed systems to run the business you already have. Bespoke implementations to engineer the one you are building. Both designed around ownership, controls, and a visible completion condition.</p>
     </div>
 
     <div class="services__track-wrap">
+      <div class="services__guide" aria-hidden="true">
+        <span class="services__guide-label">Scroll to explore</span>
+        <span class="services__guide-line"><i data-services-progress></i></span>
+        <span class="services__guide-count"><b data-services-current>01</b> / 07</span>
+      </div>
       <div class="services__track" data-track>
 
         <!-- ============ PILLAR 01 · CHAPTER CARD ============ -->
@@ -547,40 +679,41 @@
             <span class="svc-pillar__cadence">Continuous · Monthly retainer</span>
           </div>
           <h3 class="svc-pillar__title"><em>Recurring</em><br/>Infrastructure</h3>
-          <p class="svc-pillar__desc">Always-on execution squads, fortnightly architectural reviews, and an isolated staging environment standing by — so the business runs without you ever touching it.</p>
+          <p class="svc-pillar__desc">Role-based AI operators, monitored workflows, and managed channels that keep recurring work moving without turning the founder into the system supervisor.</p>
           <div class="svc-pillar__footer">
             <span class="svc-pillar__count">Three vectors →</span>
           </div>
         </article>
 
-        <!-- 01 · Operational VAs -->
-        <article class="svc-card" data-tilt data-svc-bg="va">
+        <!-- 01 · AI System VAs -->
+        <article class="svc-card" data-svc-bg="va">
           <div class="svc-card__num">I · 01</div>
           <div class="svc-card__icon">
-            <!-- Knight -->
+            <!-- Role-based system -->
             <svg viewBox="0 0 64 64" aria-hidden="true">
-              <path d="M20 54V44c0-10 6-16 12-20 3-2 4-4 4-7l-3 1-2-3 6-4 4 2 4 4c4 4 6 10 6 18v19H20z"
-                    fill="currentColor"/>
-              <circle cx="40" cy="22" r="1.5" fill="var(--color-bg)"/>
-              <rect x="16" y="54" width="36" height="4" fill="var(--color-accent)"/>
+              <rect x="6" y="10" width="16" height="12" fill="none" stroke="currentColor" stroke-width="2"/>
+              <rect x="42" y="10" width="16" height="12" fill="none" stroke="currentColor" stroke-width="2"/>
+              <rect x="22" y="38" width="20" height="16" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M22 16h10v22M42 16H32" fill="none" stroke="currentColor" stroke-width="2"/>
+              <circle cx="32" cy="16" r="3" fill="var(--color-accent)"/>
             </svg>
           </div>
-          <h3 class="svc-card__title">Operational VAs</h3>
+          <h3 class="svc-card__title">AI System VAs</h3>
           <p class="svc-card__body">
-            Fractional or dedicated execution units, tied to strict SLAs.
-            Trained on your SOPs, managed by an ops lead — the standard
-            holds whether you're watching or not.
+            Role-based AI operating systems that own a defined workflow across
+            approved tools — with permissions, approval gates, exception paths,
+            and reporting designed in from the start.
           </p>
           <ul class="svc-card__list">
-            <li>Dedicated &amp; fractional tiers</li>
-            <li>Documented hand-offs, no single point of failure</li>
-            <li>Priority response lane for active retainers</li>
+            <li>Inbound reception, lead response, CRM operations</li>
+            <li>Explicit permissions and human approval points</li>
+            <li>Documented completion and escalation conditions</li>
           </ul>
           <div class="svc-card__corner" aria-hidden="true"></div>
         </article>
 
         <!-- 02 · Social Ecosystems -->
-        <article class="svc-card" data-tilt data-svc-bg="social">
+        <article class="svc-card" data-svc-bg="social">
           <div class="svc-card__num">I · 02</div>
           <div class="svc-card__icon">
             <!-- Broadcast -->
@@ -606,7 +739,7 @@
         </article>
 
         <!-- 03 · AI Optimization -->
-        <article class="svc-card" data-tilt data-svc-bg="auto">
+        <article class="svc-card" data-svc-bg="auto">
           <div class="svc-card__num">I · 03</div>
           <div class="svc-card__icon">
             <!-- Pulse / oversight -->
@@ -618,13 +751,13 @@
           </div>
           <h3 class="svc-card__title">AI Maintenance &amp; Optimization</h3>
           <p class="svc-card__body">
-            Continuous oversight of deployed automations. Bug fixes,
-            API updates, performance reporting — and a fortnightly audit
-            that surfaces the next bottleneck before you feel it.
+            Continuous oversight of deployed agents and automations. Bug fixes,
+            API changes, failed-run recovery, and reviews that surface the next
+            bottleneck before it becomes a silent queue.
           </p>
           <ul class="svc-card__list">
-            <li>Monitored 24/7, reviewed every 14 days</li>
-            <li>Versioned changes, zero silent failures</li>
+            <li>Run monitoring and exception alerts</li>
+            <li>Versioned changes and surfaced exceptions</li>
             <li>Quarterly performance &amp; cost report</li>
           </ul>
           <div class="svc-card__corner" aria-hidden="true"></div>
@@ -638,14 +771,14 @@
             <span class="svc-pillar__cadence">Bespoke · Milestone-based</span>
           </div>
           <h3 class="svc-pillar__title"><em>Managed</em><br/>Implementations</h3>
-          <p class="svc-pillar__desc">End-to-end engineering. Each build deployed in an encrypted sandbox before it touches production — and documented as a digital asset you keep on the day we hand the keys back.</p>
+          <p class="svc-pillar__desc">End-to-end engineering with project-appropriate staging and sign-off before production. Delivery includes the source, documentation and handoff artifacts agreed in scope.</p>
           <div class="svc-pillar__footer">
             <span class="svc-pillar__count">Two vectors →</span>
           </div>
         </article>
 
-        <!-- 04 · Custom AI Builds -->
-        <article class="svc-card" data-tilt data-svc-bg="build">
+        <!-- 04 · Automation Systems -->
+        <article class="svc-card" data-svc-bg="build">
           <div class="svc-card__num">II · 04</div>
           <div class="svc-card__icon">
             <!-- Architecture / blueprint -->
@@ -658,22 +791,22 @@
               <rect x="20" y="48" width="24" height="3" fill="var(--color-accent)"/>
             </svg>
           </div>
-          <h3 class="svc-card__title">Custom AI Builds</h3>
+          <h3 class="svc-card__title">Automation Systems</h3>
           <p class="svc-card__body">
-            End-to-end design, development, and deployment of bespoke
-            architectures — the kind of system we built for James.
-            High-leverage. Milestone-priced. Yours from the day it ships.
+            End-to-end design and deployment of connected operational systems:
+            triggers, agents, rules, human controls, CRM actions, dashboards,
+            and the exception logic between them.
           </p>
           <ul class="svc-card__list">
-            <li>Discovery → architecture → build → handover</li>
-            <li>Sandboxed before any live deployment</li>
-            <li>Living documentation you keep forever</li>
+            <li>Speed to lead, activation, CRM, reporting</li>
+            <li>Project-appropriate staging and sign-off</li>
+            <li>Architecture and runbooks defined in scope</li>
           </ul>
           <div class="svc-card__corner" aria-hidden="true"></div>
         </article>
 
         <!-- 05 · System Audits & Architecture -->
-        <article class="svc-card" data-tilt data-svc-bg="audit">
+        <article class="svc-card" data-svc-bg="audit">
           <div class="svc-card__num">II · 05</div>
           <div class="svc-card__icon">
             <!-- Magnifier / audit -->
@@ -686,13 +819,13 @@
           </div>
           <h3 class="svc-card__title">System Audits &amp; Architecture</h3>
           <p class="svc-card__body">
-            Initial consulting phase to map every bottleneck draining you —
+            Initial consulting phase to map priority bottlenecks in scope —
             and the blueprint for the systems that remove them.
             Either a standalone engagement, or the first move of a build.
           </p>
           <ul class="svc-card__list">
-            <li>Operational map of every leak</li>
-            <li>Cost-per-hour analysis on each task</li>
+            <li>Operational map of priority leaks</li>
+            <li>Cost-of-work analysis on priority tasks</li>
             <li>Pre-engineered remediation roadmap</li>
           </ul>
           <div class="svc-card__corner" aria-hidden="true"></div>
@@ -704,7 +837,67 @@
     <!-- Fine print · positioning whisper -->
     <div class="services__whisper">
       <span class="services__whisper-rule" aria-hidden="true"></span>
-      <span>Engagements move on a first-architect basis. Active rosters reviewed quarterly — onboarding by referral or audit only.</span>
+      <span>Every blueprint shown above is illustrative. Production systems are designed around the client's stack, permissions, data, and operating constraints.</span>
+    </div>
+  </section>
+
+  <!-- ============ 6.5 · VOICE AGENT TRIAL ============ -->
+  <section class="voice-trial" id="voice-trial" data-section="voice-trial">
+    <div class="voice-trial__inner">
+      <div class="voice-trial__copy">
+        <p class="voice-trial__kicker">Live system preview</p>
+        <h2 class="voice-trial__title">Talk to the system.<br/><span>Hear the handoff.</span></h2>
+        <p class="voice-trial__lede">
+          Ask Arden about Bluerook, describe an operational bottleneck, or find the
+          right system for your business. This is an AI voice concierge—not a human.
+        </p>
+        <div class="voice-trial__prompts" aria-label="Questions to try">
+          <span>“What can you automate?”</span>
+          <span>“How would speed to lead work?”</span>
+          <span>“I already booked a call.”</span>
+        </div>
+        <p class="voice-trial__privacy" id="voice-trial-processing">Starting this live trial sends microphone audio and transcript/call data to Retell AI, a third-party voice service, to provide the conversation. Retell may record or retain call data according to the configured storage and retention settings. Review <a href="https://www.retellai.com/legal/privacy-policy" target="_blank" rel="noopener">Retell&rsquo;s privacy policy</a>. Do not share passwords, payment details, or sensitive client data.</p>
+      </div>
+
+      <div
+        class="voice-console"
+        data-voice-console
+        data-voice-agent-id="agent_85268269ae1b5361ea8250e5a3"
+      >
+        <div class="voice-console__top">
+          <span><i aria-hidden="true"></i> AI voice concierge</span>
+          <span>Arden · <b data-voice-time>00:00</b></span>
+        </div>
+        <div class="voice-console__stage">
+          <div class="voice-console__orb" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <p class="voice-console__state" data-voice-state role="status" aria-live="polite">Ready for a live conversation</p>
+          <p class="voice-console__note" data-voice-note>
+            Your browser will ask for microphone permission. Audio and transcript data are processed by Retell AI during this live trial.
+          </p>
+          <div class="voice-console__transcript" data-voice-transcript-wrap aria-live="polite">
+            <span>Live transcript</span>
+            <div class="voice-console__lines" data-voice-transcript>
+              <p class="voice-console__line">Conversation captions will appear here.</p>
+            </div>
+          </div>
+          <div class="voice-console__controls">
+            <label class="voice-console__consent"><input type="checkbox" data-voice-consent> <span>I understand this live trial sends audio and transcript data to Retell AI.</span></label>
+            <button class="voice-console__button" type="button" data-voice-start aria-describedby="voice-trial-processing" disabled>
+              <span class="voice-console__button-dot" aria-hidden="true"></span>
+              <span data-voice-start-label>Start voice trial</span>
+            </button>
+            <button class="voice-console__control" type="button" data-voice-mute aria-pressed="false" hidden>Mute</button>
+            <button class="voice-console__control voice-console__control--end" type="button" data-voice-end hidden>End call</button>
+          </div>
+        </div>
+        <div class="voice-console__footer">
+          <span data-voice-connection>Third-party web call</span>
+          <span>AI disclosure on</span>
+          <span>Booking link available</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -718,10 +911,11 @@
 
     <div class="privileges__list" data-privileges>
 
-      <article class="privilege" data-privilege="01" data-open>
-        <button class="privilege__head" type="button" aria-expanded="true" aria-controls="priv-01-body">
+      <article class="privilege" data-privilege="01">
+        <button class="privilege__head" type="button" aria-expanded="false" aria-controls="priv-01-body">
           <span class="privilege__num">01</span>
           <h3 class="privilege__title">Priority Bandwidth.</h3>
+          <span class="privilege__summary">Fast response when critical work is blocked.</span>
           <span class="privilege__badge">4H SLA</span>
           <span class="privilege__chev" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
@@ -743,6 +937,7 @@
         <button class="privilege__head" type="button" aria-expanded="false" aria-controls="priv-02-body">
           <span class="privilege__num">02</span>
           <h3 class="privilege__title">Innovation Audits.</h3>
+          <span class="privilege__summary">Regular optimization, never set-and-forget.</span>
           <span class="privilege__badge">BI-WEEKLY</span>
           <span class="privilege__chev" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
@@ -764,6 +959,7 @@
         <button class="privilege__head" type="button" aria-expanded="false" aria-controls="priv-03-body">
           <span class="privilege__num">03</span>
           <h3 class="privilege__title">Sandbox Staging.</h3>
+          <span class="privilege__summary">Changes follow a scoped test and sign-off plan.</span>
           <span class="privilege__badge">SECURITY</span>
           <span class="privilege__chev" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
@@ -771,11 +967,11 @@
         </button>
         <div class="privilege__body" id="priv-03-body" role="region">
           <div class="privilege__body-inner">
-            <p>Nothing reaches production until it survives an encrypted, isolated mirror of your environment. Rollback is one command. Your live systems never carry the weight of an unvalidated change.</p>
+            <p>Production changes are scoped with a staging and sign-off plan appropriate to the system. Where rollback is supported, the recovery path is documented before promotion.</p>
             <ul class="privilege__meta-list">
-              <li><span>Isolation</span><strong>Encrypted, single-tenant</strong></li>
+              <li><span>Isolation</span><strong>Project-specific staging</strong></li>
               <li><span>Promotion</span><strong>Sign-off gated</strong></li>
-              <li><span>Rollback</span><strong>≤ 60 seconds</strong></li>
+              <li><span>Rollback</span><strong>Documented where supported</strong></li>
             </ul>
           </div>
         </div>
@@ -785,6 +981,7 @@
         <button class="privilege__head" type="button" aria-expanded="false" aria-controls="priv-04-body">
           <span class="privilege__num">04</span>
           <h3 class="privilege__title">Asset Ownership.</h3>
+          <span class="privilege__summary">Source, documentation and data rights are agreed in scope.</span>
           <span class="privilege__badge">WIKI</span>
           <span class="privilege__chev" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
@@ -792,11 +989,11 @@
         </button>
         <div class="privilege__body" id="priv-04-body" role="region">
           <div class="privilege__body-inner">
-            <p>Every system we build for you is documented as a living asset — diagrams, runbooks, decision logs — and handed over on day one of the engagement. If you ever walk away, you walk away with the infrastructure intact.</p>
+            <p>Delivery includes the source, documentation and handoff artifacts agreed in scope. Ownership, licences and export formats are defined before the build so the operating system remains portable.</p>
             <ul class="privilege__meta-list">
-              <li><span>Format</span><strong>Living wiki + diagrams</strong></li>
-              <li><span>License</span><strong>Yours, perpetual</strong></li>
-              <li><span>Export</span><strong>Markdown · PDF · Notion</strong></li>
+              <li><span>Format</span><strong>Defined in scope</strong></li>
+              <li><span>License</span><strong>Contract-defined</strong></li>
+              <li><span>Export</span><strong>Open formats where practical</strong></li>
             </ul>
           </div>
         </div>
@@ -820,7 +1017,7 @@
         <div class="step__body">
           <h3 class="step__title">Discovery</h3>
           <p class="step__lead">Map your bottlenecks.</p>
-          <p class="step__copy">A working session to inventory every task draining you — what it costs you per hour, and where the leverage lives.</p>
+          <p class="step__copy">A working session to inventory the highest-impact recurring tasks — what they cost, and where the leverage lives.</p>
         </div>
       </article>
 
@@ -830,7 +1027,7 @@
         <div class="step__body">
           <h3 class="step__title">System Design</h3>
           <p class="step__lead">Engineer the delegation stack.</p>
-          <p class="step__copy">VAs, automations, and SOPs designed as one system. Hand-offs documented. Failure points removed before they exist.</p>
+          <p class="step__copy">Agents, automations, controls, data, and SOPs designed as one system. Permissions and failure paths resolved before build.</p>
         </div>
       </article>
 
@@ -839,8 +1036,8 @@
         <div class="step__num">03</div>
         <div class="step__body">
           <h3 class="step__title">Deployment</h3>
-          <p class="step__lead">Live in 48 hours.</p>
-          <p class="step__copy">VAs onboarded. Automations switched on. You start handing off the work that should never have been on your desk.</p>
+          <p class="step__lead">Onboarding begins within 48 hours.</p>
+          <p class="step__copy">Access, constraints, and the first workflow enter staging. Deployment follows testing and your approval.</p>
         </div>
       </article>
 
@@ -860,34 +1057,75 @@
   <!-- ============ 6 · WHY BLUEROOK ============ -->
   <section class="why" id="why" data-section="why">
     <div class="why__head">
-      <div class="eyebrow"><span class="dot"></span> Why Bluerook</div>
-      <h2 class="display-l">Four things we<br/><span class="accent">refuse to do.</span></h2>
+      <div class="eyebrow"><span class="dot"></span> Operating principles</div>
+      <h2 class="display-l">How the standard holds<br/><span class="accent">when no one is watching.</span></h2>
     </div>
 
     <div class="why__grid">
       <article class="why-cell" data-reveal>
-        <div class="why-cell__no">No</div>
-        <h3 class="why-cell__title">generic VAs.</h3>
-        <p class="why-cell__copy">Every assistant is matched to your workflow, trained on your SOPs, and managed by an ops lead who owns the outcome.</p>
+        <div class="why-cell__no">Defined</div>
+        <h3 class="why-cell__title">roles and controls.</h3>
+        <p class="why-cell__copy">We do not build a chatbot and call it an employee. Every system gets a defined role, tools, permissions, controls, and completion condition.</p>
       </article>
 
       <article class="why-cell" data-reveal>
-        <div class="why-cell__no">No</div>
-        <h3 class="why-cell__title">off-the-shelf automations.</h3>
-        <p class="why-cell__copy">Your stack is yours. We build to it — no template-shaped holes, no shoehorned integrations, no &ldquo;close enough.&rdquo;</p>
+        <div class="why-cell__no">Work-shaped</div>
+        <h3 class="why-cell__title">architecture.</h3>
+        <p class="why-cell__copy">Your stack and operating constraints decide the architecture. The blueprint adapts to the work—not the other way around.</p>
       </article>
 
       <article class="why-cell" data-reveal>
-        <div class="why-cell__no">No</div>
-        <h3 class="why-cell__title">micromanagement.</h3>
+        <div class="why-cell__no">Visible</div>
+        <h3 class="why-cell__title">outcome ownership.</h3>
         <p class="why-cell__copy">We own the outcome. You see the work, not the work-to-manage-the-work. Reports on your schedule, not ours.</p>
       </article>
 
       <article class="why-cell" data-reveal>
-        <div class="why-cell__no">No</div>
-        <h3 class="why-cell__title">lock-in.</h3>
+        <div class="why-cell__no">Portable</div>
+        <h3 class="why-cell__title">by design.</h3>
         <p class="why-cell__copy">No annual contracts. No exit fees. We earn your trust every month or we don&rsquo;t deserve the next one.</p>
       </article>
+    </div>
+  </section>
+
+  <!-- ============ SELECTED SYSTEMS · PORTFOLIO BRIDGE ============ -->
+  <section class="selected-systems" id="selected-systems" data-section="selected-systems">
+    <div class="selected-systems__inner">
+      <header class="selected-systems__head" data-reveal>
+        <div>
+          <p class="selected-systems__eyebrow">Selected systems</p>
+          <h2 class="selected-systems__title">Inspect the operation.</h2>
+        </div>
+        <p class="selected-systems__intro">Enter public-safe, interactive chapters that show inputs, state, human control, failure and completion—not only the polished outcome. Evidence and prototype labels stay visible throughout.</p>
+      </header>
+
+      <div class="selected-systems__list" data-reveal>
+        <a class="selected-system" href="/work/ecommerce-operations/">
+          <span class="selected-system__no">01</span>
+          <div><span class="selected-system__status">Fictional interactive demonstration</span><h3>Connected E-commerce Operations</h3><p>A synthetic retailer joins catalogue, content approval, asset review, order exceptions, support context and management state.</p></div>
+          <span class="selected-system__arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="selected-system" href="/work/sports-enrollment-operations/">
+          <span class="selected-system__no">02</span>
+          <div><span class="selected-system__status">Fictional demonstration · layered anonymized evidence</span><h3>Enrollment and Operations</h3><p>A synthetic journey distinguishes verified CRM, scoring, booking, handoff, audit and reporting modules from controlled prototypes.</p></div>
+          <span class="selected-system__arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="selected-system" href="/work/sports-operations-os/">
+          <span class="selected-system__no">03</span>
+          <div><span class="selected-system__status">Fictional interactive demonstration</span><h3>Sports Operations OS</h3><p>Prepared enquiry, trial, handoff and reactivation scenarios share resettable browser-local state with no external services.</p></div>
+          <span class="selected-system__arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="selected-system" href="/work/follow-up-gap-detector/">
+          <span class="selected-system__no">04</span>
+          <div><span class="selected-system__status">Bluerook product · inactive package</span><h3>Follow-Up Gap Detector</h3><p>Six synthetic CRM records enter a deterministic review; five gaps surface, the healthy record stays out and no outreach is sent.</p></div>
+          <span class="selected-system__arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <div class="selected-systems__footer" data-reveal>
+        <p class="selected-systems__note">All names, organizations, records and outcomes in the public demonstrations are synthetic. Anonymized implementation evidence is described without exposing source records or identifiers.</p>
+        <a class="btn btn--ghost" href="/work/">Enter the full portfolio</a>
+      </div>
     </div>
   </section>
 
@@ -965,6 +1203,8 @@
     </a>
 
     <nav class="footer__nav" aria-label="Footer">
+      <a href="/work/">Work</a>
+      <a href="#systems">Systems</a>
       <a href="#services">Services</a>
       <a href="#process">Process</a>
       <a href="#why">Why us</a>
@@ -989,34 +1229,40 @@
   </div>
 
   <div class="footer__legal">
-    <span>&copy; 2025 Bluerook. All rights reserved.</span>
-    <span class="footer__legal-meta">Premium BPO &middot; Built for operators.</span>
+    <span>&copy; 2026 Bluerook. All rights reserved.</span>
+    <span class="footer__legal-meta">AI operations systems &middot; Built for operators.</span>
   </div>
 </footer>
 
 <!-- ============ SCRIPTS — pinned CDN versions ============ -->
-<!-- GSAP loaded synchronously (script.js needs it immediately on defer) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<!-- Motion libraries preserve execution order without blocking HTML parsing. -->
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <!-- Non-critical libs deferred so they don't block parsing -->
 <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
-<script defer src="script.js"></script>
+<script defer src="/js/portfolio/wayfinding.js?v=20260804u"></script>
+<script defer src="script.js?v=20260806n"></script>
 
-<!-- Calendly inline widget — colour overrides via URL params (primary, text, background) -->
-<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<!-- Calendly is loaded only for desktop, where the full inline scheduler has room. -->
 <script>
   (function () {
+    if (!window.matchMedia('(min-width: 769px)').matches) return;
+
     function initCalendly() {
-      if (!window.Calendly) { return setTimeout(initCalendly, 100); }
       var el = document.getElementById('calendly-embed');
-      if (!el) return;
+      if (!el || !window.Calendly) return;
       window.Calendly.initInlineWidget({
-        url: 'https://calendly.com/hatim-bluerook/30min?hide_event_type_details=0&primary_color=C9A84C&text_color=ffffff&background_color=0A1628',
+        url: 'https://calendly.com/hatim-bluerook/30min?hide_event_type_details=0&primary_color=D4A437&text_color=F4EDE0&background_color=08111E',
         parentElement: el,
       });
     }
-    initCalendly();
+
+    var calendlyScript = document.createElement('script');
+    calendlyScript.src = 'https://assets.calendly.com/assets/external/widget.js';
+    calendlyScript.async = true;
+    calendlyScript.addEventListener('load', initCalendly, { once: true });
+    document.head.appendChild(calendlyScript);
 
     // Click-to-activate shield: lets the page scroll past the iframe
     // until the user clicks into it. Shield re-arms on mouseleave so
@@ -1034,5 +1280,6 @@
   })();
 </script>
 
+<script defer src="/js/nav.js?v=20260808a"></script>
 </body>
 </html>
