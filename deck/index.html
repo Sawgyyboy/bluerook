@@ -50,7 +50,7 @@ body::before{
 .stage{position:fixed; inset:0; display:grid; place-items:center; z-index:1}
 .deck{position:relative; width:1280px; height:720px; transform-origin:center}
 .slide{
-  position:absolute; inset:0; padding:64px 72px;
+  position:absolute; inset:0; padding:64px 210px 64px 72px;
   display:none; grid-template-rows:auto 1fr auto; gap:20px;
 }
 .slide.is-on{display:grid; animation:in .45s var(--ease) both}
@@ -69,7 +69,7 @@ h2{font-size:52px}
 em{font-style:italic; color:var(--live)}
 .lead{margin:0; max-width:60ch; color:var(--p70); font-size:19px; line-height:1.55}
 .note{margin:0; color:var(--p52); font-family:var(--mono); font-size:12px}
-.foot{display:flex; align-items:center; justify-content:space-between; color:var(--p52); font-family:var(--mono); font-size:11px; letter-spacing:.08em}
+.foot{margin-right:-138px; display:flex; align-items:center; justify-content:space-between; color:var(--p52); font-family:var(--mono); font-size:11px; letter-spacing:.08em}
 
 /* ---------- Reusable panel ---------- */
 .panel{border:1px solid var(--rule); border-radius:var(--r); background:rgba(13,24,40,.6); box-shadow:var(--shadow); overflow:hidden}
@@ -153,6 +153,11 @@ em{font-style:italic; color:var(--live)}
 .wave i{width:3px; height:40px; background:rgba(255,182,39,.7); transform:scaleY(var(--h))}
 
 /* ---------- Chrome ---------- */
+.brandmark{position:absolute; top:40px; right:48px; z-index:5; display:flex; align-items:center; gap:11px}
+.brandmark img{width:26px; height:auto; display:block}
+.brandmark span{font-family:var(--serif); font-style:italic; font-size:19px; color:var(--paper); letter-spacing:.01em}
+@media print{ .brandmark{position:absolute} }
+
 .hud{position:fixed; left:0; right:0; bottom:0; z-index:3; display:flex; align-items:center; gap:14px; padding:14px 22px; font-family:var(--mono); font-size:11px; color:var(--p52); pointer-events:none}
 .hud .mark{display:flex; align-items:center; gap:8px; color:var(--p70)}
 .hud .mark svg{width:14px;height:16px}
@@ -181,12 +186,18 @@ em{font-style:italic; color:var(--live)}
 <div class="stage">
 <div class="deck" id="deck">
 
+  <div class="brandmark">
+    <img src="/assets/bluerook-logo-paper.png" alt="Bluerook">
+    <span>Bluerook</span>
+  </div>
+
+
   <!-- 01 · COVER -->
   <section class="slide">
     <p class="kicker"><b>●</b> Bluerook · AI operations</p>
     <div style="align-self:center">
       <h1>We run your operations.<br><em>You run your empire.</em></h1>
-      <p class="lead" style="margin-top:26px">Role-based AI systems that answer, qualify, update, escalate and report across the tools you already use — engineered, deployed, owned.</p>
+      <p class="lead" style="margin-top:26px">AI systems that answer, qualify and log the work, inside the tools you already pay for. You own what we build.</p>
     </div>
     <div class="foot"><span>bluerook.co</span><span>Hatim · hatim@bluerook.co</span></div>
   </section>
@@ -197,9 +208,9 @@ em{font-style:italic; color:var(--live)}
     <div style="align-self:center">
       <h2 style="max-width:22ch">You do not need more software. You need someone to own <em>what software leaves behind.</em></h2>
       <div class="cols c3" style="margin-top:44px">
-        <div class="card"><span class="n">The exceptions</span><p>The order that does not fit the rule. The refund over policy. Software raises it and stops.</p></div>
-        <div class="card"><span class="n">The follow-ups</span><p>The enquiry nobody answered on day three, and nobody noticed on day nine.</p></div>
-        <div class="card"><span class="n">The half-finished</span><p>Records with no owner, no next action, and no one who thinks they are theirs.</p></div>
+        <div class="card"><span class="n">The exceptions</span><p>The order that breaks the rule. The refund over policy. Your software flags it, then waits for you.</p></div>
+        <div class="card"><span class="n">The follow-ups</span><p>Nobody answered on day three. Nobody noticed on day nine.</p></div>
+        <div class="card"><span class="n">The half-finished</span><p>Records with no owner and no next step. Everyone assumes someone else has it.</p></div>
       </div>
     </div>
     <div class="foot"><span>THE PROBLEM</span><span>01</span></div>
@@ -212,7 +223,7 @@ em{font-style:italic; color:var(--live)}
       <div class="card" style="padding:28px">
         <span class="n">01 · Recurring infrastructure</span>
         <h3 style="font-size:34px">We run it.<br>Monthly.</h3>
-        <p style="margin-top:6px">AI System VAs with defined permissions, a named escalation and working hours. Reception and speed to lead. Weekly maintenance on the seams.</p>
+        <p style="margin-top:6px">A system with a job title. It knows what it may do, who it answers to, and when to wake someone up. We keep it running.</p>
         <div class="cols c3" style="margin-top:16px; gap:12px">
           <div class="stat"><b style="font-size:30px">4h</b><span>response SLA</span></div>
           <div class="stat"><b style="font-size:30px">48h</b><span>onboarding</span></div>
@@ -222,7 +233,7 @@ em{font-style:italic; color:var(--live)}
       <div class="card" style="padding:28px">
         <span class="n">02 · Managed implementations</span>
         <h3 style="font-size:34px">We build it.<br>Milestone priced.</h3>
-        <p style="margin-top:6px">Automation systems with branches, service calls, approval gates and a designed exit for humans. Audits and architecture before anything is built.</p>
+        <p style="margin-top:6px">We map where your work breaks first. Then we build the thing that fixes it, with a human checkpoint wherever one belongs.</p>
         <div class="cols c3" style="margin-top:16px; gap:12px">
           <div class="stat"><b style="font-size:30px">Fixed</b><span>per milestone</span></div>
           <div class="stat"><b style="font-size:30px">Staged</b><span>sandbox first</span></div>
@@ -261,7 +272,7 @@ em{font-style:italic; color:var(--live)}
           <div class="nd" style="--x:84;--y:78"><span class="nb"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span><span class="nl"><b>Notify owner</b><i>Send</i></span></div>
         </div>
       </div>
-      <p class="note" style="margin-top:14px">Green is done, amber is running. The exit to a human stays on the canvas even when it is not taken — that is the design, not a fallback.</p>
+      <p class="note" style="margin-top:14px">Green is finished. Amber is running now. The path to a human is always drawn, even on the runs that never use it.</p>
     </div>
     <div class="foot"><span>THE AUTOMATION FLOOR</span><span>03</span></div>
   </section>
@@ -272,8 +283,8 @@ em{font-style:italic; color:var(--live)}
     <div class="cols c2w" style="align-self:center">
       <div>
         <h2>One approved edit.<br><em>Every surface agrees.</em></h2>
-        <p class="lead" style="margin-top:18px">A price changes once. Nothing publishes until a named human approves it. One approval then writes to storefront, dashboard, support macro and channel feed in the same pass.</p>
-        <p class="note" style="margin-top:18px">Who changed it · who approved it · what moved · when.<br>The audit line is the deliverable, not a side effect.</p>
+        <p class="lead" style="margin-top:18px">You change a price once. Nothing goes live until a named person says yes. Then every screen updates together, so nobody quotes last month.</p>
+        <p class="note" style="margin-top:18px">Who changed it. Who approved it. What moved, and when.<br>That record is the point, not a by-product.</p>
       </div>
       <div class="panel">
         <div class="bar"><span class="dot"></span><span>Aster &amp; Vale · operations</span><span class="right">04 / 04</span></div>
@@ -299,7 +310,7 @@ em{font-style:italic; color:var(--live)}
     <div class="cols c2w" style="align-self:center">
       <div>
         <h2>An enquiry becomes a booking.<br><em>Nobody chases it.</em></h2>
-        <p class="lead" style="margin-top:18px">21:40, from a phone, half the fields blank. It qualifies itself against real capacity, holds the slot, writes the record with an owner — then stops the moment a question needs judgement.</p>
+        <p class="lead" style="margin-top:18px">A parent messages at 21:40 from a phone, half the form empty. It checks the real calendar, holds the slot, writes the record. Then it hits a question it should not answer, and stops.</p>
         <div class="cols c3" style="margin-top:26px; gap:14px">
           <div class="stat gold"><b>19s</b><span>to first reply</span></div>
           <div class="stat"><b>0</b><span>people awake</span></div>
@@ -329,7 +340,7 @@ em{font-style:italic; color:var(--live)}
     <div class="cols c2w" style="align-self:center">
       <div>
         <h2>The lead everyone forgot.<br><em>Found in one pass.</em></h2>
-        <p class="lead" style="margin-top:18px">Deterministic checks for no owner, overdue, no next action. Healthy records stay out of the queue. The scan never sends a message — it hands a human a list.</p>
+        <p class="lead" style="margin-top:18px">It looks for three things: no owner, overdue, no next step. Healthy records are left alone. It never messages anyone. It just hands you the list.</p>
         <p class="note" style="margin-top:20px">Reviews only. There is no send node in this workflow, on purpose.</p>
       </div>
       <div class="panel">
@@ -358,7 +369,7 @@ em{font-style:italic; color:var(--live)}
     <div class="cols c2w" style="align-self:center">
       <div>
         <h2>The call nobody was awake for.<br><em>Answered in two rings.</em></h2>
-        <p class="lead" style="margin-top:18px">22:14, unknown number, nobody in the building. Every figure comes from the approved list. When the caller asks something it may not answer, it says so and hands over.</p>
+        <p class="lead" style="margin-top:18px">It is 22:14 and the office is empty. Every price it quotes comes off your list. When it is asked something it should not answer, it says so and passes the call on.</p>
         <div class="cols c3" style="margin-top:26px; gap:14px">
           <div class="stat"><b>24/7</b><span>coverage</span></div>
           <div class="stat gold"><b>2</b><span>rings to answer</span></div>
@@ -442,10 +453,10 @@ em{font-style:italic; color:var(--live)}
     <div style="align-self:center">
       <h2>Mapped, staged, <em>then run.</em></h2>
       <div class="cols c4" style="margin-top:40px">
-        <div class="card"><span class="n">Step 01</span><h3>Audit</h3><p>Trace the work end to end. Name what breaks, who owns it, and what is worth automating.</p></div>
-        <div class="card"><span class="n">Step 02</span><h3>Architect</h3><p>Branches, service calls, approval gates and the exits. Signed off before anything is built.</p></div>
-        <div class="card"><span class="n">Step 03</span><h3>Stage</h3><p>Built in a sandbox against synthetic data. Nothing touches a live customer until it holds.</p></div>
-        <div class="card"><span class="n">Step 04</span><h3>Run</h3><p>Monthly ownership: exceptions worked, failures replayed, drift caught, reported.</p></div>
+        <div class="card"><span class="n">Step 01</span><h3>Audit</h3><p>We follow one job from start to finish and write down where it breaks.</p></div>
+        <div class="card"><span class="n">Step 02</span><h3>Architect</h3><p>You see the whole shape on paper, and sign it off, before we build.</p></div>
+        <div class="card"><span class="n">Step 03</span><h3>Stage</h3><p>It runs on fake data first. No real customer sees it until it holds.</p></div>
+        <div class="card"><span class="n">Step 04</span><h3>Run</h3><p>We work the exceptions, replay the failures, and tell you what happened.</p></div>
       </div>
       <div class="cols c3" style="margin-top:34px; gap:14px">
         <div class="stat"><b>48h</b><span>onboarding</span></div>
@@ -461,7 +472,7 @@ em{font-style:italic; color:var(--live)}
     <p class="kicker"><b>●</b> Next</p>
     <div style="align-self:center">
       <h1 style="font-size:68px; max-width:20ch">Systems do not impress anyone. <em>Finished work does.</em></h1>
-      <p class="lead" style="margin-top:26px; font-size:20px">Bring the thing you keep doing twice. We map where it breaks, who should own it, and the smallest system worth building.</p>
+      <p class="lead" style="margin-top:26px; font-size:20px">Bring the thing you keep doing twice. We will show you where it breaks and the smallest system worth building.</p>
       <div style="display:flex; gap:14px; align-items:center; margin-top:36px; flex-wrap:wrap">
         <span style="padding:12px 22px; border-radius:999px; background:var(--live); color:var(--live-ink); font-weight:600; font-size:15px">Book a free 30-minute call</span>
         <span style="font-family:var(--mono); font-size:13px; color:var(--p70)">hatim@bluerook.co</span>
@@ -475,10 +486,7 @@ em{font-style:italic; color:var(--live)}
 </div>
 
 <div class="hud">
-  <span class="mark">
-    <svg viewBox="0 0 100 115" aria-hidden="true"><path d="M 26,0 L 32,0 L 32,14 L 40,14 L 40,0 L 46,0 L 46,14 L 54,14 L 54,0 L 60,0 L 60,14 L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 26,26 Z" fill="#1C3F8A"/><rect x="4" y="111" width="92" height="4" fill="#D4A437"/></svg>
-    Bluerook
-  </span>
+  <span class="mark">bluerook.co</span>
   <span class="n"><b id="cur">1</b> / <span id="tot">12</span></span>
 </div>
 <div class="help">← → navigate · P print</div>

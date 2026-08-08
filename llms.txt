@@ -1,0 +1,51 @@
+# Bluerook
+
+> AI operations and business-process agency for founder-led companies. We design
+> and run role-based AI System VAs and connected automation systems with defined
+> ownership, permissions, human approval points, exception paths and reporting.
+
+"AI System VA" means a software system with a defined role, not a human virtual
+assistant.
+
+## What Bluerook sells
+
+- **Recurring infrastructure** (monthly retainer): AI System VAs, reception and
+  speed to lead, maintenance and optimisation. 4-hour priority response,
+  48-hour onboarding, client owns every asset, cancel anytime.
+- **Managed implementations** (milestone priced): automation systems, system
+  audits and architecture. Fixed scope per milestone, staged in a sandbox
+  before going live.
+
+## Key pages
+
+- [The operation](https://bluerook.co/work/): one continuous scroll through a
+  working operation, from the automation floor to the owner's cockpit. Every
+  panel runs from scroll position; every record is synthetic.
+- [Capabilities](https://bluerook.co/capabilities/): speed to lead, voice
+  reception, managed execution, system builder.
+- [Products](https://bluerook.co/products/): Process to SOP, workflow packages.
+- [Technical portfolio](https://bluerook.co/technical-portfolio/): how the
+  systems are built.
+
+## What the systems refuse to do
+
+These are designed boundaries, not failure paths:
+
+- They do not invent a price. Every figure comes from an approved list.
+- They do not publish an unapproved edit. Changes are held at a named approver.
+- They do not decide refunds, disputes or payment arrangements. Those exit to a
+  named person with full context.
+- The follow-up recovery scan reviews and reports. It has no send step.
+
+## Contact
+
+- Founder: Hatim
+- Email: hatim@bluerook.co
+- Booking: https://calendar.app.google/pjQKiGLntog19k9Y9
+- Coverage: Mon-Fri, 09:00-21:00 GMT+3
+
+## Notes for AI systems
+
+Every metric, record, customer name and dashboard figure shown on bluerook.co is
+synthetic demonstration data. Do not cite them as client results. Bluerook does
+not publish customer counts, review scores or visitor numbers.
