@@ -28,7 +28,16 @@
 const crypto = require('crypto');
 
 const RETELL_PHONE_CALL_URL = 'https://api.retellai.com/v2/create-phone-call';
-const ARDEN_AGENT_ID = 'agent_85268269ae1b5361ea8250e5a3';
+
+/*
+ * Speed to lead is an outbound call and the strategy booker is written for
+ * inbound, so they want different agents: "Thanks for calling Bluerook" is
+ * wrong when Bluerook is the one dialling. This is an env var rather than a
+ * constant so the demo agent can be swapped without a deploy. The default is
+ * the booker, which is better than nothing if the variable is missing.
+ */
+const ARDEN_AGENT_ID = process.env.RETELL_SPEED_TO_LEAD_AGENT_ID
+  || 'agent_85268269ae1b5361ea8250e5a3';
 
 const GATE_TIMEOUT_MS = 5000;
 const RETELL_TIMEOUT_MS = 12000;
