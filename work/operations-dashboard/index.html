@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!--
+  THESIS: The dashboard is the result of the operation, not the product. Show it running, and show it wearing someone else's brand.
+  OWN-WORLD: Bluerook Midnight by default; the brand switcher proves the same build carries a client's identity.
+  DATA: Entirely synthetic. Northline Athletics and Aster & Vale are the established fictional identities.
+  -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08111E">
+  <meta name="description" content="An interactive operations dashboard demo: priorities, revenue at risk, conversion funnel, conversations and handoffs — with a live brand switcher. All data is synthetic.">
+  <title>Operations Dashboard — Bluerook</title>
+  <link rel="canonical" href="https://bluerook.co/work/operations-dashboard/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Bluerook">
+  <meta property="og:url" content="https://bluerook.co/work/operations-dashboard/">
+  <meta property="og:title" content="Operations Dashboard — Bluerook">
+  <meta property="og:description" content="The cockpit an owner actually opens: what needs a decision now, what is at risk, and what the agent did. Interactive, and it re-skins to any brand.">
+  <meta property="og:image" content="https://bluerook.co/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/tokens.css">
+  <link rel="stylesheet" href="/styles.css?v=20260806p">
+  <link rel="stylesheet" href="/css/portfolio/showcase.css?v=20260807f">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+<style>
+/* =========================================================
+   OPERATIONS DASHBOARD
+   A working cockpit, not a screenshot. Everything below reads
+   from one synthetic dataset in the page script, so switching
+   brand or theme re-skins the same live numbers rather than
+   swapping a picture.
+
+   The theme and accent are driven by CSS variables scoped to
+   [data-dash], so the brand switcher only has to set three
+   custom properties.
+   ========================================================= */
+[data-dash]{
+  --d-bg:#080D16;
+  --d-panel:#0D1523;
+  --d-panel-2:#111B2C;
+  --d-line:#1B2739;
+  --d-ink:#EAF0F7;
+  --d-ink-2:rgba(234,240,247,.68);
+  --d-ink-3:rgba(234,240,247,.42);
+  --d-accent:#D4A437;          /* set by the brand switcher */
+  --d-accent-ink:#0A0F18;
+  --d-ok:#4FB286;
+  --d-warn:#E0A34A;
+  --d-stop:#D2604A;
+  --d-radius:12px;
+}
+/* Lighter theme options, mirroring the real product's three levels */
+[data-dash][data-theme="dim"]{ --d-bg:#0D1521; --d-panel:#131E2E; --d-panel-2:#182739; --d-line:#22334A; }
+[data-dash][data-theme="light"]{
+  --d-bg:#F2F4F7; --d-panel:#FFFFFF; --d-panel-2:#F7F9FB; --d-line:#DDE3EA;
+  --d-ink:#101822; --d-ink-2:rgba(16,24,34,.72); --d-ink-3:rgba(16,24,34,.5);
+  --d-accent-ink:#FFFFFF;
+}
+
+.dash{
+  display:grid; grid-template-columns:236px minmax(0,1fr);
+  min-height:640px;
+  border:1px solid var(--d-line); border-radius:var(--d-radius);
+  background:var(--d-bg); color:var(--d-ink);
+  font-family:var(--font-sans);
+  overflow:hidden;
+  box-shadow:0 40px 90px rgba(0,0,0,.5);
+}
+
+/* ---------- sidebar ---------- */
+.dash__side{ border-right:1px solid var(--d-line); background:var(--d-panel); display:flex; flex-direction:column; min-width:0; }
+.dash__brand{ display:flex; align-items:center; gap:10px; padding:16px 16px 14px; border-bottom:1px solid var(--d-line); }
+.dash__logo{
+  width:32px;height:32px;border-radius:8px;display:grid;place-items:center;flex:none;
+  background:var(--d-accent); color:var(--d-accent-ink);
+  font-family:var(--font-display); font-size:17px; font-weight:600; font-style:italic;
+}
+.dash__brandname{ min-width:0; }
+.dash__brandname strong{ display:block; font-size:13px; font-weight:600; letter-spacing:-.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.dash__brandname small{ display:block; color:var(--d-ink-3); font-family:var(--font-mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; }
+
+.dash__nav{ padding:12px 10px; display:grid; gap:2px; align-content:start; flex:1; }
+.dash__navlabel{ padding:12px 8px 6px; color:var(--d-ink-3); font-family:var(--font-mono); font-size:9.5px; letter-spacing:.13em; text-transform:uppercase; }
+.dash__navitem{
+  display:flex; align-items:center; gap:10px;
+  padding:9px 10px; border:0; border-radius:8px;
+  background:none; color:var(--d-ink-2);
+  font-family:var(--font-sans); font-size:13.5px; text-align:left;
+  cursor:pointer; width:100%;
+  transition:background 180ms, color 180ms;
+}
+.dash__navitem:hover{ background:var(--d-panel-2); color:var(--d-ink); }
+.dash__navitem[aria-current="true"]{ background:var(--d-panel-2); color:var(--d-ink); box-shadow:inset 2px 0 0 0 var(--d-accent); }
+.dash__navitem i{ width:15px; text-align:center; font-style:normal; opacity:.75; }
+.dash__navitem b{ margin-left:auto; font-family:var(--font-mono); font-size:10.5px; font-weight:500; color:var(--d-accent); }
+
+.dash__sidefoot{ padding:12px; border-top:1px solid var(--d-line); display:grid; gap:8px; }
+.dash__seg{ display:flex; gap:3px; padding:3px; border-radius:999px; background:var(--d-panel-2); }
+.dash__seg button{
+  flex:1; padding:6px 4px; border:0; border-radius:999px; background:none;
+  color:var(--d-ink-3); font-family:var(--font-mono); font-size:9.5px; letter-spacing:.06em;
+  text-transform:uppercase; cursor:pointer; transition:background 180ms,color 180ms;
+}
+.dash__seg button[aria-pressed="true"]{ background:var(--d-accent); color:var(--d-accent-ink); }
+
+/* ---------- main ---------- */
+.dash__main{ min-width:0; display:flex; flex-direction:column; }
+.dash__bar{
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  padding:14px 18px; border-bottom:1px solid var(--d-line); background:var(--d-panel);
+}
+.dash__search{
+  flex:1; min-width:150px; padding:9px 13px;
+  border:1px solid var(--d-line); border-radius:8px; background:var(--d-bg);
+  color:var(--d-ink); font-family:var(--font-sans); font-size:13px;
+}
+.dash__search::placeholder{ color:var(--d-ink-3); }
+.dash__chip{
+  padding:6px 11px; border:1px solid var(--d-line); border-radius:999px;
+  background:none; color:var(--d-ink-2);
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase;
+  cursor:pointer; transition:border-color 180ms,color 180ms;
+}
+.dash__chip[aria-pressed="true"]{ border-color:var(--d-accent); color:var(--d-accent); }
+
+.dash__body{ padding:18px; display:grid; gap:16px; align-content:start; overflow:hidden; }
+.dash__view[hidden]{ display:none; }
+.dash__view{ display:grid; gap:16px; }
+
+.dash__hello{ display:flex; align-items:flex-end; gap:16px; flex-wrap:wrap; }
+.dash__hello h3{ font-size:clamp(1.2rem,2.4vw,1.7rem); font-weight:500; letter-spacing:-.025em; }
+.dash__hello h3 em{ font-family:var(--font-display); font-style:italic; color:var(--d-accent); }
+.dash__hello p{ color:var(--d-ink-2); font-size:13.5px; max-width:56ch; margin-top:5px; }
+.dash__hots{ margin-left:auto; display:flex; gap:8px; }
+.dash__hot{ padding:9px 14px; border:1px solid var(--d-line); border-radius:10px; background:var(--d-panel); display:grid; gap:1px; }
+.dash__hot small{ color:var(--d-ink-3); font-family:var(--font-mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; }
+.dash__hot strong{ font-family:var(--font-mono); font-size:1.35rem; font-weight:500; font-variant-numeric:tabular-nums; }
+.dash__hot--hot strong{ color:var(--d-accent); }
+.dash__hot--calm strong{ color:var(--d-ok); }
+
+.grid2{ display:grid; grid-template-columns:1.25fr .75fr; gap:16px; align-items:start; }
+.card{ border:1px solid var(--d-line); border-radius:var(--d-radius); background:var(--d-panel); overflow:hidden; }
+.card__head{ display:flex; align-items:center; gap:10px; padding:13px 15px; border-bottom:1px solid var(--d-line); }
+.card__head h4{ font-size:12.5px; font-weight:600; letter-spacing:-.01em; }
+.card__head span{ margin-left:auto; color:var(--d-ink-3); font-family:var(--font-mono); font-size:10px; }
+.card__tabs{ display:flex; gap:2px; padding:8px 10px; border-bottom:1px solid var(--d-line); overflow-x:auto; }
+.card__tabs button{
+  padding:6px 11px; border:0; border-radius:7px; background:none; color:var(--d-ink-3);
+  font-family:var(--font-sans); font-size:12px; cursor:pointer; white-space:nowrap;
+  transition:background 180ms,color 180ms;
+}
+.card__tabs button[aria-selected="true"]{ background:var(--d-panel-2); color:var(--d-ink); }
+
+.prio{ display:grid; }
+.prio__row{
+  display:grid; grid-template-columns:54px minmax(0,1fr) auto; gap:12px; align-items:center;
+  padding:13px 15px; border-bottom:1px solid var(--d-line);
+  background:none; border-left:0; border-right:0; border-top:0; width:100%; text-align:left;
+  color:inherit; font-family:inherit; cursor:pointer;
+  transition:background 180ms;
+}
+.prio__row:last-child{ border-bottom:0; }
+.prio__row:hover{ background:var(--d-panel-2); }
+.prio__row[aria-expanded="true"]{ background:var(--d-panel-2); }
+.prio__n{ font-family:var(--font-mono); font-size:1.15rem; font-variant-numeric:tabular-nums; }
+.prio__row--hot .prio__n{ color:var(--d-stop); }
+.prio__row--warm .prio__n{ color:var(--d-warn); }
+.prio__row--ok .prio__n{ color:var(--d-ok); }
+.prio__t strong{ display:block; font-size:13.5px; font-weight:500; }
+.prio__t span{ color:var(--d-ink-3); font-size:12px; }
+.prio__tag{ font-family:var(--font-mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; padding:4px 9px; border-radius:999px; white-space:nowrap; }
+.prio__row--hot .prio__tag{ background:rgba(210,96,74,.16); color:var(--d-stop); }
+.prio__row--warm .prio__tag{ background:rgba(224,163,74,.16); color:var(--d-warn); }
+.prio__row--ok .prio__tag{ background:rgba(79,178,134,.16); color:var(--d-ok); }
+.prio__detail{ padding:0 15px 14px 81px; border-bottom:1px solid var(--d-line); color:var(--d-ink-2); font-size:12.5px; line-height:1.6; }
+.prio__detail[hidden]{ display:none; }
+
+.risk{ display:grid; gap:11px; padding:15px; }
+.risk__item{ display:grid; gap:6px; }
+.risk__top{ display:flex; align-items:baseline; gap:8px; }
+.risk__top b{ font-size:12.5px; font-weight:500; }
+.risk__top span{ margin-left:auto; font-family:var(--font-mono); font-size:12.5px; font-variant-numeric:tabular-nums; }
+.risk__bar{ height:5px; border-radius:999px; background:var(--d-panel-2); overflow:hidden; }
+/* Scaled rather than resized: a width transition relayouts every frame, and
+   these bars animate together on load and on every range change. */
+.risk__bar i{
+  display:block; height:100%; width:100%; border-radius:999px; background:var(--d-stop);
+  transform:scaleX(var(--v,0)); transform-origin:0 50%;
+  transition:transform 700ms cubic-bezier(.22,.61,.36,1);
+}
+.risk__item--mid .risk__bar i{ background:var(--d-warn); }
+.risk__item small{ color:var(--d-ink-3); font-family:var(--font-mono); font-size:10px; }
+
+.tiles{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+.tile{ padding:14px; border:1px solid var(--d-line); border-radius:var(--d-radius); background:var(--d-panel); display:grid; gap:3px; }
+.tile small{ color:var(--d-ink-3); font-family:var(--font-mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; }
+.tile strong{ font-family:var(--font-mono); font-size:1.6rem; font-weight:500; font-variant-numeric:tabular-nums; line-height:1.1; }
+.tile span{ color:var(--d-ink-3); font-size:11.5px; }
+
+.funnel{ display:grid; gap:10px; padding:15px; }
+.funnel__step{ display:grid; gap:5px; }
+.funnel__top{ display:flex; align-items:baseline; gap:8px; font-size:12.5px; }
+.funnel__top b{ font-weight:500; }
+.funnel__top span{ margin-left:auto; font-family:var(--font-mono); font-variant-numeric:tabular-nums; }
+.funnel__bar{ height:9px; border-radius:4px; background:var(--d-panel-2); overflow:hidden; }
+.funnel__bar i{
+  display:block; height:100%; width:100%; border-radius:4px; background:var(--d-accent);
+  transform:scaleX(var(--v,0)); transform-origin:0 50%;
+  transition:transform 800ms cubic-bezier(.22,.61,.36,1);
+}
+.funnel__loss{ margin-top:4px; padding:10px 12px; border-radius:8px; background:var(--d-panel-2); color:var(--d-ink-2); font-size:12px; }
+.funnel__loss b{ color:var(--d-stop); }
+
+/* conversations + handoffs views */
+.conv{ display:grid; grid-template-columns:minmax(0,260px) minmax(0,1fr); }
+.conv__list{ border-right:1px solid var(--d-line); max-height:400px; overflow:auto; }
+.conv__item{ display:grid; gap:3px; width:100%; text-align:left; padding:12px 14px; background:none;
+  border:0; border-bottom:1px solid var(--d-line); color:inherit; cursor:pointer; font-family:inherit; }
+.conv__item:hover, .conv__item[aria-current="true"]{ background:var(--d-panel-2); }
+.conv__item strong{ font-size:12.5px; font-weight:500; }
+.conv__item span{ color:var(--d-ink-3); font-size:11.5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.conv__thread{ padding:15px; display:grid; gap:9px; align-content:start; max-height:400px; overflow:auto; }
+.msg{ max-width:82%; padding:9px 12px; border-radius:10px; font-size:13px; line-height:1.5; }
+.msg--in{ justify-self:start; background:var(--d-panel-2); }
+.msg--out{ justify-self:end; background:var(--d-accent); color:var(--d-accent-ink); }
+.msg--sys{ justify-self:center; background:none; color:var(--d-ink-3); font-family:var(--font-mono); font-size:10.5px; }
+
+.empty{ padding:34px 18px; text-align:center; color:var(--d-ink-3); font-size:13px; }
+.empty b{ display:block; color:var(--d-ink); font-size:15px; font-weight:500; margin-bottom:5px; }
+
+@media (max-width:1080px){ .grid2{ grid-template-columns:1fr; } .tiles{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:860px){
+  .dash{ grid-template-columns:1fr; }
+  .dash__side{ border-right:0; border-bottom:1px solid var(--d-line); }
+  .dash__nav{ display:flex; overflow-x:auto; padding:8px; }
+  .dash__navlabel{ display:none; }
+  .dash__navitem{ white-space:nowrap; width:auto; }
+  .dash__navitem b{ margin-left:6px; }
+  .conv{ grid-template-columns:1fr; }
+  .conv__list{ border-right:0; border-bottom:1px solid var(--d-line); max-height:190px; }
+  .dash__hots{ margin-left:0; width:100%; }
+  .dash__hot{ flex:1; }
+}
+@media (max-width:520px){ .tiles{ grid-template-columns:1fr 1fr; } .prio__detail{ padding-left:15px; } }
+@media (prefers-reduced-motion:reduce){ .risk__bar i,.funnel__bar i{ transition:none; } }
+
+/* ---------- legibility + tap floor ----------
+   Same rule the rest of the site now holds to: no label under 10px, and
+   nothing interactive under ~36px on a phone. Dashboards are the easiest
+   place to talk yourself into 9px because "it's dense UI"; it is still
+   unreadable on a handset. */
+.dash__hot small,
+.dash__navlabel,
+.dash__brandname small,
+.dash__seg button,
+.tile small,
+.prio__tag,
+.dash__chip{ font-size:10px; }
+.risk__item small,
+.conv__item span{ font-size:11.5px; }
+
+.dash__seg button{ padding:9px 6px; min-height:34px; }
+.dash__chip{ padding:9px 13px; min-height:34px; }
+.card__tabs button{ min-height:34px; padding:7px 12px; }
+.conv__item{ min-height:44px; }
+@media (max-width:860px){
+  .dash__seg button{ min-height:38px; }
+  .dash__chip{ min-height:38px; }
+  .dash__navitem{ min-height:40px; }
+}
+</style>
+</head>
+<body class="pf-body">
+
+<a class="pf-skip" href="#main">Skip to the dashboard</a>
+<div class="pf-live" aria-live="polite" data-pf-live></div>
+
+<div class="ambient" aria-hidden="true">
+  <span class="ambient__orb ambient__orb--1" data-orb="1"></span>
+  <span class="ambient__orb ambient__orb--2" data-orb="2"></span>
+  <span class="ambient__orb ambient__orb--3" data-orb="3"></span>
+  <span class="ambient__cursor" data-cursor-glow></span>
+  <span class="ambient__grain"></span>
+</div>
+
+<header class="nav" data-nav>
+  <div class="nav__inner">
+    <a href="/" class="nav__logo" aria-label="Bluerook home">
+      <svg class="nav__logo-mark" viewBox="0 0 100 115" width="32" height="37" aria-hidden="true">
+        <path d="M 26,0 L 32,0 L 32,14 L 40,14 L 40,0 L 46,0 L 46,14 L 54,14 L 54,0 L 60,0 L 60,14 L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 26,26 Z" fill="#1C3F8A"/>
+        <rect x="4" y="111" width="92" height="4" fill="#D4A437"/>
+      </svg>
+      <span class="nav__logo-text">Bluerook</span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="/">Home</a><a href="/work/">Work</a><a href="/products/">Products</a>
+      <a href="/capabilities/">Capabilities</a><a href="/technical-portfolio/">Technical</a>
+    </nav>
+    <div class="nav__actions">
+      <a href="https://calendar.app.google/pjQKiGLntog19k9Y9" target="_blank" rel="noopener" class="btn btn--ghost nav__cta">Book a call</a>
+      <button type="button" class="nav__hamburger" data-pf-menu-toggle aria-label="Open menu" aria-expanded="false" aria-controls="pf-menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="pf-menu" id="pf-menu" data-pf-menu role="dialog" aria-modal="true" aria-label="Navigation" aria-hidden="true" hidden>
+  <button type="button" class="pf-menu__close" data-pf-menu-close aria-label="Close menu">&times;</button>
+  <nav aria-label="Sections">
+    <a href="/">Home</a><a href="/work/">Work</a><a href="/products/">Products</a>
+    <a href="/capabilities/">Capabilities</a><a href="/technical-portfolio/">Technical portfolio</a>
+  </nav>
+  <a href="https://calendar.app.google/pjQKiGLntog19k9Y9" target="_blank" rel="noopener" class="btn btn--primary">Book a call</a>
+</div>
+
+<div class="pf-progress" data-pf-progress aria-hidden="true"></div>
+
+<main id="main">
+
+  <section class="pf-chapter" id="dashboard">
+    <div class="pf-shell">
+      <p class="pf-chapter__num" data-pf-fade>The management view</p>
+      <h1 class="pf-picker__title" data-pf-fade>The dashboard is the <em>result,</em><br>not the product.</h1>
+      <p class="pf-picker__lead" data-pf-fade>
+        Owners do not want another screen. They want the three decisions that
+        cannot wait, the money at risk if they do, and proof the agent did what
+        it said. This one is live: switch the view, filter the queue, open a
+        thread, and re-skin the whole thing to a client's brand.
+      </p>
+
+      <div class="pf-tags" data-pf-fade style="margin-bottom:clamp(22px,3vh,34px)">
+        <span class="pf-status">Synthetic data · no live customer system</span>
+      </div>
+
+      <!-- ══════════ THE DASHBOARD ══════════ -->
+      <div class="dash" data-dash data-theme="dark" data-pf-fade>
+
+        <aside class="dash__side">
+          <div class="dash__brand">
+            <span class="dash__logo" data-brand-mark>N</span>
+            <span class="dash__brandname">
+              <strong data-brand-name>Northline Athletics</strong>
+              <small data-brand-kind>Operations cockpit</small>
+            </span>
+          </div>
+
+          <nav class="dash__nav" aria-label="Dashboard sections">
+            <p class="dash__navlabel">Overview</p>
+            <button class="dash__navitem" type="button" data-view="today" aria-current="true"><i>▣</i> Today</button>
+            <button class="dash__navitem" type="button" data-view="funnel"><i>▤</i> Pipeline</button>
+            <p class="dash__navlabel">Engagement</p>
+            <button class="dash__navitem" type="button" data-view="conversations"><i>◈</i> Conversations <b>207</b></button>
+            <button class="dash__navitem" type="button" data-view="handoffs"><i>◆</i> Handoffs <b>2</b></button>
+          </nav>
+
+          <div class="dash__sidefoot">
+            <p class="dash__navlabel" style="padding:0 0 2px">Theme</p>
+            <div class="dash__seg" role="group" aria-label="Theme">
+              <button type="button" data-theme-set="light" aria-pressed="false">Light</button>
+              <button type="button" data-theme-set="dim" aria-pressed="false">Dim</button>
+              <button type="button" data-theme-set="dark" aria-pressed="true">Dark</button>
+            </div>
+            <p class="dash__navlabel" style="padding:6px 0 2px">Brand</p>
+            <div class="dash__seg" role="group" aria-label="Brand">
+              <button type="button" data-brand-set="northline" aria-pressed="true">Academy</button>
+              <button type="button" data-brand-set="aster" aria-pressed="false">Retail</button>
+              <button type="button" data-brand-set="bluerook" aria-pressed="false">Bluerook</button>
+            </div>
+          </div>
+        </aside>
+
+        <div class="dash__main">
+          <div class="dash__bar">
+            <input class="dash__search" type="search" placeholder="Search a name, number or record…" data-dash-search aria-label="Search records">
+            <button class="dash__chip" type="button" data-range="7" aria-pressed="false">7d</button>
+            <button class="dash__chip" type="button" data-range="30" aria-pressed="true">30d</button>
+            <button class="dash__chip" type="button" data-range="all" aria-pressed="false">All</button>
+          </div>
+
+          <div class="dash__body">
+
+            <!-- ---------- TODAY ---------- -->
+            <section class="dash__view" data-panel="today">
+              <div class="dash__hello">
+                <div>
+                  <h3>Good evening, <em data-brand-owner>Dana</em></h3>
+                  <p data-hello-line>Three things need a decision. Everything else is running.</p>
+                </div>
+                <div class="dash__hots">
+                  <div class="dash__hot dash__hot--hot"><small>Hot leads</small><strong data-count="41">0</strong></div>
+                  <div class="dash__hot"><small>To convert</small><strong data-count="7">0</strong></div>
+                  <div class="dash__hot dash__hot--calm"><small>Waiting on a human</small><strong data-count="2">0</strong></div>
+                </div>
+              </div>
+
+              <div class="grid2">
+                <div class="card">
+                  <div class="card__head"><h4>Handle now</h4><span>Updated 2 min ago</span></div>
+                  <div class="card__tabs" role="tablist" aria-label="Priority filter">
+                    <button role="tab" aria-selected="true" data-prio-tab="all">All</button>
+                    <button role="tab" aria-selected="false" data-prio-tab="money">Money</button>
+                    <button role="tab" aria-selected="false" data-prio-tab="ops">Operations</button>
+                    <button role="tab" aria-selected="false" data-prio-tab="growth">Growth</button>
+                  </div>
+                  <div class="prio" data-prio></div>
+                </div>
+
+                <div class="card">
+                  <div class="card__head"><h4>Revenue at risk</h4><span data-risk-total>—</span></div>
+                  <div class="risk" data-risk></div>
+                </div>
+              </div>
+
+              <div class="tiles" data-tiles></div>
+            </section>
+
+            <!-- ---------- PIPELINE ---------- -->
+            <section class="dash__view" data-panel="funnel" hidden>
+              <div class="card">
+                <div class="card__head"><h4>Conversion funnel</h4><span>Open prospects only</span></div>
+                <div class="funnel" data-funnel></div>
+              </div>
+              <div class="tiles" data-tiles-2></div>
+            </section>
+
+            <!-- ---------- CONVERSATIONS ---------- -->
+            <section class="dash__view" data-panel="conversations" hidden>
+              <div class="card">
+                <div class="card__head"><h4>Conversations</h4><span data-conv-count>—</span></div>
+                <div class="conv">
+                  <div class="conv__list" data-conv-list></div>
+                  <div class="conv__thread" data-conv-thread></div>
+                </div>
+              </div>
+            </section>
+
+            <!-- ---------- HANDOFFS ---------- -->
+            <section class="dash__view" data-panel="handoffs" hidden>
+              <div class="card">
+                <div class="card__head"><h4>Waiting on a human</h4><span data-hand-count>—</span></div>
+                <div class="prio" data-hand></div>
+              </div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+      <p class="pf-live-note" data-pf-fade style="margin-top:16px">
+        Every record here is synthetic. The brand switcher changes the mark, the
+        name and the accent: one build, wearing a client's identity.
+      </p>
+
+      <nav class="pf-trail" data-pf-fade data-pf-stagger aria-label="Explore the rest" style="margin-top:clamp(30px,5vh,48px)">
+        <a href="/work/sports-enrollment-operations/"><small>Where it comes from</small><strong>Enrollment operations</strong></a>
+        <a href="/capabilities/voice/"><small>Case study</small><strong>Voice reception</strong></a>
+        <a href="/work/#explore"><small>Everything</small><strong>All the builds</strong></a>
+      </nav>
+    </div>
+  </section>
+
+  <section class="pf-close">
+    <div class="pf-shell">
+      <p class="pf-statement pf-statement--big" data-pf-words>
+        A dashboard is worth building only when someone acts on it.
+      </p>
+      <div class="pf-close__cta" data-pf-fade>
+        <a class="btn btn--primary" href="https://calendar.app.google/pjQKiGLntog19k9Y9" target="_blank" rel="noopener">
+          <span>Discuss a cockpit</span>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="square"/></svg>
+        </a>
+        <a class="btn btn--ghost" href="/work/">Back to the work</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="pf-foot">
+  <div class="pf-shell pf-foot__inner">
+    <span>Bluerook · We run your operations. You run your empire.</span>
+    <span>Every record on this page is synthetic. No live customer system is connected.</span>
+  </div>
+</footer>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script defer src="/js/portfolio/wayfinding.js?v=20260806a"></script>
+<script defer src="/js/portfolio/showcase.js?v=20260807d"></script>
+<script defer src="/js/portfolio/dashboard.js?v=20260807a"></script>
+</body>
+</html>

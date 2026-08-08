@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en" data-portfolio-mode="story">
+<head>
+  <!--
+  THESIS: Make the operation behind the outcome visible; refuse the static project-card portfolio.
+  OWN-WORLD: A Midnight operations board with Paper copy, Blue structure, and one Brass decision path.
+  STORY: Disconnected signals become systems, ownership, controlled exceptions, and completed work.
+  FIRST VIEWPORT: The promise and an unresolved signal field share equal visual authority; the visitor resolves it.
+  FORM: Established Bluerook experience world, staged by the supplied portfolio specification.
+  -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08111E">
+  <meta name="description" content="Enter Bluerook's cinematic portfolio: public-safe demonstrations of the systems, controls and human ownership behind operational outcomes.">
+  <title>Work — Bluerook Operations Portfolio</title>
+  <link rel="canonical" href="https://bluerook.co/work/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/tokens.css">
+  <link rel="stylesheet" href="/css/portfolio/portfolio.css?v=20260804b">
+</head>
+<body class="portfolio-page" data-page="work">
+  <a class="portfolio-skip" href="#portfolio-main">Skip to portfolio</a>
+  <div class="portfolio-live" aria-live="polite" data-portfolio-live></div>
+
+  <header class="portfolio-nav">
+    <div class="portfolio-nav__inner">
+      <a class="portfolio-brand" href="/" aria-label="Bluerook home">
+        <img class="portfolio-brand__mark" src="/assets/bluerook-logo-paper.png" alt="" width="24" height="29">
+        <span class="portfolio-brand__name">Bluerook</span>
+      </a>
+      <nav class="portfolio-nav__links" aria-label="Portfolio navigation">
+        <a href="/work/" aria-current="page">Work</a>
+        <a href="/products/">Products</a>
+        <a href="/capabilities/">Capabilities</a>
+        <a href="/technical-portfolio/">Technical</a>
+      </nav>
+      <div class="portfolio-nav__actions">
+        <a class="portfolio-button portfolio-button--primary" href="https://calendar.app.google/pjQKiGLntog19k9Y9" target="_blank" rel="noopener">Book a call</a>
+        <button class="portfolio-menu-toggle" type="button" data-portfolio-menu-toggle aria-expanded="false" aria-controls="portfolio-menu" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="portfolio-menu" id="portfolio-menu" data-portfolio-menu role="dialog" aria-modal="true" aria-label="Portfolio navigation" aria-hidden="true" hidden>
+    <button class="portfolio-menu__close" type="button" data-portfolio-menu-close aria-label="Close navigation">×</button>
+    <nav aria-label="Mobile portfolio navigation">
+      <a href="/">Home</a><a href="/work/">Work</a><a href="/products/">Products</a><a href="/capabilities/">Capabilities</a><a href="/technical-portfolio/">Technical portfolio</a>
+    </nav>
+  </div>
+
+  <div class="page-progress" data-page-progress role="progressbar" aria-label="Page progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+  <nav class="chapter-rail" aria-label="Portfolio chapters">
+    <a href="#signals" data-chapter-link><span class="sr-only">Signals</span></a>
+    <a href="#system" data-chapter-link><span class="sr-only">System</span></a>
+    <a href="#operations-board" data-chapter-link><span class="sr-only">Operations board</span></a>
+    <a href="#human-control" data-chapter-link><span class="sr-only">Human control</span></a>
+    <a href="#completion" data-chapter-link><span class="sr-only">Completion</span></a>
+  </nav>
+
+  <aside class="mode-dock" aria-label="Portfolio experience controls">
+    <div class="mode-dock__group" role="group" aria-label="Experience mode">
+      <button class="mode-button" type="button" data-mode-option="story" aria-pressed="true">Story</button>
+      <button class="mode-button" type="button" data-mode-option="inspect" aria-pressed="false">Inspect</button>
+      <button class="mode-button" type="button" data-mode-option="summary" aria-pressed="false">Summary</button>
+    </div>
+    <div class="mode-dock__group" role="group" aria-label="Playback controls">
+      <button class="mode-button mode-button--utility" type="button" data-pause-toggle aria-pressed="false"><span aria-hidden="true">Ⅱ</span> <span data-pause-label>Pause</span></button>
+      <button class="mode-button mode-button--utility" type="button" data-motion-toggle aria-pressed="false"><span aria-hidden="true">◌</span> <span data-motion-label>Motion</span></button>
+    </div>
+  </aside>
+
+  <main class="portfolio-main" id="portfolio-main">
+    <section class="portfolio-hero" id="signals" data-chapter data-story-content>
+      <div class="portfolio-wrap portfolio-hero__grid">
+        <div class="portfolio-hero__copy" data-reveal>
+          <p class="portfolio-kicker">The operations room</p>
+          <h1 class="portfolio-title">We build the operation <em>behind the outcome.</em></h1>
+          <p class="portfolio-lede">Messages, bookings, products, leads, files and exceptions arrive as fragments. Bluerook gives the work a system, an owner, a human boundary and a completion condition.</p>
+          <div class="button-row">
+            <button class="portfolio-button portfolio-button--primary" type="button" data-resolve-signals aria-controls="lobby-signal-board" aria-pressed="false">Resolve the operation</button>
+            <button class="portfolio-button portfolio-button--quiet" type="button" data-skip-experience>Skip to summary</button>
+          </div>
+          <div class="disclosure">
+            <span class="status-label" data-status="fictional">Public-safe portfolio</span>
+            <p>Every interactive record, message, person, product, metric and event in this portfolio is synthetic unless a route explicitly says it is an anonymized implementation. Simulations never call a live customer system.</p>
+          </div>
+        </div>
+
+        <div class="portfolio-hero__scene signal-board" id="lobby-signal-board" data-signal-board data-reveal>
+          <div class="signal-board__field" role="group" aria-label="Five disconnected operational signals">
+            <article class="signal" data-signal-card data-initial-detail="Owner unknown" data-resolved-detail="Commerce desk · next update prepared"><span class="signal__type">Customer</span><strong>Where is order AV-2408?</strong><small data-signal-detail>Owner unknown</small></article>
+            <article class="signal" data-signal-card data-initial-detail="No next action" data-resolved-detail="Revenue desk · response window set"><span class="signal__type">Lead</span><strong>Trial request · high intent</strong><small data-signal-detail>No next action</small></article>
+            <article class="signal" data-signal-card data-initial-detail="Surfaces disagree" data-resolved-detail="Catalogue owner · reconciliation queued"><span class="signal__type">Product</span><strong>Inventory changed to four</strong><small data-signal-detail>Surfaces disagree</small></article>
+            <article class="signal" data-signal-card data-initial-detail="Deadline absent" data-resolved-detail="Operations lead · review deadline set"><span class="signal__type">Operations</span><strong>Meeting notes awaiting review</strong><small data-signal-detail>Deadline absent</small></article>
+            <article class="signal" data-signal-card data-initial-detail="Retry not assigned" data-resolved-detail="Systems owner · recovery route assigned"><span class="signal__type">Exception</span><strong>Webhook failed validation</strong><small data-signal-detail>Retry not assigned</small></article>
+            <div class="signal-board__axis" aria-hidden="true"></div>
+          </div>
+          <div class="signal-board__controls">
+            <p class="signal-board__status" data-signal-status role="status">Signals are disconnected. Ownership is unclear.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="portfolio-chapter portfolio-chapter--quiet" id="system" data-chapter data-story-content>
+      <div class="portfolio-wrap">
+        <header class="chapter-head" data-reveal>
+          <div><p class="portfolio-kicker">From signal to completion</p><div class="chapter-index">01</div></div>
+          <div class="chapter-head__copy">
+            <h2 class="chapter-title">A system is the path between <em>intent and owned work.</em></h2>
+            <p class="chapter-lede">The interface is only useful when it reflects an operating rule: what begins the work, what is allowed, where a person decides, what happens when something fails and what counts as done.</p>
+          </div>
+        </header>
+
+        <div class="scene" data-reveal>
+          <div class="scene__topline"><span>Operating grammar</span><span>Public-safe model</span></div>
+          <div class="scene__body">
+            <div class="architecture" role="group" style="--node-count:5" aria-label="Signal to completed outcome architecture">
+              <div class="architecture-node"><small>01 · Signal</small><strong>Work begins</strong><span>Form, call, message, event or exception.</span></div>
+              <div class="architecture-node"><small>02 · Context</small><strong>State resolves</strong><span>Approved records, rules and history.</span></div>
+              <div class="architecture-node"><small>03 · System</small><strong>Work advances</strong><span>Validated action inside explicit permissions.</span></div>
+              <div class="architecture-node"><small>04 · Human</small><strong>Judgement stays visible</strong><span>Approval, exception, relationship or risk.</span></div>
+              <div class="architecture-node"><small>05 · Completion</small><strong>Outcome is recorded</strong><span>Owner, next action, status and audit trail.</span></div>
+            </div>
+          </div>
+          <div class="scene__footer">Technology changes by implementation. The ownership model does not.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="portfolio-chapter" id="operations-board" data-chapter data-story-content>
+      <div class="portfolio-wrap">
+        <header class="chapter-head" data-reveal>
+          <div><p class="portfolio-kicker">Operations board</p><div class="chapter-index">02</div></div>
+          <div class="chapter-head__copy">
+            <h2 class="chapter-title">Choose the operation. <em>Inspect the handoff.</em></h2>
+            <p class="chapter-lede">Each chapter uses a different signature interaction because each operation has a different shape. Status labels distinguish evidence, products, prototypes and fictional demonstrations.</p>
+          </div>
+        </header>
+
+        <div data-reveal>
+          <a class="dossier" href="/work/ecommerce-operations/">
+            <span class="dossier__meta">FICTIONAL DEMONSTRATION</span>
+            <div class="dossier__body"><h3>Connected E-commerce Operations</h3><p>A synthetic storefront, controlled content and asset review, order exceptions, support state and management view—accurately separated from what the available commerce reference verifies.</p></div>
+            <span class="dossier__arrow">Open →</span>
+          </a>
+          <a class="dossier" href="/work/sports-enrollment-operations/">
+            <span class="dossier__meta">FICTIONAL INTERACTIVE DEMONSTRATION</span>
+            <div class="dossier__body"><h3>Multi-channel Enrollment and Operations</h3><p>A synthetic reconstruction with section-level labels for verified anonymized CRM, scoring, booking, handoff, audit and reporting modules, plus controlled prototypes.</p></div>
+            <span class="dossier__arrow">Open →</span>
+          </a>
+          <a class="dossier" href="/work/sports-operations-os/">
+            <span class="dossier__meta">FICTIONAL DEMONSTRATION</span>
+            <div class="dossier__body"><h3>Sports Operations OS</h3><p>A Bluerook-owned local demo of enquiry-to-trial state, staff handoffs, campaign activity and selected management views.</p></div>
+            <span class="dossier__arrow">Open →</span>
+          </a>
+          <a class="dossier" href="/work/follow-up-gap-detector/">
+            <span class="dossier__meta">BLUEROOK PRODUCT</span>
+            <div class="dossier__body"><h3>Follow-Up Gap Detector</h3><p>Find CRM records with no owner, overdue follow-up or no next action; prepare context for human review before any response is sent.</p></div>
+            <span class="dossier__arrow">Open →</span>
+          </a>
+          <a class="dossier" href="/capabilities/voice/">
+            <span class="dossier__meta">CAPABILITY PROTOTYPE</span>
+            <div class="dossier__body"><h3>Arden, after hours</h3><p>Prepared voice scenarios synchronize customer conversation, safe operational state and the business action—without placing a call.</p></div>
+            <span class="dossier__arrow">Open →</span>
+          </a>
+          <a class="dossier" href="/capabilities/managed-operations/">
+            <span class="dossier__meta">MANAGED SERVICE</span>
+            <div class="dossier__body"><h3>Managed Operational Execution</h3><p>Inbox, files, follow-up and meeting notes become owned actions, a daily brief and a short decision queue.</p></div>
+            <span class="dossier__arrow">Open →</span>
+          </a>
+          <a class="dossier" href="/products/">
+            <span class="dossier__meta">BLUEROOK PRODUCTS</span>
+            <div class="dossier__body"><h3>Process to SOP and Steal This Workflow</h3><p>Public-safe product previews show the input, process, boundary, output, failure behavior and current implementation status.</p></div>
+            <span class="dossier__arrow">Open →</span>
+          </a>
+          <a class="dossier" href="/capabilities/system-builder/">
+            <span class="dossier__meta">INTERACTIVE PLANNING</span>
+            <div class="dossier__body"><h3>Build the Shape of Your Operation</h3><p>Choose the signal, work, destination and human boundary; receive a concise architecture and next-action summary.</p></div>
+            <span class="dossier__arrow">Open →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="portfolio-chapter portfolio-chapter--dense" id="human-control" data-chapter data-story-content>
+      <div class="portfolio-wrap">
+        <header class="chapter-head" data-reveal>
+          <div><p class="portfolio-kicker">Human control</p><div class="chapter-index">03</div></div>
+          <div class="chapter-head__copy">
+            <h2 class="chapter-title">Automation advances work. <em>People retain judgement.</em></h2>
+            <p class="chapter-lede">Relationships, negotiation, sensitive information, unclear policy, high-value decisions and irreversible actions remain explicit handoff points.</p>
+          </div>
+        </header>
+
+        <div class="scene-grid" data-reveal>
+          <article>
+            <p class="scene-label">System may own</p>
+            <dl class="record-list">
+              <div class="record-row"><dt>Intake</dt><dd>Validate, normalize and locate approved context.</dd></div>
+              <div class="record-row"><dt>Routine action</dt><dd>Answer, assign, update, notify or draft inside permission.</dd></div>
+              <div class="record-row"><dt>Monitoring</dt><dd>Track completion, expiry, missing state and retry limits.</dd></div>
+            </dl>
+          </article>
+          <article>
+            <p class="scene-label">Human must own</p>
+            <dl class="record-list">
+              <div class="record-row"><dt>Judgement</dt><dd>Approve promises, exceptions and ambiguous requests.</dd></div>
+              <div class="record-row"><dt>Relationship</dt><dd>Handle complaints, negotiation, accessibility and sensitive context.</dd></div>
+              <div class="record-row"><dt>Irreversible action</dt><dd>Authorize payment, publication, deletion or production change.</dd></div>
+            </dl>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="portfolio-summary" data-summary-anchor aria-labelledby="work-summary-title">
+      <div class="portfolio-wrap summary-grid">
+        <div>
+          <p class="portfolio-kicker">Summary mode</p>
+          <h1 class="chapter-title" id="work-summary-title">The operation, <em>not the tool list.</em></h1>
+          <p class="chapter-lede" style="margin-top:22px">Bluerook designs, builds and runs connected operational systems with visible ownership, human controls, exception paths and completion conditions.</p>
+          <div class="button-row" style="margin-top:28px"><a class="portfolio-button portfolio-button--primary" href="https://calendar.app.google/pjQKiGLntog19k9Y9" target="_blank" rel="noopener">Book a strategy call</a><a class="portfolio-button" href="/technical-portfolio/">Open technical portfolio</a></div>
+        </div>
+        <dl class="summary-facts">
+          <div class="summary-fact"><dt>Work</dt><dd>Commerce, enrollment, workflows, AI agents, voice, managed operations, brand systems and Bluerook products.</dd></div>
+          <div class="summary-fact"><dt>Control</dt><dd>Defined permissions, human approval, failure queues, staff alerts and auditable outcomes.</dd></div>
+          <div class="summary-fact"><dt>Evidence</dt><dd>Every route displays whether it is verified, anonymized, Bluerook-owned, fictional or a capability prototype.</dd></div>
+          <div class="summary-fact"><dt>Data</dt><dd>All public interactive records are synthetic and never connect to production systems.</dd></div>
+          <div class="summary-fact"><dt>Next action</dt><dd>Show Bluerook the operational bottleneck. The first conversation maps ownership and the smallest useful system.</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="portfolio-chapter portfolio-conversion" id="completion" data-chapter data-story-content>
+      <div class="portfolio-wrap conversion-board">
+        <div data-reveal>
+          <p class="portfolio-kicker">Completion condition</p>
+          <h2 class="chapter-title">Your business does not need more tools. <em>It needs the operation connecting them.</em></h2>
+          <div class="button-row" style="margin-top:30px"><a class="portfolio-button portfolio-button--primary" href="https://calendar.app.google/pjQKiGLntog19k9Y9" target="_blank" rel="noopener">Show us the bottleneck</a><a class="portfolio-button" href="/capabilities/system-builder/">Build a system shape</a><button class="portfolio-button" type="button" data-replay-experience>Replay scene</button></div>
+        </div>
+        <div class="conversion-checks" data-reveal>
+          <div class="conversion-check"><span>Owner</span><strong>Assigned</strong></div>
+          <div class="conversion-check"><span>Next action</span><strong>Visible</strong></div>
+          <div class="conversion-check"><span>Deadline</span><strong>Recorded</strong></div>
+          <div class="conversion-check"><span>Human boundary</span><strong>Explicit</strong></div>
+          <div class="conversion-check"><span>Completion condition</span><strong>Defined</strong></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="portfolio-footer">
+    <div class="portfolio-wrap portfolio-footer__inner">
+      <a class="portfolio-brand" href="/"><img class="portfolio-brand__mark" src="/assets/bluerook-logo-paper.png" alt="" width="24" height="29"><span class="portfolio-brand__name">Bluerook</span></a>
+      <nav class="portfolio-footer__links" aria-label="Footer"><a href="/work/">Work</a><a href="/products/">Products</a><a href="/capabilities/">Capabilities</a><a href="/technical-portfolio/">Technical portfolio</a><a href="mailto:hatim@bluerook.co">hatim@bluerook.co</a></nav>
+      <p class="portfolio-footer__meta">Synthetic demonstrations · No live integrations</p>
+    </div>
+  </footer>
+
+  <script defer src="/js/portfolio/portfolio-data.js?v=20260802b"></script>
+  <script defer src="/js/portfolio/portfolio-shell.js?v=20260804a"></script><script defer src="/js/portfolio/cinematic.js?v=20260804b"></script>
+</body>
+</html>

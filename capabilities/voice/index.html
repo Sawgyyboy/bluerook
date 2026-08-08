@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!--
+  THESIS: Make a voice interaction credible by showing the operational state and human boundary beside the conversation.
+  OWN-WORLD: Same Midnight scroll world as /work/ — one system across the portfolio.
+  STORY: One after-hours call becomes answered questions, a prepared hold and a clean handoff; then the visitor drives the scenarios.
+  FORM: One scroll-driven call stage plus a hands-on scenario console. No call is placed and no microphone is used.
+  -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08111E">
+  <meta name="description" content="Arden, Bluerook's voice reception prototype: prepared call scenarios with the intent, safe state and business action visible beside every reply. No call placed, no microphone used.">
+  <title>Voice Reception — Arden — Bluerook</title>
+  <link rel="canonical" href="https://bluerook.co/capabilities/voice/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Bluerook">
+  <meta property="og:url" content="https://bluerook.co/capabilities/voice/">
+  <meta property="og:title" content="Voice Reception — Arden — Bluerook">
+  <meta property="og:description" content="The caller hears a voice. The operation sees a state. Six prepared scenarios, every boundary visible.">
+  <meta property="og:image" content="https://bluerook.co/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Voice Reception — Arden — Bluerook">
+  <meta name="twitter:image" content="https://bluerook.co/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600;1,700&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/tokens.css">
+  <link rel="stylesheet" href="/styles.css?v=20260805g">
+  <link rel="stylesheet" href="/css/portfolio/showcase.css?v=20260807f">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="/favicon-src.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+</head>
+<body class="pf-body">
+
+<a class="pf-skip" href="#main">Skip to the prototype</a>
+<div class="pf-live" aria-live="polite" data-pf-live></div>
+
+<div class="ambient" aria-hidden="true">
+  <span class="ambient__orb ambient__orb--1" data-orb="1"></span>
+  <span class="ambient__orb ambient__orb--2" data-orb="2"></span>
+  <span class="ambient__orb ambient__orb--3" data-orb="3"></span>
+  <span class="ambient__orb ambient__orb--4" data-orb="4"></span>
+  <span class="ambient__cursor" data-cursor-glow></span>
+  <span class="ambient__grain"></span>
+</div>
+
+<header class="nav" data-nav>
+  <div class="nav__inner">
+    <a href="/" class="nav__logo" aria-label="Bluerook home">
+      <svg class="nav__logo-mark" viewBox="0 0 100 115" width="32" height="37" aria-hidden="true">
+        <path d="M 26,0 L 32,0 L 32,14 L 40,14 L 40,0 L 46,0 L 46,14 L 54,14 L 54,0 L 60,0 L 60,14 L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 26,26 Z" fill="#1C3F8A"/>
+        <rect x="4" y="111" width="92" height="4" fill="#D4A437"/>
+      </svg>
+      <span class="nav__logo-text">Bluerook</span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/work/">Work</a>
+      <a href="/products/">Products</a>
+      <a href="/capabilities/">Capabilities</a>
+      <a href="/technical-portfolio/">Technical</a>
+    </nav>
+    <div class="nav__actions">
+      <a href="https://calendar.app.google/pjQKiGLntog19k9Y9" target="_blank" rel="noopener" class="btn btn--ghost nav__cta">Book a call</a>
+      <button type="button" class="nav__hamburger" data-pf-menu-toggle aria-label="Open menu" aria-expanded="false" aria-controls="pf-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="pf-menu" id="pf-menu" data-pf-menu role="dialog" aria-modal="true" aria-label="Navigation" aria-hidden="true" hidden>
+  <button type="button" class="pf-menu__close" data-pf-menu-close aria-label="Close menu">&times;</button>
+  <nav aria-label="Sections">
+    <a href="/">Home</a>
+    <a href="/work/">Work</a>
+    <a href="/products/">Products</a>
+    <a href="/capabilities/">Capabilities</a>
+    <a href="/technical-portfolio/">Technical portfolio</a>
+  </nav>
+  <a href="https://calendar.app.google/pjQKiGLntog19k9Y9" target="_blank" rel="noopener" class="btn btn--primary">Book a call</a>
+</div>
+
+<div class="pf-progress" data-pf-progress aria-hidden="true"></div>
+
+<main id="main">
+
+  <!-- ════════ HERO ════════ -->
+  <section class="pf-hero" id="hero">
+    <div class="pf-hero__bg" aria-hidden="true">
+      <div class="pf-hero__grid"></div>
+      <div class="pf-hero__motif pf-hero__motif--wave"><i style="--w:0"></i><i style="--w:1"></i><i style="--w:2"></i><i style="--w:3"></i><i style="--w:4"></i><i style="--w:5"></i><i style="--w:6"></i><i style="--w:7"></i><i style="--w:8"></i><i style="--w:9"></i><i style="--w:10"></i><i style="--w:11"></i></div>
+      <div class="pf-hero__particles" data-pf-particles></div>
+      <div class="pf-hero__vignette"></div>
+    </div>
+
+    <div class="pf-shell pf-hero__inner">
+      <p class="pf-eyebrow" data-pf-fade><span class="pf-dot"></span> Voice reception · Arden · capability prototype</p>
+      <h1 class="pf-hero__title" data-pf-split>
+        <span class="pf-line">The caller hears a voice.</span>
+        <span class="pf-line">The operation <em>sees a state.</em></span>
+      </h1>
+      <p class="pf-hero__lead" data-pf-fade>
+        Every reply has an intent, a safe state and a business action beside it.
+        Scroll through one call, then drive the scenarios yourself.
+      </p>
+      <div class="pf-hero__meta" data-pf-fade>
+        <span>No call is placed</span>
+        <span>No microphone is used</span>
+        <span>Authored synthetic fixtures</span>
+      </div>
+    </div>
+    <div class="pf-scrollhint" aria-hidden="true"><span>SCROLL</span><i></i></div>
+  </section>
+
+  <!-- ════════ 01 · ONE CALL — scroll-driven stage ════════ -->
+  <section class="pf-stage" id="call" data-stage="callflow">
+    <div class="pf-shell pf-stage__grid">
+
+      <div class="pf-stage__script">
+        <p class="pf-chapter__num">01 · One call, end to end</p>
+        <h2 class="pf-stage__title">After hours.<br><em>Still answered.</em></h2>
+
+        <ol class="pf-beats">
+          <li class="pf-beat" data-beat="0">
+            <h3>The phone rings at 21:47</h3>
+            <p>The team is offline. Arden answers inside approved coverage: known
+               questions, prepared availability, structured capture. Everything else
+               waits for a person, and says so.</p>
+          </li>
+          <li class="pf-beat" data-beat="1">
+            <h3>An approved answer, not an improvised one</h3>
+            <p>The question is classified before it is answered. Arden replies only
+               from approved knowledge, so it cannot invent a price, a promise or a
+               policy at midnight.</p>
+          </li>
+          <li class="pf-beat" data-beat="2">
+            <h3>A booking is prepared, not assumed</h3>
+            <p>Two real slots are offered and a hold is prepared. Nothing lands on
+               the calendar until the caller explicitly confirms, because a wrong
+               booking costs more than no booking.</p>
+          </li>
+          <li class="pf-beat" data-beat="3">
+            <h3>A person is one sentence away</h3>
+            <p>The moment the caller asks, automation stops. The handoff carries the
+               reason, the context and the contact preference, so nobody repeats
+               themselves tomorrow.</p>
+          </li>
+        </ol>
+
+        <div class="pf-tags">
+          <span class="pf-status">Prepared dialogue · no live model</span>
+        </div>
+      </div>
+
+      <div class="pf-stage__sticky">
+        <div class="pf-console" data-console data-beat-state="0">
+          <div class="pf-console__chrome">
+            <span class="pf-console__dot"></span>
+            <span class="pf-console__title">Arden · reception line 01</span>
+            <span class="pf-console__step" data-console-step>01 / 04</span>
+          </div>
+
+          <div class="tool-callui" style="border-radius:0" data-cf-ui>
+            <div class="tool-callui__top">
+              <span data-cf-phase>Connected · after hours</span>
+              <span class="tool-callui__timer" data-cf-timer>00:06</span>
+            </div>
+            <div class="tool-callui__id">
+              <span class="tool-callui__avatar">A</span>
+              <strong>Arden · Bluerook reception</strong>
+              <small>Simulated caller · no real call</small>
+            </div>
+            <div class="tool-callui__wave" aria-hidden="true"><i style="--w:0;--wh:64%"></i><i style="--w:1;--wh:82%"></i><i style="--w:2;--wh:48%"></i><i style="--w:3;--wh:90%"></i><i style="--w:4;--wh:56%"></i><i style="--w:5;--wh:74%"></i><i style="--w:6;--wh:44%"></i><i style="--w:7;--wh:86%"></i><i style="--w:8;--wh:52%"></i><i style="--w:9;--wh:70%"></i><i style="--w:10;--wh:40%"></i></div>
+            <div class="tool-callui__log" data-cf-log></div>
+            <div class="tool-callui__controls" aria-hidden="true"><i>&#9836;</i><i class="is-end">&#9742;</i><i>&#8942;</i></div>
+          </div>
+
+          <div class="pf-ops">
+            <div><small>Intent</small><strong data-cf-intent>—</strong></div>
+            <div><small>Safe state</small><strong data-cf-state>Answering after hours</strong></div>
+            <div><small>Business action</small><strong data-cf-action>Call recorded</strong></div>
+          </div>
+
+          <div class="pf-stream" data-stream aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 02 · HANDS-ON — scenario console ════════ -->
+  <section class="pf-chapter" id="scenarios" data-pf-chapter>
+    <div class="pf-shell pf-chapter__grid">
+      <div class="pf-chapter__copy">
+        <p class="pf-chapter__num" data-pf-fade>02 · Drive it yourself</p>
+        <h2 class="pf-chapter__title" data-pf-fade>Six scenarios.<br><em>Different obligations.</em></h2>
+        <p class="pf-chapter__lead" data-pf-fade>
+          Choose what the caller wants. The conversation, the safe operational
+          state and the business action update together, and a finished call can
+          leave as a report you keep. These are authored fixtures, not a live
+          language model or a production telephone system.
+        </p>
+        <div class="pf-tags" data-pf-fade>
+          <span class="pf-status">Local state only · report generated in-browser</span>
+        </div>
+      </div>
+
+      <div class="pf-panel glass" data-pf-fade data-voicelab>
+        <div class="pf-panel__bar">
+          <span class="pf-panel__live"></span>
+          <span>Scenario console · six prepared paths</span>
+        </div>
+        <div class="pf-panel__body">
+          <div class="pf-chips" data-pf-stagger role="group" aria-label="Prepared call scenarios">
+            <button class="pf-chip" type="button" data-vl-scenario="faq" aria-pressed="true">Common question</button>
+            <button class="pf-chip" type="button" data-vl-scenario="book" aria-pressed="false">Book an appointment</button>
+            <button class="pf-chip" type="button" data-vl-scenario="change" aria-pressed="false">Change a booking</button>
+            <button class="pf-chip" type="button" data-vl-scenario="problem" aria-pressed="false">Report a problem</button>
+            <button class="pf-chip" type="button" data-vl-scenario="person" aria-pressed="false">Request a person</button>
+            <button class="pf-chip" type="button" data-vl-scenario="after" aria-pressed="false">Call after hours</button>
+          </div>
+
+          <div class="pf-lab">
+            <div class="pf-lab__col">
+              <p class="pf-lab__title">The call</p>
+              <div class="tool-callui" data-vl-ui>
+                <div class="tool-callui__top">
+                  <span>Line 01</span>
+                  <span class="tool-callui__timer" data-vl-status>Ready · no real call</span>
+                </div>
+                <div class="tool-callui__id">
+                  <span class="tool-callui__avatar">A</span>
+                  <strong>Arden</strong>
+                  <small>Prepared synthetic dialogue</small>
+                </div>
+                <div class="tool-callui__wave" aria-hidden="true"><i style="--w:0;--wh:64%"></i><i style="--w:1;--wh:82%"></i><i style="--w:2;--wh:48%"></i><i style="--w:3;--wh:90%"></i><i style="--w:4;--wh:56%"></i><i style="--w:5;--wh:74%"></i><i style="--w:6;--wh:44%"></i><i style="--w:7;--wh:86%"></i><i style="--w:8;--wh:52%"></i></div>
+                <div class="tool-callui__log" data-vl-log></div>
+              </div>
+              <div class="pf-panel__actions">
+                <button class="btn btn--primary pf-btn-sm" type="button" data-vl-start>Start simulated call</button>
+                <button class="btn btn--ghost pf-btn-sm" type="button" data-vl-end disabled>End and record outcome</button>
+              </div>
+            </div>
+
+            <div class="pf-lab__col">
+              <p class="pf-lab__title">What the operation sees</p>
+              <div class="pf-ops" style="border-top:0">
+                <div><small>Intent</small><strong data-vl-intent>Approved information</strong></div>
+                <div><small>Safe state</small><strong data-vl-state>Knowledge answer available</strong></div>
+                <div><small>Business action</small><strong data-vl-action>Answered and logged</strong></div>
+              </div>
+              <div class="pf-rec"><span>Calendar</span><b data-vl-calendar>No calendar change</b></div>
+              <div class="pf-rec"><span>Outcome</span><b data-vl-outcome>No outcome recorded</b></div>
+              <p class="pf-lab__title" style="margin-top:6px">Human boundary</p>
+              <p class="pf-live-note" data-vl-boundary>Only approved information is used; uncertainty routes to a person.</p>
+              <div class="pf-panel__actions">
+                <button class="btn btn--ghost pf-btn-sm" type="button" data-vl-report disabled>Download call report</button>
+                <button class="btn btn--ghost pf-btn-sm" type="button" data-vl-reset>Reset prototype</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 03 · WHERE A HANDOFF LANDS ════════ -->
+  <section class="pf-chapter pf-chapter--alt" id="handoffs" data-pf-chapter>
+    <div class="pf-shell pf-chapter__grid pf-chapter__grid--flip">
+      <div class="pf-chapter__copy">
+        <p class="pf-chapter__num" data-pf-fade>03 · When Arden stops</p>
+        <h2 class="pf-chapter__title" data-pf-fade>The handoff lands<br><em>somewhere visible.</em></h2>
+        <p class="pf-chapter__lead" data-pf-fade>
+          A handoff is not a transferred call ringing into the void. The bot goes
+          quiet on that one thread, the conversation joins a queue a person
+          actually watches, and the bot resumes only when the person is done.
+          Take a thread over yourself.
+        </p>
+        <div class="pf-tags" data-pf-fade>
+          <span class="pf-status">Synthetic queue · anonymized implementation shape</span>
+        </div>
+      </div>
+
+      <div class="pf-panel glass" data-pf-fade data-handq>
+        <div class="pf-panel__bar">
+          <span class="pf-panel__live"></span>
+          <span>Handoff queue · <b data-handq-count>2</b> waiting</span>
+        </div>
+        <div class="pf-panel__body">
+          <div class="tool-cockpit">
+            <div class="tool-cockpit__bar"><span>Conversation audit</span><span>Live counts · synthetic</span></div>
+            <div class="tool-cockpit__hots">
+              <div class="tool-cockpit__hot"><small>Agent replies</small><strong data-countup="193">0</strong></div>
+              <div class="tool-cockpit__hot tool-cockpit__hot--calm"><small>Resolved by agent</small><strong data-countup="93" data-countup-suffix="%">0</strong></div>
+              <div class="tool-cockpit__hot"><small>Flagged to verify</small><strong data-countup="14">0</strong></div>
+            </div>
+          </div>
+
+          <div class="pf-handq">
+            <div class="pf-handq__row" data-handq-row>
+              <div>
+                <strong>Billing question · caller asked for a person</strong>
+                <small data-handq-note>Waiting 6 min · bot muted on this thread · context attached</small>
+              </div>
+              <button type="button">Take the thread</button>
+            </div>
+            <div class="pf-handq__row" data-handq-row>
+              <div>
+                <strong>Complaint · tone flagged by the audit</strong>
+                <small data-handq-note>Waiting 14 min · flagged before anyone had to ask</small>
+              </div>
+              <button type="button">Take the thread</button>
+            </div>
+          </div>
+          <p class="pf-live-note">
+            Every reply the agent sends is auditable. Flags become corrections, and
+            a person approves each correction before it changes live behaviour.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ BOUNDARIES ════════ -->
+  <section class="pf-picker" id="boundaries">
+    <div class="pf-shell">
+      <p class="pf-chapter__num" data-pf-fade>Control before automation</p>
+      <h2 class="pf-picker__title" data-pf-fade>A useful voice system knows <em>where it must stop.</em></h2>
+
+      <div class="pf-picker__grid" data-pf-stagger>
+        <div class="pf-pick" data-pf-fade>
+          <span class="pf-pick__kicker">Approved scope</span>
+          <strong>Routine, reversible actions only</strong>
+          <span class="pf-pick__meta">Approved answers · prepared availability · structured capture</span>
+        </div>
+        <div class="pf-pick" data-pf-fade>
+          <span class="pf-pick__kicker">Immediate handoff</span>
+          <strong>Relationship and exception work belongs to people</strong>
+          <span class="pf-pick__meta">Human requests · complaints · payment · uncertainty</span>
+        </div>
+        <div class="pf-pick" data-pf-fade>
+          <span class="pf-pick__kicker">Completion</span>
+          <strong>A call ends in an owned next state</strong>
+          <span class="pf-pick__meta">Outcome · responsible owner · next action, all visible</span>
+        </div>
+        <div class="pf-pick" data-pf-fade>
+          <span class="pf-pick__kicker">Privacy</span>
+          <strong>This page places no call and uses no microphone</strong>
+          <span class="pf-pick__meta">Authored fixtures · nothing recorded or transmitted</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ CLOSING ════════ -->
+  <section class="pf-close">
+    <div class="pf-shell">
+      <p class="pf-statement pf-statement--big" data-pf-words>
+        Voice becomes useful when the operation stays legible.
+      </p>
+      <div class="pf-close__cta" data-pf-fade>
+        <a class="btn btn--primary" href="/work/#try">
+          <span>Try the live channel</span>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="square"/></svg>
+        </a>
+        <a class="btn btn--ghost" href="https://calendar.app.google/pjQKiGLntog19k9Y9" target="_blank" rel="noopener">Discuss voice operations</a>
+      </div>
+      <p class="pf-close__note" data-pf-fade>
+        The live speed-to-lead channel on the work page places a real call to your
+        number, with consent and a one-call-per-day limit. This page stays entirely
+        synthetic.
+      </p>
+      <nav class="pf-trail" data-pf-fade data-pf-stagger aria-label="Explore the rest of the portfolio">
+        <a href="/work/sports-enrollment-operations/"><small>Case study</small><strong>Enrollment operations</strong></a>
+        <a href="/work/follow-up-gap-detector/"><small>Case study</small><strong>Follow-up recovery</strong></a>
+        <a href="/work/#explore"><small>Everything</small><strong>All six builds</strong></a>
+      </nav>
+    </div>
+  </section>
+</main>
+
+<footer class="pf-foot">
+  <div class="pf-shell pf-foot__inner">
+    <span>Bluerook · We run your operations. You run your empire.</span>
+    <span>Capability prototype · no real calls · no microphone · nothing stored.</span>
+  </div>
+</footer>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script defer src="/js/portfolio/wayfinding.js?v=20260806a"></script>
+<script defer src="/js/portfolio/showcase.js?v=20260807d"></script>
+</body>
+</html>

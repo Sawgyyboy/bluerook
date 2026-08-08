@@ -6,7 +6,7 @@ Status snapshot (keep updated as things change).
 
 All in `index.html` `<head>` unless noted:
 
-- **Title:** "Bluerook — Premium BPO & Virtual Assistant Agency | We run your operations"
+- **Title:** "Bluerook — AI System VAs & Automation Systems | We run your operations"
 - **Meta:** description, keywords, author, `robots` (`index, follow,
   max-image-preview:large, max-snippet:-1, max-video-preview:-1`).
 - **Canonical:** `https://bluerook.co/` (apex — see [`deployment.md`](deployment.md#canonical-domain)).

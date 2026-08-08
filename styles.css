@@ -3,7 +3,7 @@
    Imports tokens.css. All values are tokens — no hardcodes.
    ========================================================= */
 
-@import url('tokens.css');
+@import url('tokens.css?v=20260727h');
 
 /* ---------- RESET / BASE ---------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -23,7 +23,7 @@ body {
   line-height: var(--lh-base);
   color: var(--color-text);
   background: var(--color-bg);
-  overflow-x: hidden;
+  overflow-x: clip;
   min-height: 100vh;
   font-feature-settings: "ss01", "ss03", "cv11";
   transition: background var(--dur-slow) var(--ease-out),
@@ -576,7 +576,24 @@ html.lenis, html.lenis body { height: auto; }
   max-width: 56ch;
   margin: 0 0 var(--space-8);
 }
-.hero__ctas { display: flex; flex-wrap: wrap; gap: var(--space-4); position: relative; z-index: 2; }
+/* `align-items` is load-bearing: a flex row stretches its children to the row
+   height by default, and this row is tall, so both CTAs were rendering as
+   145px slabs on 14px of padding. Centring makes them size to their content. */
+.hero__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  position: relative;
+  z-index: 2;
+}
+.hero__ctas .btn {
+  padding: 11px 20px;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  border-radius: 999px;
+}
+.hero__ctas .btn svg { width: 13px; height: 13px; }
 
 /* Floating 3D rook — absolute wrapper for parallax, inner for float anim */
 .hero__rook-wrap {
@@ -739,10 +756,7 @@ html.lenis, html.lenis body { height: auto; }
 .castling__line--accent {
   font-style: italic;
   font-variation-settings: "opsz" 120, "SOFT" 80;
-  background: linear-gradient(90deg, var(--color-accent), #E5C46A, var(--color-accent));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--color-accent);
 }
 
 /* Default: hidden on desktop/tablet — only revealed inside mobile @media block */
@@ -790,10 +804,6 @@ html.lenis, html.lenis body { height: auto; }
   line-height: 1;
   letter-spacing: var(--ls-tight);
   color: var(--color-text);
-  background: linear-gradient(180deg, #F4EDE0 0%, rgba(244, 237, 224, 0.72) 100%);
-  -webkit-background-clip: text;
-          background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 .trust__label {
   font-family: var(--font-sans);
@@ -863,10 +873,7 @@ html.lenis, html.lenis body { height: auto; }
 .problem__statement em {
   font-style: italic;
   font-variation-settings: "opsz" 144, "SOFT" 80;
-  background: linear-gradient(120deg, var(--color-accent) 0%, #E5C46A 50%, var(--color-accent) 100%);
-  -webkit-background-clip: text;
-          background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--color-accent);
   text-shadow: 0 0 50px var(--color-accent-glow);
 }
 .problem__progress {
@@ -959,7 +966,7 @@ html.lenis, html.lenis body { height: auto; }
 .svc-card:hover::before { opacity: 1; }
 .svc-card:hover::after { opacity: 0.85; }
 .svc-card[data-svc-bg="va"]     { border-top: 2px solid var(--color-accent); }
-.svc-card[data-svc-bg="auto"]   { border-top: 2px solid #1E6FD9; }
+.svc-card[data-svc-bg="auto"]   { border-top: 2px solid var(--color-mark); }
 .svc-card[data-svc-bg="social"] { border-top: 2px solid var(--color-accent); }
 .svc-card__num {
   font-family: var(--font-mono);
@@ -1136,7 +1143,7 @@ html.lenis, html.lenis body { height: auto; }
 
 /* New card accent borders for the two new vectors */
 .svc-card[data-svc-bg="build"] { border-top: 2px solid var(--color-accent); }
-.svc-card[data-svc-bg="audit"] { border-top: 2px solid #1E6FD9; }
+.svc-card[data-svc-bg="audit"] { border-top: 2px solid var(--color-mark); }
 
 /* ============================================================
    SECTION 4.5 · PRIVILEGES — premium accordion
@@ -1507,7 +1514,7 @@ html.lenis, html.lenis body { height: auto; }
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
-  border-left: 2px solid var(--color-accent);
+  border-left-width: 1px;
   border-radius: var(--radius-2);
   padding: var(--space-9) var(--space-7);
   opacity: 0;
@@ -1543,10 +1550,7 @@ html.lenis, html.lenis body { height: auto; }
   font-variation-settings: "opsz" 144, "SOFT" 80;
   font-size: clamp(2.5rem, 5vw, 4.5rem);
   letter-spacing: var(--ls-tight);
-  background: linear-gradient(120deg, var(--color-accent) 0%, #E8CC72 50%, var(--color-accent) 100%);
-  -webkit-background-clip: text;
-          background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--color-accent);
   line-height: 1;
   margin-bottom: var(--space-3);
 }
@@ -1604,10 +1608,7 @@ html.lenis, html.lenis body { height: auto; }
   text-shadow: 0 0 60px rgba(212, 164, 55, 0.15);
 }
 .contact__title .accent {
-  background: linear-gradient(120deg, #E0E8F5 0%, var(--color-text-muted) 50%, #B3C2D6 100%);
-  -webkit-background-clip: text;
-          background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--color-text-muted);
   font-style: italic;
 }
 .contact__lead {
@@ -2667,9 +2668,7 @@ html.lenis, html.lenis body { height: auto; }
   }
   .diag__text em {
     font-style: italic;
-    background: linear-gradient(120deg, var(--m-gold) 0%, var(--m-gold-soft, #E8C770) 50%, var(--m-gold) 100%);
-    -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--m-gold);
   }
   /* Progress dots — bottom of sticky stage */
   .diag__dots {
@@ -2680,13 +2679,14 @@ html.lenis, html.lenis body { height: auto; }
     z-index: 5;
   }
   .diag__dot {
-    width: 18px; height: 1px;
+    width: 28px; height: 1px;
     background: rgba(244,237,224,0.18);
-    transition: background 320ms ease, width 320ms ease;
+    transform: scaleX(0.65);
+    transition: background 320ms ease, transform 320ms ease;
   }
   .diag__dot.is-active {
     background: var(--m-gold);
-    width: 28px;
+    transform: scaleX(1);
   }
   .diag__dot.is-past {
     background: rgba(212,164,55,0.45);
@@ -2719,13 +2719,15 @@ html.lenis, html.lenis body { height: auto; }
     content: '';
     position: absolute;
     left: 0; bottom: -6px;
-    height: 1px; width: 0;
+    height: 1px; width: 64px;
     background: linear-gradient(90deg, var(--m-gold), transparent);
-    transition: width 900ms cubic-bezier(0.22, 0.61, 0.36, 1) 120ms;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 900ms cubic-bezier(0.22, 0.61, 0.36, 1) 120ms;
   }
   [data-section].is-in-view .eyebrow::after,
   .is-visible.eyebrow::after,
-  .is-visible .eyebrow::after { width: 64px; }
+  .is-visible .eyebrow::after { transform: scaleX(1); }
 
   /* ── TOP NAV (glassmorphism) ──────────────────────── */
   .nav {
@@ -3071,9 +3073,7 @@ html.lenis, html.lenis body { height: auto; }
     /* Fluid display metric */
     font-size: clamp(1.75rem, 2vw + 1rem, 2.5rem);
     line-height: 1; letter-spacing: -0.04em;
-    background: linear-gradient(180deg, #F4EDE0 0%, rgba(244,237,224,0.72) 100%);
-    -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--m-text);
   }
   .stat__label, .trust__label {
     font-size: 9px; letter-spacing: 0.22em;
@@ -3260,10 +3260,8 @@ html.lenis, html.lenis body { height: auto; }
   }
   .problem__statement:last-child { margin-bottom: 0; }
   .problem__statement em {
-    font-style: normal;
-    background: linear-gradient(120deg, var(--m-gold) 0%, var(--m-gold-soft) 50%, var(--m-gold) 100%);
-    -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-style: italic;
+    color: var(--m-gold);
   }
 
   /* Sections AFTER .problem need higher z-index + solid bg so they
@@ -3654,7 +3652,7 @@ html.lenis, html.lenis body { height: auto; }
     backdrop-filter: blur(8px) saturate(120%);
     -webkit-backdrop-filter: blur(8px) saturate(120%);
     border: 1px solid rgba(255,255,255,0.06) !important;
-    border-left: 3px solid var(--m-gold) !important;
+    border-left: 1px solid rgba(255,255,255,0.06) !important;
     border-radius: 4px;
     padding: 18px 18px !important;
     min-height: auto !important;
@@ -3806,7 +3804,7 @@ html.lenis, html.lenis body { height: auto; }
     backdrop-filter: blur(24px) saturate(140%) !important;
     -webkit-backdrop-filter: blur(24px) saturate(140%) !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-left: 3px solid var(--m-gold) !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
     border-radius: 16px !important;
     box-shadow:
       0 20px 50px rgba(0, 0, 0, 0.45),
@@ -3942,7 +3940,7 @@ html.lenis, html.lenis body { height: auto; }
     backdrop-filter: blur(14px) saturate(135%) !important;
     -webkit-backdrop-filter: blur(14px) saturate(135%) !important;
     border: 1px solid rgba(255,255,255,0.08) !important;
-    border-left: 3px solid var(--m-gold) !important;
+    border-left: 1px solid rgba(255,255,255,0.08) !important;
     border-radius: 8px;
     padding: 22px 22px 22px 24px !important;
     text-align: left;
@@ -4199,7 +4197,7 @@ html.lenis, html.lenis body { height: auto; }
     backdrop-filter: blur(14px) saturate(135%) !important;
     -webkit-backdrop-filter: blur(14px) saturate(135%) !important;
     border-radius: 14px !important;
-    border-left: 2px solid rgba(212, 164, 55, 0.55) !important;
+    border-left: 1px solid rgba(244, 237, 224, 0.08) !important;
     box-shadow:
       0 18px 40px rgba(0, 0, 0, 0.42),
       inset 0 1px 0 rgba(244, 237, 224, 0.05) !important;
@@ -4222,7 +4220,7 @@ html.lenis, html.lenis body { height: auto; }
      the surrounding horizontal carousel; brass left rule preserved. */
   .svc-card--pillar {
     border: 1px solid rgba(255, 255, 255, 0.10) !important;
-    border-left: 3px solid var(--m-gold) !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.10) !important;
     border-radius: 16px !important;
     background: linear-gradient(155deg,
       rgba(28, 63, 138, 0.18) 0%,
@@ -4318,3 +4316,4139 @@ html.lenis, html.lenis body { height: auto; }
   .hero__title,
   .hero__title-line--accent { font-size: 2.1rem; }
 }
+/* ============================================================
+   SYSTEMS FLOOR — interactive operational blueprints
+   ============================================================ */
+.systems {
+  position: relative;
+  z-index: var(--z-base);
+  padding: calc(var(--section-pad-y) * 0.9) var(--section-pad-x) var(--section-pad-y);
+  background:
+    linear-gradient(180deg, transparent, var(--color-surface) 48%, transparent);
+  overflow: clip;
+}
+.systems::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--glass-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--glass-border) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, transparent, black 16%, black 84%, transparent);
+  opacity: 0.34;
+}
+.systems__intro,
+.systems__control {
+  position: relative;
+  width: min(100%, var(--max-width));
+  margin-inline: auto;
+}
+.systems__intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.55fr);
+  gap: var(--space-8);
+  align-items: end;
+  padding-bottom: var(--space-9);
+}
+.systems__kicker {
+  grid-column: 1 / -1;
+  margin: 0 0 calc(var(--space-5) * -1);
+  font-family: var(--font-mono);
+  font-size: var(--fs-eyebrow);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+.systems__title {
+  max-width: 13ch;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: clamp(2.5rem, 4.7vw, 5.8rem);
+  font-weight: var(--fw-light);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+.systems__title span {
+  display: block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--fw-medium);
+  color: var(--color-text-muted);
+}
+.systems__lede {
+  max-width: 58ch;
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--fs-lead);
+}
+.systems__control {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.68fr) minmax(0, 1.5fr);
+  gap: clamp(var(--space-6), 4vw, var(--space-9));
+  align-items: start;
+}
+.systems__catalog {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--color-line);
+}
+.system-selector {
+  position: relative;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  gap: var(--space-4);
+  align-items: center;
+  width: 100%;
+  min-height: 104px;
+  padding: var(--space-5) 0;
+  border-bottom: 1px solid var(--color-line);
+  text-align: left;
+  color: var(--color-text-dim);
+  transition:
+    color var(--dur-base) var(--ease-out),
+    padding var(--dur-base) var(--ease-out),
+    background var(--dur-base) var(--ease-out);
+}
+.system-selector::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18%;
+  bottom: 18%;
+  width: 1px;
+  background: var(--color-accent);
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform var(--dur-base) var(--ease-emph);
+}
+.system-selector:hover,
+.system-selector:focus-visible {
+  color: var(--color-text);
+  padding-left: var(--space-4);
+}
+.system-selector.is-active {
+  color: var(--color-text);
+  padding-left: var(--space-5);
+  background: linear-gradient(90deg, var(--color-accent-soft), transparent 78%);
+}
+.system-selector.is-active::before { transform: scaleY(1); }
+.system-selector__index {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--color-text-dim);
+}
+.system-selector__copy {
+  display: grid;
+  gap: var(--space-1);
+}
+.system-selector__copy strong {
+  font-size: 1rem;
+  font-weight: var(--fw-medium);
+}
+.system-selector__copy small {
+  color: var(--color-text-dim);
+  font-size: var(--fs-small);
+  line-height: 1.4;
+}
+.system-selector__state {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0.7;
+}
+.system-selector.is-active .system-selector__state {
+  color: var(--color-accent);
+  opacity: 1;
+}
+.systems__viewport-wrap {
+  position: sticky;
+  top: 112px;
+}
+.systems__viewport {
+  position: relative;
+  min-height: min(720px, calc(100vh - 136px));
+  border: 1px solid var(--color-line);
+  background: var(--color-bg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+.systems__viewport::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 80px var(--color-overlay);
+}
+.systems__viewport-topline,
+.systems__viewport-footer {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+  padding: 0 var(--space-5);
+  border-bottom: 1px solid var(--color-line);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+.systems__viewport-topline > div {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.systems__live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 0 5px var(--color-accent-soft);
+  animation: systems-live 2.4s var(--ease-in-out) infinite;
+}
+@keyframes systems-live {
+  50% { opacity: 0.4; transform: scale(0.78); }
+}
+.systems__canvas {
+  position: relative;
+  z-index: 1;
+  min-height: 570px;
+  background-image:
+    linear-gradient(var(--glass-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--glass-border) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.systems__canvas::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 47% 51%, var(--color-accent-soft), transparent 34%);
+  opacity: 0.5;
+  pointer-events: none;
+}
+.systems__wires {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.system-wire {
+  fill: none;
+  stroke: var(--color-text-fade);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 0.018 0.012;
+}
+.system-pulse {
+  fill: var(--color-accent);
+  filter: drop-shadow(0 0 8px var(--color-accent-glow));
+}
+.system-pulse--two { fill: var(--color-text); }
+.system-node {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  gap: var(--space-2);
+  width: clamp(126px, 17%, 178px);
+  min-height: 96px;
+  padding: var(--space-4);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-2);
+  background: var(--color-surface);
+  box-shadow: 0 16px 38px var(--color-overlay);
+  transform: translateZ(0);
+  transition:
+    border-color var(--dur-base) var(--ease-out),
+    background var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-emph);
+}
+.system-node:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-text-fade);
+  background: var(--color-surface-2);
+}
+.system-node__type {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+.system-node strong {
+  font-size: 0.86rem;
+  font-weight: var(--fw-medium);
+  line-height: 1.2;
+}
+.system-node small {
+  color: var(--color-text-dim);
+  font-size: 0.68rem;
+  line-height: 1.35;
+}
+.system-node__port {
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  margin-top: -4px;
+  border: 1px solid var(--color-text-muted);
+  border-radius: 50%;
+  background: var(--color-bg);
+}
+.system-node--trigger { left: 4%; top: 17%; }
+.system-node--context { left: 34%; top: 8%; }
+.system-node--agent {
+  left: 34%;
+  top: 41%;
+  width: clamp(176px, 22%, 230px);
+  min-height: 142px;
+  padding-left: 74px;
+  border-color: var(--color-accent);
+  background: var(--color-surface-2);
+}
+.system-node--approval { right: 10%; top: 15%; }
+.system-node--action { right: 8%; bottom: 13%; }
+.system-node--record { right: 0.8%; top: 48%; }
+.system-node__agent-mark {
+  position: absolute;
+  left: var(--space-4);
+  top: var(--space-5);
+  width: 38px;
+  color: var(--color-mark);
+}
+.system-node__agent-mark path { fill: currentColor; }
+.system-node__agent-mark rect { fill: var(--color-accent); }
+.system-node__run {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+.system-node__run i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  animation: systems-live 1.6s var(--ease-in-out) infinite;
+}
+.systems__viewport-footer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  min-height: 76px;
+  border-top: 1px solid var(--color-line);
+  border-bottom: 0;
+}
+.systems__viewport-footer div {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-5);
+}
+.systems__viewport-footer div + div { border-left: 1px solid var(--color-line); }
+.systems__viewport-footer span { color: var(--color-text-dim); }
+.systems__viewport-footer strong {
+  color: var(--color-text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: var(--fw-medium);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* Below ~1200px the canvas is too narrow to hold five node columns beside the
+   title list, so the blueprint takes the full content width instead. */
+@media (max-width: 1199px) {
+  .systems__intro { grid-template-columns: 1fr; gap: var(--space-5); }
+  .systems__kicker { margin-bottom: 0; }
+  .systems__title { max-width: 15ch; }
+  .systems__control { grid-template-columns: 1fr; }
+  .systems__catalog {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .system-selector {
+    grid-template-columns: 22px 1fr;
+    padding: var(--space-4);
+    border-right: 1px solid var(--color-line);
+  }
+  .system-selector:hover,
+  .system-selector:focus-visible,
+  .system-selector.is-active { padding-left: var(--space-4); }
+  .system-selector__state { display: none; }
+  .systems__viewport-wrap { position: static; }
+  .systems__viewport { min-height: 0; }
+}
+
+@media (max-width: 768px) {
+  body { overflow-x: clip; }
+  .systems {
+    padding: calc(var(--m-rhythm) * 1.1) var(--m-pad);
+  }
+  .systems__intro { padding-bottom: var(--space-7); }
+  .systems__kicker {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+  }
+  .systems__title {
+    max-width: none;
+    font-size: clamp(2.4rem, 12vw, 4.3rem);
+    line-height: 0.94;
+  }
+  .systems__lede { font-size: 1rem; }
+  .systems__catalog {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .systems__catalog::-webkit-scrollbar { display: none; }
+  .system-selector {
+    flex: 0 0 78vw;
+    min-height: 92px;
+    scroll-snap-align: start;
+    border-right: 1px solid var(--color-line);
+  }
+  .system-selector__copy small { max-width: 28ch; }
+  .systems__viewport-topline {
+    min-height: 46px;
+    padding: 0 var(--space-4);
+    font-size: 0.56rem;
+  }
+  .systems__viewport-topline > span { display: none; }
+  .systems__canvas { min-height: 540px; }
+  .systems__wires { opacity: 0.72; }
+  .system-node {
+    width: 132px;
+    min-height: 84px;
+    padding: 12px;
+  }
+  .system-node--trigger { left: 3%; top: 8%; }
+  .system-node--context { left: auto; right: 3%; top: 8%; }
+  .system-node--agent {
+    left: 50%;
+    top: 35%;
+    width: 190px;
+    min-height: 128px;
+    padding-left: 62px;
+    transform: translateX(-50%);
+  }
+  .system-node--agent:hover { transform: translateX(-50%) translateY(-4px); }
+  .system-node--approval { left: 3%; right: auto; top: auto; bottom: 9%; }
+  .system-node--action { right: 3%; bottom: 9%; }
+  .system-node--record { right: 3%; top: 61%; display: none; }
+  .system-node__agent-mark { width: 32px; left: 14px; }
+  .systems__viewport-footer {
+    grid-template-columns: 1fr;
+    padding: var(--space-3) var(--space-4);
+  }
+  .systems__viewport-footer div { padding: var(--space-2) 0; }
+  .systems__viewport-footer div + div {
+    border-left: 0;
+    border-top: 1px solid var(--color-line);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .systems__live-dot,
+  .system-wire,
+  .system-node__run i,
+  .system-pulse {
+    animation: none !important;
+  }
+  .system-selector,
+  .system-selector::before,
+  .system-node {
+    transition: none !important;
+  }
+  .systems__viewport.is-switching .system-node {
+    animation: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* ============================================================
+   2026 SYSTEM EXPERIENCE REFINEMENT
+   Floating command bar · architecture renderer · voice trial
+   ============================================================ */
+
+/* Loading is a handoff: signal → Bluerook → owned outcome. */
+.loader {
+  background: var(--color-bg);
+  display: grid;
+  place-items: center;
+}
+.loader__stage {
+  position: relative;
+  inset: auto;
+  width: min(680px, calc(100vw - 40px));
+  height: auto;
+  display: grid;
+  place-items: center;
+  gap: 28px;
+}
+.loader__handoff {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr 112px 1fr auto;
+  align-items: center;
+  gap: 16px;
+}
+.loader__endpoint {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  opacity: 0;
+  animation: loader-endpoint 220ms var(--ease-out) forwards;
+}
+.loader__endpoint--out { animation-delay: 480ms; color: var(--color-accent); }
+.loader__rail {
+  position: relative;
+  height: 1px;
+  background: var(--color-line);
+  overflow: hidden;
+}
+.loader__rail::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent);
+  transform: scaleX(0);
+}
+.loader__rail--in::after {
+  transform-origin: left;
+  animation: loader-rail-in 260ms var(--ease-in-out) 80ms forwards;
+}
+.loader__rail--out::after {
+  transform-origin: left;
+  animation: loader-rail-out 260ms var(--ease-in-out) 360ms forwards;
+}
+.loader__rail i {
+  position: absolute;
+  z-index: 2;
+  top: -3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 2px 16px var(--color-accent-glow);
+}
+.loader__rail--in i { animation: loader-packet-in 280ms var(--ease-in-out) 80ms both; }
+.loader__rail--out i { animation: loader-packet-out 280ms var(--ease-in-out) 360ms both; }
+.loader__core {
+  width: 112px;
+  height: 112px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  box-shadow: 0 24px 60px var(--color-overlay);
+  clip-path: polygon(12% 0, 88% 0, 100% 12%, 100% 88%, 88% 100%, 12% 100%, 0 88%, 0 12%);
+  animation: loader-core 320ms var(--ease-emph) 220ms both;
+}
+.loader__rook {
+  width: 44px;
+  height: 52px;
+  color: var(--color-mark);
+  filter: none;
+}
+.loader__rook path { fill: currentColor; }
+.loader__rook rect { fill: var(--color-accent); }
+.loader__wordmark {
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-style: italic !important;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  text-transform: none !important;
+  font-size: 2rem;
+  color: var(--color-text);
+  opacity: 0;
+  animation: loader-endpoint 220ms var(--ease-out) 520ms forwards;
+}
+.loader__caption {
+  position: static;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  opacity: 0;
+  animation: loader-endpoint 200ms var(--ease-out) 610ms forwards;
+}
+@keyframes loader-endpoint { to { opacity: 1; transform: none; } }
+@keyframes loader-rail-in { to { transform: scaleX(1); } }
+@keyframes loader-rail-out { to { transform: scaleX(1); } }
+@keyframes loader-packet-in { from { left: 0; opacity: 0; } 20% { opacity: 1; } to { left: calc(100% - 7px); opacity: 1; } }
+@keyframes loader-packet-out { from { left: 0; opacity: 1; } 80% { opacity: 1; } to { left: calc(100% - 7px); opacity: 0; } }
+@keyframes loader-core {
+  from { opacity: 0.2; transform: scale(0.82); filter: blur(8px); }
+  to { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+
+/* Floating command bar. Full-width on arrival, island-sized after commitment. */
+.nav {
+  top: 0;
+  padding: 16px 24px;
+  border: 0;
+  background: transparent;
+  pointer-events: none;
+}
+.nav.is-scrolled {
+  background: transparent;
+  border: 0;
+}
+.nav__inner {
+  pointer-events: auto;
+  width: min(1220px, 100%);
+  min-height: 70px;
+  padding: 0 20px;
+  background: rgba(13, 24, 40, 0.66);
+  border: 1px solid rgba(244, 237, 224, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(244, 237, 224, 0.06);
+  backdrop-filter: blur(22px) saturate(135%);
+  -webkit-backdrop-filter: blur(22px) saturate(135%);
+  transition:
+    width 520ms var(--ease-emph),
+    min-height 420ms var(--ease-emph),
+    border-radius 420ms var(--ease-emph),
+    background 320ms var(--ease-out),
+    box-shadow 320ms var(--ease-out);
+}
+.nav.is-scrolled .nav__inner {
+  width: min(960px, calc(100vw - 48px));
+  min-height: 60px;
+  border-radius: 22px;
+  background: rgba(13, 24, 40, 0.82);
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(244, 237, 224, 0.08);
+}
+.nav__links { gap: clamp(14px, 1.65vw, 26px); font-size: 0.78rem; }
+.nav__actions {
+  gap: 0;
+  padding: 4px;
+  border: 1px solid rgba(244, 237, 224, 0.1);
+  border-radius: 999px;
+  background: rgba(8, 17, 30, 0.4);
+  box-shadow: inset 0 1px 0 rgba(244, 237, 224, 0.035);
+}
+.nav__actions .theme-toggle {
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.nav__actions .theme-toggle:hover {
+  background: rgba(244, 237, 224, 0.055);
+  transform: none;
+}
+.nav__actions .nav__cta,
+.nav.is-scrolled .nav__actions .nav__cta {
+  min-height: 42px;
+  padding: 0 19px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(244, 237, 224, 0.05);
+  box-shadow: none;
+}
+.nav__actions .nav__cta:hover {
+  background: rgba(212, 164, 55, 0.1);
+  color: var(--color-accent);
+  transform: none;
+}
+.nav.is-scrolled .nav__logo-mark { width: 25px; height: 29px; }
+.nav.is-scrolled .nav__logo-text { font-size: 1.14rem; }
+.nav.is-scrolled .nav__cta { padding: 9px 15px; }
+.nav__logo-text {
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-style: italic !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.02em !important;
+  text-transform: none !important;
+}
+.nav.is-scrolled .nav__links:not(.fn-nav) a:last-child { display: none; }
+
+@media (min-width: 1200px) {
+  /* Titles travel while the corresponding architecture remains pinned. */
+  .system-selector {
+    min-height: clamp(184px, 22vh, 224px);
+    padding-inline: 18px 10px;
+    align-content: center;
+    transition:
+      color 220ms var(--ease-out),
+      opacity 220ms var(--ease-out);
+  }
+  .system-selector:hover,
+  .system-selector:focus-visible,
+  .system-selector.is-active {
+    padding-left: 18px;
+  }
+  .system-selector.is-active {
+    background: transparent;
+  }
+  .system-selector__copy {
+    transition: transform 260ms var(--ease-emph);
+  }
+  .system-selector.is-active .system-selector__copy {
+    transform: translateX(7px);
+  }
+  .systems__viewport-wrap {
+    position: sticky;
+    top: 92px;
+    align-self: start;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1100px) {
+  .nav.is-scrolled .nav__inner {
+    width: min(790px, calc(100vw - 36px));
+  }
+  .nav.is-scrolled .nav__links:not(.fn-nav) a:nth-child(n + 4) { display: none; }
+}
+
+/* Blueprint canvas is now rendered from architecture-specific data. */
+.systems__canvas-scroll {
+  overflow: clip;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent) var(--color-surface);
+}
+.systems__canvas {
+  min-width: 0;
+  min-height: 570px;
+  contain: layout paint;
+  isolation: isolate;
+}
+.system-wire {
+  animation: none;
+  stroke-dasharray: 0.012 0.01;
+}
+.system-pulse {
+  filter: none;
+}
+.systems__canvas[data-map]::before {
+  background: radial-gradient(circle at 52% 48%, var(--color-accent-soft), transparent 36%);
+  opacity: 0.32;
+}
+.systems__map-signature {
+  position: absolute;
+  z-index: 1;
+  right: 18px;
+  bottom: 14px;
+  padding: 7px 9px;
+  border: 1px solid var(--color-line);
+  background: rgba(8, 17, 30, 0.82);
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+.system-node {
+  left: var(--node-x) !important;
+  top: var(--node-y) !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: 120px;
+  min-height: 82px;
+  padding: 12px;
+  gap: 5px;
+}
+.system-node strong { font-size: 0.78rem; }
+.system-node small { font-size: 0.62rem; }
+.system-node--agent {
+  width: 150px;
+  min-height: 118px;
+  padding: 14px 12px 12px 58px;
+  border-color: var(--color-accent);
+  background: var(--color-surface-2);
+}
+.system-node--agent .system-node__agent-mark {
+  left: 14px;
+  top: 18px;
+  width: 30px;
+}
+.system-node--control { border-color: rgba(212, 164, 55, 0.42); }
+.system-node--record { border-style: dashed; }
+.system-node--trigger { background: rgba(28, 63, 138, 0.22); }
+.systems__pan-hint { display: none; }
+.systems__viewport.is-switching .systems__canvas {
+  animation: system-canvas-settle 220ms var(--ease-out) both;
+}
+.systems__viewport.is-switching .system-node {
+  animation: none;
+}
+@keyframes system-canvas-settle {
+  from { opacity: 0.72; }
+  to { opacity: 1; }
+}
+
+/* Guided service gallery: one clear focal card and an explicit position rail. */
+.services__track-wrap { perspective: 1400px; }
+.services__guide {
+  position: absolute;
+  z-index: 6;
+  left: var(--section-pad-x);
+  right: var(--section-pad-x);
+  bottom: 28px;
+  display: grid;
+  grid-template-columns: auto minmax(120px, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  pointer-events: none;
+}
+.services__guide-line {
+  height: 1px;
+  overflow: hidden;
+  background: var(--color-line);
+}
+.services__guide-line i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--color-accent);
+  transform: scaleX(0.03);
+  transform-origin: left;
+}
+.services__guide-count b { color: var(--color-accent); font-weight: 500; }
+.svc-card {
+  opacity: 0.68;
+  transform: translateY(18px) rotateY(-3deg) scale(0.96);
+  transition:
+    opacity 420ms var(--ease-out),
+    transform 520ms var(--ease-emph),
+    border-color 320ms var(--ease-out),
+    box-shadow 320ms var(--ease-out);
+}
+.svc-card.is-current {
+  opacity: 1;
+  transform: translateY(0) rotateY(0) scale(1);
+  border-color: rgba(212, 164, 55, 0.55);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.52), 0 0 0 1px rgba(212, 164, 55, 0.12);
+}
+
+/* Voice demo: the CTA is the instrument, not another generic card. */
+.voice-trial {
+  position: relative;
+  z-index: var(--z-base);
+  padding: var(--section-pad-y) var(--section-pad-x);
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+  overflow: hidden;
+  scroll-margin-top: 104px;
+}
+.voice-trial::before {
+  content: "";
+  position: absolute;
+  width: 560px;
+  height: 560px;
+  right: -180px;
+  top: 4%;
+  border-radius: 50%;
+  background: var(--color-mark);
+  filter: blur(180px);
+  opacity: 0.18;
+  pointer-events: none;
+}
+.voice-trial__inner {
+  position: relative;
+  width: min(var(--max-width), 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(420px, 1.15fr);
+  align-items: center;
+  gap: clamp(60px, 8vw, 132px);
+}
+.voice-trial__kicker {
+  font-family: var(--font-mono);
+  font-size: var(--fs-eyebrow);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+.voice-trial__title {
+  margin: 22px 0 26px;
+  font-family: var(--font-sans);
+  font-size: clamp(2.8rem, 5vw, 5.6rem);
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+  font-weight: var(--fw-medium);
+}
+.voice-trial__title span {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-accent);
+}
+.voice-trial__lede {
+  max-width: 58ch;
+  color: var(--color-text-muted);
+  font-size: var(--fs-lead);
+  line-height: 1.65;
+}
+.voice-trial__prompts {
+  margin-top: 32px;
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--color-line);
+}
+.voice-trial__prompts span {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-line);
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+}
+.voice-trial__privacy {
+  margin-top: 20px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-dim);
+  text-transform: uppercase;
+}
+.voice-console {
+  position: relative;
+  min-height: 600px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  border: 1px solid rgba(244, 237, 224, 0.12);
+  background: rgba(13, 24, 40, 0.62);
+  box-shadow: 0 36px 100px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(244, 237, 224, 0.05);
+  backdrop-filter: blur(28px) saturate(125%);
+  -webkit-backdrop-filter: blur(28px) saturate(125%);
+  clip-path: polygon(28px 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%, 0 28px);
+}
+.voice-console__top,
+.voice-console__footer {
+  min-height: 52px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--color-line);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+.voice-console__top span:first-child { display: inline-flex; align-items: center; gap: 9px; }
+.voice-console__top i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 0 5px var(--color-accent-soft);
+}
+.voice-console__top b {
+  color: var(--color-text-muted);
+  font-weight: var(--fw-medium);
+}
+.voice-console__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 46px;
+  text-align: center;
+}
+.voice-console__orb {
+  width: 230px;
+  height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-bottom: 30px;
+}
+.voice-console__orb span {
+  width: 4px;
+  height: 28px;
+  background: var(--color-text);
+  opacity: 0.55;
+  transform-origin: center;
+  animation: voice-wave 1.8s var(--ease-in-out) infinite;
+}
+.voice-console__orb span:nth-child(2),
+.voice-console__orb span:nth-child(4) { height: 64px; animation-delay: -0.3s; }
+.voice-console__orb span:nth-child(3) { height: 112px; background: var(--color-accent); animation-delay: -0.65s; }
+.voice-console__orb span:nth-child(5) { animation-delay: -0.9s; }
+@keyframes voice-wave { 50% { transform: scaleY(0.35); opacity: 0.25; } }
+.voice-console__state {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.55rem;
+}
+.voice-console__note {
+  max-width: 42ch;
+  margin: 10px auto 26px;
+  color: var(--color-text-dim);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+.voice-console__transcript {
+  width: min(100%, 440px);
+  min-height: 82px;
+  margin: 0 auto 24px;
+  padding: 12px 15px;
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+  text-align: left;
+}
+.voice-console__transcript > span {
+  display: block;
+  margin-bottom: 7px;
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+.voice-console__transcript p {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  color: var(--color-text-dim);
+  font-size: 0.74rem;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.voice-console__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.voice-console__button {
+  min-height: 50px;
+  padding: 0 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  border: 1px solid var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: transform var(--dur-fast), box-shadow var(--dur-fast), opacity var(--dur-fast);
+}
+.voice-console__button:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(212, 164, 55, 0.2); }
+.voice-console__button:disabled { opacity: 0.55; cursor: wait; }
+.voice-console__button-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-bg);
+}
+.voice-console__control {
+  min-height: 50px;
+  padding: 0 18px;
+  border: 1px solid var(--color-line);
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition:
+    border-color var(--dur-fast),
+    color var(--dur-fast),
+    background var(--dur-fast);
+}
+.voice-console__control:hover,
+.voice-console__control:focus-visible {
+  border-color: var(--color-text-fade);
+  color: var(--color-text);
+  background: var(--color-surface-2);
+}
+.voice-console__control--end {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.voice-console__footer {
+  min-height: 58px;
+  justify-content: center;
+  border-top: 1px solid var(--color-line);
+  border-bottom: 0;
+}
+.voice-console__footer span + span::before {
+  content: "·";
+  margin-right: 16px;
+  color: var(--color-accent);
+}
+.voice-console.is-connecting .voice-console__orb span { animation-duration: 0.55s; }
+.voice-console.is-live .voice-console__orb span { animation-duration: 1.05s; }
+.voice-console.is-speaking .voice-console__orb span { animation-duration: 0.42s; opacity: 0.82; }
+.voice-console.is-muted .voice-console__orb span { animation-play-state: paused; opacity: 0.2; }
+.voice-console.is-unconfigured .voice-console__state { color: var(--color-accent); }
+
+@media (max-width: 1100px) {
+  .nav:not(.is-scrolled) .nav__links:not(.fn-nav) a:nth-last-child(2) { display: none; }
+  .voice-trial__inner { grid-template-columns: 1fr; }
+  .voice-trial__copy { max-width: 760px; }
+  .voice-console { min-height: 560px; }
+}
+
+@media (max-width: 768px) {
+  .loader__handoff { grid-template-columns: 1fr 86px 1fr; gap: 10px; }
+  .loader__endpoint { display: none; }
+  .loader__core { width: 86px; height: 86px; }
+  .loader__rook { width: 34px; height: 40px; }
+
+  .nav {
+    height: auto;
+    padding: 8px 10px;
+    background: transparent;
+    border: 0;
+  }
+  .nav__inner,
+  .nav.is-scrolled .nav__inner {
+    width: 100%;
+    min-height: 50px;
+    padding: 0 10px 0 13px;
+    border-radius: 16px;
+    background: rgba(13, 24, 40, 0.78);
+  }
+  .nav.is-scrolled .nav__inner {
+    width: calc(100% - 22px);
+    border-radius: 999px;
+  }
+  .nav__logo-mark { width: 20px; height: 23px; }
+  .nav__actions {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .systems__canvas-scroll {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    touch-action: pan-x pan-y pinch-zoom;
+  }
+  .systems__control,
+  .systems__viewport-wrap,
+  .systems__viewport {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .systems__canvas { min-width: 900px; min-height: 540px; }
+  .systems__pan-hint {
+    display: block;
+    position: absolute;
+    left: 14px;
+    bottom: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-dim);
+  }
+  .system-node { width: 136px; }
+  .system-node--agent { width: 168px; transform: none; }
+  .services__guide { display: none; }
+  .svc-card,
+  .svc-card.is-current {
+    opacity: 1;
+    transform: none;
+  }
+
+  .voice-trial {
+    padding: calc(var(--m-rhythm) * 1.2) var(--m-pad);
+    scroll-margin-top: var(--m-nav-h);
+  }
+  .voice-trial__inner { gap: 42px; }
+  .voice-trial__title { font-size: clamp(2.65rem, 13vw, 4.4rem); }
+  .voice-trial__lede { font-size: 1rem; }
+  .voice-console { min-height: 520px; }
+  .voice-console__stage { padding: 32px 20px; }
+  .voice-console__orb { width: 180px; height: 130px; }
+  .voice-console__footer { flex-wrap: wrap; padding: 12px 18px; line-height: 1.8; }
+  .voice-console__footer span + span::before { margin-right: 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader__endpoint,
+  .loader__rail::after,
+  .loader__rail i,
+  .loader__core,
+  .loader__wordmark,
+  .loader__caption,
+  .voice-console__orb span {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .nav__inner,
+  .svc-card {
+    transition: none !important;
+  }
+}
+
+/* ============================================================
+   SYSTEMS FLOOR · SCROLL CHOREOGRAPHY
+   The blueprint holds the eye line while the titles travel.
+   Phones read the same architecture as a vertical stack.
+   ============================================================ */
+
+/* Wires and ports are generated from the measured node boxes, so both live
+   in the canvas' own pixel space — no normalised path lengths. */
+.system-wire {
+  stroke: var(--color-text-fade);
+  stroke-width: 1.4;
+  stroke-dasharray: 6 5;
+  stroke-linecap: round;
+}
+.system-port {
+  fill: var(--color-bg);
+  stroke: var(--color-text-muted);
+  stroke-width: 1;
+}
+.system-port--in {
+  fill: var(--color-text-fade);
+  stroke: none;
+}
+.system-node__port { display: none; }
+
+/* The topline already carries the pattern; the in-canvas badge repeated it
+   word for word on every desktop blueprint. */
+.systems__map-signature { display: none; }
+
+/* Node coordinates are authored as left/top percentages. Clamping them by the
+   node's own footprint keeps the right-hand column inside the canvas on the
+   narrower desktop widths instead of letting it clip. */
+.system-node {
+  --node-w: 112px;
+  --node-h: 124px;
+  left: min(var(--node-x), calc(100% - var(--node-w) - 6px)) !important;
+  top: min(var(--node-y), calc(100% - var(--node-h) - 6px)) !important;
+  width: var(--node-w);
+}
+.system-node--agent {
+  --node-w: 150px;
+  --node-h: 150px;
+}
+/* The rook sat in a 58px left gutter, squeezing the operator's label into a
+   76px column and making the tallest node on the canvas. As a quiet corner
+   mark it keeps the brand present and gives the text the full width. */
+.system-node--agent {
+  padding: 12px;
+}
+.system-node--agent .system-node__agent-mark {
+  left: auto;
+  right: 11px;
+  top: 11px;
+  width: 19px;
+  opacity: 0.7;
+}
+.system-node--agent strong,
+.system-node--agent .system-node__type { padding-right: 26px; }
+
+@media (min-width: 1200px) and (min-height: 740px) {
+  .systems__control {
+    --sys-row: clamp(210px, 27vh, 280px);
+    /* The blueprint needs the wider share of the row on desktop; the titles
+       read fine in a narrower column. */
+    grid-template-columns: minmax(240px, 0.6fr) minmax(0, 1.78fr);
+    align-items: start;
+  }
+
+  /* Half a viewport of lead-in and run-out lets the first and last system
+     reach the eye line, and gives every title real scroll distance. */
+  .systems__catalog {
+    border-top: 0;
+    padding-block: calc(50vh - var(--sys-row) / 2);
+  }
+  .system-selector {
+    min-height: var(--sys-row);
+  }
+  .system-selector:first-of-type {
+    border-top: 1px solid var(--color-line);
+  }
+
+  /* A full-height sticky column centres the panel on the eye line and keeps
+     it there, instead of pinning it 92px down and clipping its footer. */
+  .systems__viewport-wrap {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    align-self: start;
+  }
+  /* Never shorter than the architecture needs, never taller than the screen
+     it has to sit inside. */
+  .systems__viewport {
+    width: 100%;
+    height: clamp(676px, calc(100vh - 120px), 740px);
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .systems__canvas-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+  }
+  .systems__canvas {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .systems__viewport-topline,
+  .systems__viewport-footer { flex: 0 0 auto; }
+}
+
+@supports (height: 100svh) {
+  @media (min-width: 1200px) and (min-height: 740px) {
+    .systems__viewport-wrap { height: 100svh; }
+    .systems__viewport { height: clamp(676px, calc(100svh - 120px), 740px); }
+  }
+}
+
+/* Wide but short screens cannot host a pinned panel that still shows the whole
+   architecture, so they get the full-width stacked treatment instead. */
+@media (min-width: 1200px) and (max-height: 739px) {
+  .systems__intro { grid-template-columns: 1fr; gap: var(--space-5); }
+  .systems__kicker { margin-bottom: 0; }
+  .systems__title { max-width: 15ch; }
+  .systems__control { grid-template-columns: 1fr; }
+  .systems__catalog {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--color-line);
+    padding-block: 0;
+  }
+  .system-selector {
+    grid-template-columns: 22px 1fr;
+    min-height: 0;
+    padding: var(--space-4);
+    border-right: 1px solid var(--color-line);
+  }
+  .system-selector:hover,
+  .system-selector:focus-visible,
+  .system-selector.is-active { padding-left: var(--space-4); }
+  .system-selector__state { display: none; }
+  .systems__viewport-wrap {
+    position: static;
+    height: auto;
+    display: block;
+  }
+  .systems__viewport {
+    height: auto;
+    min-height: 0;
+  }
+  .systems__canvas { min-height: 570px; }
+}
+
+@media (max-width: 768px) {
+  /* One horizontal surface only, and a short one: a 52px chip rail leaves
+     almost no area where a vertical drag can be mistaken for a sideways one.
+     Both axes stay allowed — `pan-x` alone would stop the page scrolling for
+     any gesture that starts on the rail. */
+  .systems__catalog {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    touch-action: pan-x pan-y pinch-zoom;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    border-top: 0;
+    border-bottom: 1px solid var(--color-line);
+    margin-bottom: 20px;
+  }
+  .system-selector {
+    flex: 0 0 auto;
+    width: auto;
+    min-height: 0;
+    grid-template-columns: auto auto;
+    gap: 9px;
+    padding: 14px 17px;
+    border-bottom: 0;
+    border-right: 1px solid var(--color-line);
+    scroll-snap-align: center;
+    white-space: nowrap;
+  }
+  .system-selector:last-of-type { border-right: 0; }
+  .system-selector__copy small,
+  .system-selector__state { display: none; }
+  .system-selector__copy strong { font-size: 0.88rem; }
+  .system-selector::before {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    height: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .system-selector:hover,
+  .system-selector:focus-visible,
+  .system-selector.is-active {
+    padding-left: 17px;
+  }
+  .system-selector.is-active {
+    background: linear-gradient(180deg, transparent, var(--color-accent-soft));
+  }
+  .system-selector.is-active::before { transform: scaleX(1); }
+
+  /* The canvas no longer pans. It grows with its content. */
+  .systems__canvas-scroll {
+    overflow: visible;
+    overflow-x: hidden;
+    touch-action: auto;
+    scroll-snap-type: none;
+    overscroll-behavior-x: auto;
+  }
+  .systems__canvas {
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto;
+    contain: none;
+    background-size: 28px 28px;
+  }
+  .systems__pan-hint,
+  .systems__map-signature { display: none !important; }
+
+  .systems__flow-caption {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    padding: 15px 18px 0;
+    font-family: var(--font-mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-text-dim);
+  }
+  .systems__flow {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    margin: 0;
+    padding: 16px 16px 22px;
+    list-style: none;
+  }
+  .systems__flow-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 9px;
+  }
+  /* Parallel work in a stage sits side by side; an odd third spans the row. */
+  .systems__flow-row[data-count="2"],
+  .systems__flow-row[data-count="3"],
+  .systems__flow-row[data-count="4"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .systems__flow-row[data-count="3"] > .system-node:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+  .systems__flow-link {
+    display: grid;
+    place-items: center;
+    height: 30px;
+  }
+  .systems__flow-link i {
+    position: relative;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--color-line), var(--color-text-fade), var(--color-line));
+  }
+  .systems__flow-link i::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    margin: -2px 0 0 -2px;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+
+  /* Stacked nodes are laid out by the grid, not by canvas coordinates. */
+  .system-node--flow {
+    /* The old phone canvas hid record nodes; the stack shows every stage. */
+    display: grid !important;
+    /* Relative, not static: the agent's rook mark is absolutely positioned and
+       needs this node as its containing block, or it flies to the canvas. */
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: auto !important;
+    min-height: 0 !important;
+    transform: none !important;
+    padding: 12px 13px !important;
+    box-shadow: none;
+  }
+  .system-node--flow:hover { transform: none !important; }
+  /* The stack has the width the old pan-canvas never did — use it. */
+  .system-node--flow .system-node__type { font-size: 0.6rem; }
+  .system-node--flow strong { font-size: 0.88rem; }
+  .system-node--flow small { font-size: 0.72rem; }
+  .system-node--flow.system-node--agent {
+    padding-left: 54px !important;
+    grid-column: 1 / -1;
+  }
+  .system-node--flow .system-node__agent-mark {
+    left: 14px;
+    top: 14px;
+    width: 28px;
+  }
+  .systems__flow-row[data-count="3"] .system-node--flow small,
+  .systems__flow-row[data-count="4"] .system-node--flow small { font-size: 0.6rem; }
+}
+
+/* ============================================================
+   MOBILE · SCROLL-DRIVEN TRACKS
+   One gesture on phones: downward. The rails move sideways as a
+   consequence of vertical scroll, so there is no second scroll
+   container for the browser to disambiguate against.
+   ============================================================ */
+@media (max-width: 768px) {
+  [data-scroll-track] {
+    position: relative;
+    /* `clip` rather than `hidden`: hidden would make this a scroll container
+       and break the sticky rail inside it. */
+    overflow-x: clip;
+    overflow-y: visible;
+    padding: 0;
+  }
+
+  [data-scroll-track] > [data-scroll-track-rail] {
+    position: sticky;
+    top: 88px;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch;
+    width: max-content;
+    max-width: none;
+    margin: 0;
+    padding: 0 var(--m-pad) !important;
+    /* Every trace of the old horizontal gesture surface. */
+    overflow: visible !important;
+    overflow-x: visible !important;
+    scroll-snap-type: none !important;
+    touch-action: auto !important;
+    overscroll-behavior-x: auto !important;
+    will-change: transform;
+  }
+
+  /* The rail steps between resting positions, so the movement is animated
+     here rather than driven frame-by-frame from the scroll handler. */
+  [data-scroll-track] > [data-scroll-track-rail] {
+    transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  [data-scroll-track] > [data-scroll-track-rail] > * {
+    scroll-snap-align: none !important;
+    /* Equal heights keep the sticky rail a constant height, so it never
+       jumps while the page scrolls past it. */
+    height: auto;
+    /*
+     * backdrop-filter on seven simultaneously-composited cards is the single
+     * most expensive thing on this page during a mobile scroll. The cards sit
+     * on a dark field where the blur is barely perceptible, so drop it.
+     */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    transition: opacity 380ms var(--ease-out);
+  }
+
+  /* The card at the centre of the screen is the one being read. */
+  [data-scroll-track] > [data-scroll-track-rail] > *:not(.is-focal) { opacity: 0.3; }
+  [data-scroll-track] > [data-scroll-track-rail] > .is-focal { opacity: 1; }
+
+  /* Fill the screen: a 500px card stranded in an 812px viewport reads as a
+     broken section with a dead area under it. */
+  [data-scroll-track] > [data-scroll-track-rail] > * {
+    flex: 0 0 86vw !important;
+    width: 86vw !important;
+    max-width: 400px !important;
+    min-height: 64vh;
+  }
+
+  /* Cards arrive already open — nothing is hidden behind a tap. */
+  [data-scroll-track] .svc-card {
+    min-height: 64vh;
+    cursor: default;
+  }
+  [data-scroll-track] .svc-card__chev { display: none; }
+
+  /*
+   * The tap accordion animates grid-template-rows from 0fr to 1fr. Once equal
+   * heights give the card a definite height, `1fr` resolves against zero free
+   * space and collapses to 0px — the details stayed hidden even with the card
+   * marked open. Nothing here needs to animate, so drop the grid entirely.
+   */
+  [data-scroll-track] .svc-card__details {
+    display: block !important;
+    grid-template-rows: none !important;
+    margin-top: 14px;
+    transition: none !important;
+  }
+  [data-scroll-track] .svc-card__details > .svc-card__details-inner {
+    overflow: visible !important;
+    min-height: 0;
+  }
+
+  .privileges__track-wrap > .privileges__list > .privilege {
+    flex: 0 0 85vw;
+    width: 85vw;
+    max-width: 380px;
+  }
+}
+
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  /* No sideways motion at all: read it as a plain vertical list. */
+  [data-scroll-track] {
+    height: auto !important;
+    overflow-x: visible;
+  }
+  [data-scroll-track] > [data-scroll-track-rail] {
+    position: static;
+    flex-direction: column !important;
+    width: auto;
+    transform: none !important;
+  }
+  [data-scroll-track] > [data-scroll-track-rail] > * {
+    width: auto !important;
+    flex-basis: auto !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ============================================================
+   VOICE TRIAL · attributed live transcript
+   ============================================================ */
+/* A fixed window that shows the latest turns bottom-up. No nested scroller —
+   a scrollable box this small traps touch scrolling on phones. */
+.voice-console__lines {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 6px;
+  height: 106px;
+  overflow: hidden;
+}
+.voice-console__line {
+  display: block;
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.74rem;
+  line-height: 1.45;
+}
+.voice-console__line span {
+  margin-right: 7px;
+  font-family: var(--font-mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+.voice-console__line[data-speaker="agent"] { color: var(--color-text); }
+
+/* ============================================================
+   SERVICES · closing microcopy needs air before the section seam
+   ============================================================ */
+.services { padding-bottom: clamp(52px, 6vh, 92px); }
+.services__whisper {
+  align-items: flex-start;
+  margin-top: clamp(40px, 5vh, 64px);
+  line-height: 1.6;
+}
+.services__whisper-rule { margin-top: 8px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .system-selector__copy,
+  .systems__viewport.is-switching .systems__canvas {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ============================================================
+   MOBILE · NATIVE SCROLL EDITION
+   One gesture, one authored moment. The systems floor is the
+   scroll story; every other proof section stays in document flow.
+   ============================================================ */
+.systems__mobile-readout,
+.systems__mobile-story {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  /* Static atmosphere reads cleaner and avoids full-section repaints. */
+  .services::before,
+  .process::before,
+  .privileges::before,
+  .why::before {
+    animation: none !important;
+  }
+
+  .m-touch-ripple,
+  .swipe-hint,
+  .services__guide {
+    display: none !important;
+  }
+
+  .m-fab {
+    background: var(--color-surface-2);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    opacity: 1;
+    visibility: visible;
+    transform: translate3d(0, 0, 0);
+    transition:
+      opacity 180ms var(--ease-out),
+      transform 220ms var(--ease-out),
+      visibility 0s linear 0s;
+  }
+
+  .m-fab.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate3d(0, 12px, 0);
+    transition-delay: 0s, 0s, 220ms;
+  }
+
+  .services__head,
+  .process__head {
+    position: relative !important;
+    top: auto !important;
+  }
+
+  /* ---------- Systems · all-blueprint fallback ---------- */
+  .systems--mobile-blueprints .systems__catalog {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  .systems--mobile-blueprints .systems__control {
+    display: block;
+  }
+
+  .systems--mobile-blueprints .systems__viewport-wrap {
+    position: static;
+    top: auto;
+    height: auto;
+    display: block;
+  }
+
+  .systems--mobile-blueprints .systems__viewport {
+    min-height: 0;
+    height: auto;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .systems--mobile-blueprints .systems__viewport::after,
+  .systems--mobile-blueprints .systems__viewport-topline,
+  .systems--mobile-blueprints .systems__viewport-footer,
+  .systems--mobile-blueprints .systems__mobile-readout {
+    display: none;
+  }
+
+  .systems--mobile-blueprints .systems__canvas-scroll {
+    display: block;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .systems--mobile-blueprints .systems__canvas {
+    display: grid;
+    gap: 16px;
+    height: auto;
+    min-height: 0 !important;
+    background: none;
+  }
+
+  .systems--mobile-blueprints .systems__canvas::before {
+    display: none;
+  }
+
+  .systems__blueprint {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    min-height: 0;
+    padding: 0;
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+    box-shadow: 0 18px 42px var(--color-overlay);
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .systems__blueprint-heading {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 12px;
+    align-items: center;
+    min-height: 66px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .systems__blueprint-heading > span {
+    font-family: var(--font-mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+  }
+
+  .systems__blueprint-heading > div {
+    display: grid;
+    gap: 2px;
+  }
+
+  .systems__blueprint-heading strong {
+    color: var(--color-text);
+    font-size: 0.88rem;
+    font-weight: var(--fw-medium);
+  }
+
+  .systems__blueprint-heading small {
+    overflow: hidden;
+    color: var(--color-text-muted);
+    font-size: 0.68rem;
+    line-height: 1.35;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .systems__blueprint .systems__flow-caption {
+    padding: 10px 12px 0;
+  }
+
+  .systems__blueprint .systems__flow {
+    align-content: center;
+    padding: 10px 10px 14px;
+  }
+
+  .systems__blueprint .systems__flow-row {
+    gap: 6px;
+  }
+
+  .systems__blueprint .systems__flow-link {
+    height: 10px;
+  }
+
+  .systems__blueprint .system-node--flow {
+    gap: 3px;
+    padding: 7px 8px !important;
+    border-radius: var(--radius-1);
+    background: var(--color-bg);
+  }
+
+  .systems__blueprint .system-node--flow .system-node__type {
+    font-size: 0.45rem;
+    letter-spacing: 0.1em;
+  }
+
+  .systems__blueprint .system-node--flow strong {
+    font-size: 0.7rem;
+    line-height: 1.18;
+  }
+
+  .systems__blueprint .system-node--flow small {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: 0.56rem;
+    line-height: 1.25;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .systems__blueprint .system-node--flow.system-node--agent {
+    grid-column: 1 / -1;
+    padding: 7px 30px 7px 8px !important;
+  }
+
+  .systems__blueprint .system-node--flow .system-node__agent-mark {
+    right: 9px;
+    left: auto;
+    top: 9px;
+    width: 16px;
+    opacity: 0.72;
+  }
+
+  .systems__blueprint .system-node__run {
+    display: none;
+  }
+
+  .systems__mobile-story {
+    display: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* ---------- Systems · flagship sticky story ---------- */
+  .systems--story-ready .systems__viewport-wrap {
+    position: sticky;
+    top: calc(var(--m-nav-h) + 8px + env(safe-area-inset-top, 0px));
+    z-index: 4;
+    display: block;
+    height: min(calc(100vh - var(--m-nav-h) - 28px), 620px);
+  }
+
+  @supports (height: 100svh) {
+    .systems--story-ready .systems__viewport-wrap {
+      height: min(
+        calc(100svh - var(--m-nav-h) - 28px - env(safe-area-inset-top, 0px)),
+        620px
+      );
+    }
+  }
+
+  .systems--story-ready .systems__viewport {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    border: 1px solid var(--color-line);
+    background: var(--color-bg);
+    box-shadow: 0 22px 54px var(--color-overlay);
+    overflow: clip;
+  }
+
+  .systems--story-ready .systems__viewport::after {
+    display: block;
+    box-shadow: inset 0 0 48px var(--color-overlay);
+  }
+
+  .systems--story-ready .systems__viewport-topline {
+    display: flex;
+    flex: 0 0 38px;
+    min-height: 38px;
+    padding-inline: 12px;
+    font-size: 0.49rem;
+  }
+
+  .systems--story-ready .systems__viewport-topline > span {
+    display: none;
+  }
+
+  .systems--story-ready .systems__mobile-readout {
+    --system-progress: 0.1667;
+    position: relative;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 10px 12px;
+    align-items: center;
+    flex: 0 0 70px;
+    padding: 10px 12px 9px;
+    border-bottom: 1px solid var(--color-line);
+    background: var(--color-surface);
+  }
+
+  .systems__mobile-count {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
+    color: var(--color-text-dim);
+  }
+
+  .systems__mobile-count b {
+    color: var(--color-accent);
+    font-size: 0.82rem;
+    font-weight: var(--fw-medium);
+  }
+
+  .systems__mobile-count i {
+    font-style: normal;
+  }
+
+  .systems__mobile-copy {
+    display: grid;
+    gap: 1px;
+    min-width: 0;
+  }
+
+  .systems__mobile-copy strong {
+    overflow: hidden;
+    color: var(--color-text);
+    font-size: 0.82rem;
+    font-weight: var(--fw-medium);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .systems__mobile-copy small {
+    overflow: hidden;
+    color: var(--color-text-muted);
+    font-size: 0.62rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .systems__mobile-progress {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+  }
+
+  .systems__mobile-progress i {
+    height: 1px;
+    background: var(--color-line);
+    transform: scaleX(1);
+    transform-origin: left;
+    transition: background 180ms var(--ease-out), transform 180ms var(--ease-out);
+  }
+
+  .systems__mobile-progress i.is-past,
+  .systems__mobile-progress i.is-current {
+    background: var(--color-accent);
+  }
+
+  .systems__mobile-progress i.is-current {
+    transform: scaleY(2);
+  }
+
+  .systems--story-ready .systems__canvas-scroll {
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .systems--story-ready .systems__canvas {
+    position: relative;
+    display: block;
+    flex: 1 1 auto;
+    min-height: 0 !important;
+    height: auto;
+    overflow: hidden;
+    background-image:
+      linear-gradient(var(--glass-border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--glass-border) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .systems--story-ready .systems__canvas::before {
+    display: block;
+  }
+
+  .systems--story-ready .systems__blueprint {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-rows: 1fr;
+    min-height: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate3d(0, 6px, 0);
+    transition:
+      opacity 200ms var(--ease-out),
+      transform 220ms var(--ease-out),
+      visibility 0s linear 220ms;
+  }
+
+  .systems--story-ready .systems__blueprint.is-active {
+    opacity: 1;
+    visibility: visible;
+    transform: translate3d(0, 0, 0);
+    transition-delay: 35ms, 35ms, 0s;
+  }
+
+  .systems--story-ready .systems__blueprint-heading,
+  .systems--story-ready .systems__flow-caption {
+    display: none;
+  }
+
+  .systems--story-ready .systems__blueprint .systems__flow {
+    height: 100%;
+    padding: 5px 9px 7px;
+  }
+
+  .systems--story-ready .systems__blueprint .systems__flow-link {
+    height: 6px;
+  }
+
+  .systems--story-ready .systems__blueprint .system-node--flow {
+    gap: 1px;
+    padding: 5px 7px !important;
+  }
+
+  .systems--story-ready .systems__blueprint .system-node--flow strong {
+    font-size: 0.67rem;
+  }
+
+  /*
+   * The pinned console is a system map, not a transcript. Node names, types,
+   * branches, and outcomes remain visible; the micro-descriptions return in
+   * the short-phone and reduced-motion dossier view.
+   */
+  .systems--story-ready .systems__blueprint .system-node--flow small {
+    display: none;
+  }
+
+  .systems--story-ready .systems__blueprint .system-node--flow.system-node--agent {
+    padding: 5px 28px 5px 7px !important;
+  }
+
+  .systems--story-ready .systems__blueprint .system-node--flow .system-node__agent-mark {
+    top: 7px;
+  }
+
+  .systems--story-ready .systems__viewport-footer {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    flex: 0 0 auto;
+    min-height: 0;
+    padding: 0;
+  }
+
+  .systems--story-ready .systems__viewport-footer div {
+    gap: 2px;
+    padding: 7px 10px;
+  }
+
+  .systems--story-ready .systems__viewport-footer div:first-child {
+    grid-column: 1 / -1;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .systems--story-ready .systems__viewport-footer div:nth-child(2) {
+    border-left: 0;
+  }
+
+  .systems--story-ready .systems__viewport-footer span {
+    font-size: 0.48rem;
+    letter-spacing: 0.08em;
+  }
+
+  .systems--story-ready .systems__viewport-footer strong {
+    overflow: hidden;
+    font-size: 0.62rem;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .systems--story-ready .systems__mobile-story {
+    display: block;
+  }
+
+  .systems--story-ready .systems__mobile-step {
+    min-height: clamp(260px, 42svh, 380px);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .systems--story-ready .systems__mobile-step:last-child {
+    min-height: clamp(420px, 68svh, 620px);
+  }
+
+  /* The document-flow fallback has room to restore the explanatory labels. */
+  .systems--mobile-blueprints:not(.systems--story-ready) .systems__blueprint .systems__flow {
+    padding: 12px 12px 16px;
+  }
+
+  .systems--mobile-blueprints:not(.systems--story-ready) .systems__blueprint .systems__flow-link {
+    height: 14px;
+  }
+
+  .systems--mobile-blueprints:not(.systems--story-ready) .systems__blueprint .system-node--flow {
+    gap: 4px;
+    padding: 9px 10px !important;
+  }
+
+  .systems--mobile-blueprints:not(.systems--story-ready) .systems__blueprint .system-node--flow .system-node__type {
+    font-size: 0.52rem;
+  }
+
+  .systems--mobile-blueprints:not(.systems--story-ready) .systems__blueprint .system-node--flow strong {
+    font-size: 0.76rem;
+  }
+
+  .systems--mobile-blueprints:not(.systems--story-ready) .systems__blueprint .system-node--flow small {
+    font-size: 0.62rem;
+    line-height: 1.3;
+    -webkit-line-clamp: 2;
+  }
+
+  .systems--mobile-blueprints:not(.systems--story-ready) .systems__blueprint .system-node--flow.system-node--agent {
+    padding: 9px 32px 9px 10px !important;
+  }
+
+  /* ---------- Services · five readable editorial briefs ---------- */
+  .services__track-wrap {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .services__track {
+    position: static !important;
+    inset: auto !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px !important;
+    width: auto !important;
+    max-width: none !important;
+    padding: 0 var(--m-pad) !important;
+    overflow: visible !important;
+    transform: none !important;
+    scroll-snap-type: none !important;
+  }
+
+  .services .svc-card {
+    width: auto !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    flex: none !important;
+    padding: 20px !important;
+    cursor: default;
+    opacity: 1 !important;
+    transform: translate3d(0, 0, 0) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    transition:
+      border-color 220ms var(--ease-out),
+      background 220ms var(--ease-out),
+      transform 220ms var(--ease-out);
+  }
+
+  .services .svc-card:not(.svc-card--pillar).is-current {
+    border-color: var(--color-text-fade) !important;
+    transform: translate3d(4px, 0, 0) !important;
+  }
+
+  .services .svc-card--pillar {
+    min-height: 0 !important;
+    padding-block: 24px !important;
+  }
+
+  .services .svc-card--pillar[data-pillar="02"] {
+    margin-top: 14px;
+  }
+
+  .services .svc-card__chev {
+    display: none;
+  }
+
+  .services .svc-card__details {
+    display: block !important;
+    grid-template-rows: none !important;
+    margin-top: 14px !important;
+    transition: none !important;
+  }
+
+  .services .svc-card__details > .svc-card__details-inner {
+    overflow: visible;
+  }
+
+  /* ---------- Standard · four complete rows ---------- */
+  .privileges__list {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+    padding: 20px var(--m-pad) 32px !important;
+    overflow: visible !important;
+    scroll-snap-type: none !important;
+  }
+
+  .privileges .privilege {
+    width: auto !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    flex: none !important;
+    border-radius: var(--radius-2) !important;
+    background: var(--color-surface) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    opacity: 1 !important;
+    transform: translate3d(0, 0, 0) !important;
+    transition:
+      border-color 220ms var(--ease-out),
+      transform 220ms var(--ease-out) !important;
+  }
+
+  .privileges .privilege.is-current {
+    border-color: var(--color-text-fade) !important;
+    transform: translate3d(4px, 0, 0) !important;
+  }
+
+  .privileges .privilege__head {
+    cursor: default;
+  }
+
+  .privileges .privilege__chev {
+    display: none !important;
+  }
+
+  .privileges .privilege__body {
+    display: grid !important;
+    grid-template-rows: 1fr !important;
+    overflow: visible !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+
+  /* ---------- Process · always-visible timeline ---------- */
+  .process__stack,
+  .process__steps {
+    gap: 12px;
+  }
+
+  .process .step {
+    margin: 0 !important;
+    cursor: default;
+    background: var(--color-surface) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    opacity: 1 !important;
+    transform: translate3d(0, 0, 0);
+    transition:
+      border-color 220ms var(--ease-out),
+      transform 220ms var(--ease-out) !important;
+  }
+
+  .process .step.is-current {
+    border-color: var(--color-text-fade) !important;
+    transform: translate3d(4px, 0, 0);
+  }
+
+  .process .step__chev {
+    display: none;
+  }
+
+  .process .step__details {
+    display: block !important;
+    grid-template-rows: none !important;
+    margin-top: 12px !important;
+    transition: none !important;
+  }
+
+  .process .step__details-inner {
+    overflow: visible;
+  }
+}
+
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  .systems__blueprint,
+  .services .svc-card,
+  .privileges .privilege,
+  .process .step {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ============================================================
+   MOBILE · REAL-DEVICE PASS
+   The phone recording showed that a technically working sticky
+   story still read as a cropped console, while fully expanded
+   service and standard cards hid the list of choices. Phones now
+   use one native page scroll, compact chapters, and no live blur.
+   ============================================================ */
+@media (max-width: 768px) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    overflow-x: clip;
+  }
+
+  /*
+   * iOS recomposites every backdrop blur while the browser chrome moves.
+   * The same depth is carried by opaque Midnight layers and hairlines.
+   */
+  *,
+  *::before,
+  *::after {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .nav,
+  .nav.is-scrolled {
+    padding: 8px 10px;
+  }
+
+  .nav__inner,
+  .nav.is-scrolled .nav__inner {
+    width: 100%;
+    min-height: 52px;
+    border-radius: 16px;
+    background: var(--color-surface) !important;
+    box-shadow:
+      0 10px 28px rgba(0, 0, 0, 0.32),
+      inset 0 1px 0 rgba(244, 237, 224, 0.045);
+    transition: none !important;
+  }
+
+  .m-fab {
+    display: none !important;
+  }
+
+  /* Nothing important waits for a scroll-triggered class on phones. */
+  [data-reveal],
+  .problem__statement,
+  .stat-item,
+  .trust__item,
+  .why-cell,
+  .castling__caption,
+  .services .svc-card,
+  .privileges .privilege,
+  .process .step {
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
+    transform: none !important;
+  }
+
+  /* ---------- Systems · six complete dossiers in page flow ---------- */
+  .systems--mobile-blueprints .systems__control {
+    display: block;
+  }
+
+  .systems--mobile-blueprints .systems__viewport-wrap {
+    position: static !important;
+    width: 100%;
+    height: auto !important;
+    margin-inline: 0;
+  }
+
+  .systems--mobile-blueprints .systems__viewport,
+  .systems--mobile-blueprints .systems__canvas-scroll {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    overflow: visible !important;
+  }
+
+  .systems--mobile-blueprints .systems__canvas {
+    display: grid;
+    gap: 22px;
+    width: 100%;
+    height: auto;
+    min-height: 0 !important;
+    overflow: visible;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint {
+    position: relative;
+    inset: auto;
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    width: 100%;
+    min-height: 0;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-2);
+    background: var(--color-surface);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.24);
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: none;
+    overflow: clip;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint-heading {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 12px;
+    min-height: 0;
+    padding: 15px 16px 14px;
+    background: var(--color-surface-2);
+  }
+
+  .systems--mobile-blueprints .systems__blueprint-heading > span {
+    align-self: start;
+    padding-top: 3px;
+    font-size: 0.55rem;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint-heading strong {
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint-heading small {
+    display: block;
+    margin-top: 3px;
+    overflow: visible;
+    font-size: 0.7rem;
+    line-height: 1.4;
+    text-overflow: clip;
+    white-space: normal;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .systems__flow-caption {
+    padding: 10px 14px 0;
+    font-size: 0.5rem;
+    line-height: 1.35;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .systems__flow {
+    gap: 0;
+    padding: 10px 10px 14px;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .systems__flow-row {
+    gap: 7px;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .systems__flow-link {
+    height: 9px;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .system-node--flow {
+    gap: 3px;
+    padding: 8px 9px !important;
+    border-radius: var(--radius-1);
+    background: var(--color-bg);
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .system-node--flow .system-node__type {
+    font-size: 0.46rem;
+    letter-spacing: 0.09em;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .system-node--flow strong {
+    font-size: 0.7rem;
+    line-height: 1.2;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .system-node--flow small {
+    display: none;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .system-node--flow.system-node--agent {
+    grid-column: 1 / -1;
+    padding: 8px 30px 8px 9px !important;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .system-node__agent-mark {
+    top: 9px;
+    right: 9px;
+    left: auto;
+    width: 16px;
+  }
+
+  /* ---------- Services · compact briefs, every option visible ---------- */
+  .services__track {
+    gap: 10px !important;
+  }
+
+  .services .svc-card,
+  .services .svc-card.is-current {
+    transform: none !important;
+    transition: border-color 180ms var(--ease-out) !important;
+  }
+
+  .services .svc-card--pillar {
+    display: grid;
+    gap: 10px;
+    min-height: 0 !important;
+    padding: 18px !important;
+  }
+
+  .services .svc-card--pillar[data-pillar="02"] {
+    margin-top: 12px;
+  }
+
+  .services .svc-pillar__meta {
+    gap: 8px;
+  }
+
+  .services .svc-pillar__cadence {
+    text-align: right;
+  }
+
+  .services .svc-pillar__title {
+    font-size: clamp(1.7rem, 9vw, 2.2rem);
+    line-height: 0.9;
+  }
+
+  .services .svc-pillar__desc {
+    max-width: none;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  .services .svc-pillar__footer {
+    display: none;
+  }
+
+  .services .svc-card:not(.svc-card--pillar) {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 0 12px;
+    align-items: start;
+    min-height: 0 !important;
+    padding: 16px !important;
+  }
+
+  .services .svc-card:not(.svc-card--pillar) .svc-card__num {
+    grid-column: 1 / -1;
+    margin-bottom: 11px;
+    font-size: 0.55rem;
+  }
+
+  .services .svc-card:not(.svc-card--pillar) .svc-card__icon {
+    grid-column: 1;
+    grid-row: 2 / span 2;
+    width: 32px;
+    height: 32px;
+    margin: 1px 0 0;
+  }
+
+  .services .svc-card:not(.svc-card--pillar) .svc-card__title {
+    grid-column: 2;
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.08;
+  }
+
+  .services .svc-card:not(.svc-card--pillar) .svc-card__tag {
+    grid-column: 2;
+    margin: 5px 0 0;
+    font-size: 0.73rem;
+    line-height: 1.35;
+  }
+
+  .services .svc-card:not(.svc-card--pillar) .svc-card__details {
+    grid-column: 1 / -1;
+    margin-top: 12px !important;
+  }
+
+  .services .svc-card:not(.svc-card--pillar) .svc-card__body {
+    margin: 0;
+    font-size: 0.84rem;
+    line-height: 1.55;
+  }
+
+  /* Detailed vectors remain on desktop; mobile keeps the choice list scannable. */
+  .services .svc-card:not(.svc-card--pillar) .svc-card__list {
+    display: none !important;
+  }
+
+  /* ---------- Standard · real accordion, not four full screens ---------- */
+  .privileges__list {
+    gap: 9px !important;
+    padding-top: 14px !important;
+  }
+
+  .privileges .privilege,
+  .privileges .privilege.is-current {
+    transform: none !important;
+    transition: border-color 180ms var(--ease-out) !important;
+  }
+
+  .privileges .privilege__head {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 9px 11px;
+    min-height: 70px;
+    padding: 14px 15px;
+    cursor: pointer;
+  }
+
+  .privileges .privilege__num {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .privileges .privilege__title {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 1.18rem;
+    line-height: 1.08;
+  }
+
+  .privileges .privilege__badge {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: start;
+    padding: 4px 8px;
+    font-size: 0.5rem;
+  }
+
+  .privileges .privilege__chev {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    display: inline-flex !important;
+    align-self: center;
+    width: 18px;
+    height: 18px;
+  }
+
+  .privileges .privilege__body {
+    display: grid !important;
+    grid-template-rows: 0fr !important;
+    overflow: hidden !important;
+    opacity: 1 !important;
+    transition: grid-template-rows 280ms var(--ease-out) !important;
+  }
+
+  .privileges .privilege[data-open] .privilege__body {
+    grid-template-rows: 1fr !important;
+  }
+
+  .privileges .privilege__body-inner {
+    overflow: hidden;
+    padding: 0 !important;
+  }
+
+  .privileges .privilege__body-inner > * {
+    padding-inline: 15px;
+  }
+
+  .privileges .privilege__body-inner p {
+    margin-bottom: 14px;
+    font-size: 0.84rem;
+    line-height: 1.55;
+  }
+
+  .privileges .privilege__meta-list {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-bottom: 16px;
+    padding-top: 0;
+  }
+
+  .privileges .privilege__meta-list li {
+    display: grid;
+    grid-template-columns: minmax(86px, 0.42fr) 1fr;
+    gap: 10px;
+    align-items: baseline;
+    padding: 9px 0;
+    border: 0;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .privileges .privilege__meta-list li strong {
+    font-size: 0.77rem;
+    line-height: 1.35;
+  }
+
+  /* ---------- Process · a readable four-move timeline ---------- */
+  .process__stack,
+  .process__steps {
+    gap: 8px;
+  }
+
+  .process .step,
+  .process .step.is-current {
+    min-height: 0 !important;
+    padding: 16px !important;
+    transform: none !important;
+    transition: border-color 180ms var(--ease-out) !important;
+  }
+
+  .process .step__title {
+    font-size: 1.3rem;
+  }
+
+  .process .step__lead,
+  .process .step__copy {
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  /* ---------- Performance · one compositor-friendly document ---------- */
+  /*
+   * These sections previously kept full-screen sticky layers alive while
+   * the browser chrome was resizing. The real-device recording showed the
+   * resulting pauses and partially composed frames. On phones the story is
+   * now editorial: each moment occupies normal document flow.
+   */
+  .ambient {
+    display: none !important;
+  }
+
+  .hero__rook,
+  .display-l,
+  [data-fade],
+  [data-reveal],
+  [data-stack],
+  .castling__piece,
+  .castling__caption,
+  .diag__stmt,
+  .why-cell {
+    will-change: auto !important;
+    transition: none !important;
+  }
+
+  /* Castling · a complete branded vignette, not a 220svh scroll trap. */
+  .castling {
+    position: relative !important;
+    top: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 66px var(--m-pad) 72px !important;
+    overflow: clip !important;
+  }
+
+  .castling__inner {
+    position: relative !important;
+    top: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    gap: 38px !important;
+  }
+
+  .castling__stage {
+    max-width: 360px !important;
+  }
+
+  .castling__piece {
+    width: clamp(68px, 21vw, 86px) !important;
+    filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.48)) !important;
+  }
+
+  .castling__board {
+    height: 34px !important;
+    margin-inline: 5px !important;
+    background: var(--color-surface-2) !important;
+  }
+
+  .castling__caption,
+  .castling__caption.is-visible,
+  .castling__caption.is-in {
+    margin-top: 4px !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Diagnosis · three legible thoughts, all present without crossfading. */
+  .problem {
+    position: relative !important;
+    top: auto !important;
+    display: block !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    overflow: clip !important;
+  }
+
+  .diag {
+    width: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 62px var(--m-pad) 70px !important;
+    overflow: clip !important;
+  }
+
+  .diag::before,
+  .diag__atmos,
+  .diag__dots {
+    display: none !important;
+  }
+
+  .diag__chapter {
+    position: relative !important;
+    top: auto !important;
+    width: auto !important;
+    margin: 0 0 28px !important;
+    padding: 0 !important;
+    justify-content: center;
+  }
+
+  .diag__stage {
+    position: relative !important;
+    top: auto !important;
+    display: grid !important;
+    place-items: stretch !important;
+    gap: 10px !important;
+    width: 100% !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+
+  .diag__stmt,
+  .diag__stmt.is-active,
+  .diag__stmt.is-past {
+    position: relative !important;
+    inset: auto !important;
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 13px;
+    place-items: start !important;
+    min-height: 0 !important;
+    padding: 17px 16px !important;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-1);
+    background: var(--color-surface);
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+
+  .diag__ghost {
+    position: relative !important;
+    inset: auto !important;
+    transform: none !important;
+    align-self: start;
+    padding-top: 2px;
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-size: 0.56rem !important;
+    line-height: 1.3;
+    letter-spacing: 0.14em;
+    color: var(--color-accent) !important;
+  }
+
+  .diag__text {
+    max-width: none !important;
+    text-align: left !important;
+    font-size: clamp(1.2rem, 5.7vw, 1.5rem) !important;
+    line-height: 1.22 !important;
+  }
+
+  /* Operating principles · a clean list instead of another sticky deck. */
+  .why::before {
+    animation: none !important;
+    opacity: 0.22 !important;
+  }
+
+  .why__head {
+    position: relative !important;
+    top: auto !important;
+  }
+
+  .why__grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 9px !important;
+    padding: 24px var(--m-pad) 72px !important;
+  }
+
+  .why-cell,
+  .why-cell:nth-child(1),
+  .why-cell:nth-child(2),
+  .why-cell:nth-child(3),
+  .why-cell:nth-child(4) {
+    position: relative !important;
+    top: auto !important;
+    z-index: auto !important;
+    min-height: 0 !important;
+    padding: 18px !important;
+    background: var(--color-surface) !important;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22) !important;
+  }
+}
+
+.privilege__summary {
+  display: none;
+}
+
+/* ============================================================
+   MOBILE · READABLE SYSTEM CHAPTERS
+   A compact index lets the reader jump to any workflow. Each
+   architecture then reads as a causal spine rather than a tiny
+   desktop canvas trapped inside another card.
+   ============================================================ */
+@media (max-width: 768px) {
+  .systems--mobile-blueprints .systems__catalog {
+    position: relative !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 28px 0 38px !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    clip-path: none !important;
+    white-space: normal !important;
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .systems--mobile-blueprints .system-selector {
+    position: relative !important;
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 8px;
+    align-items: center;
+    min-width: 0 !important;
+    min-height: 66px;
+    padding: 11px 10px !important;
+    border: 0 !important;
+    border-right: 1px solid var(--color-line) !important;
+    border-bottom: 1px solid var(--color-line) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-align: left;
+    transform: none !important;
+  }
+
+  .systems--mobile-blueprints .system-selector:nth-child(even) {
+    border-right: 0 !important;
+  }
+
+  .systems--mobile-blueprints .system-selector:nth-last-child(-n + 2) {
+    border-bottom: 0 !important;
+  }
+
+  .systems--mobile-blueprints .system-selector__index {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border: 1px solid var(--color-line);
+    border-radius: 50%;
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    color: var(--color-text-muted);
+  }
+
+  .systems--mobile-blueprints .system-selector__copy {
+    display: block !important;
+    min-width: 0;
+    transform: none !important;
+  }
+
+  .systems--mobile-blueprints .system-selector__copy strong {
+    display: block;
+    overflow: visible;
+    font-size: 0.69rem;
+    line-height: 1.25;
+    text-overflow: clip;
+    white-space: normal;
+  }
+
+  .systems--mobile-blueprints .system-selector__copy small,
+  .systems--mobile-blueprints .system-selector__state {
+    display: none !important;
+  }
+
+  .systems--mobile-blueprints .system-selector.is-active {
+    background: var(--color-surface) !important;
+  }
+
+  .systems--mobile-blueprints .system-selector.is-active .system-selector__index {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .systems--mobile-blueprints .systems__canvas {
+    gap: 34px !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint {
+    scroll-margin-top: 76px;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 500px;
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 0 0 20px !important;
+    border: 0 !important;
+    border-top: 1px solid var(--color-line) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint-heading {
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr) !important;
+    gap: 13px !important;
+    padding: 28px 0 18px !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint-heading > span {
+    padding-top: 4px;
+    font-size: 0.5rem;
+    color: var(--color-accent);
+  }
+
+  .systems--mobile-blueprints .systems__blueprint-heading strong {
+    font-family: var(--font-display);
+    font-size: clamp(1.55rem, 7vw, 2rem) !important;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1 !important;
+    letter-spacing: -0.02em;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint-heading small {
+    max-width: 34ch;
+    margin-top: 7px !important;
+    font-family: var(--font-sans);
+    font-size: 0.75rem !important;
+    line-height: 1.45 !important;
+    color: var(--color-text-muted);
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .systems__flow-caption {
+    margin: 0 0 12px 31px;
+    padding: 0 !important;
+    font-size: 0.5rem !important;
+    letter-spacing: 0.15em;
+    color: var(--color-text-dim);
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .systems__flow {
+    position: relative;
+    display: grid !important;
+    gap: 0 !important;
+    margin: 0;
+    padding: 0 !important;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .systems__flow::before {
+    content: '';
+    position: absolute;
+    top: 14px;
+    bottom: 18px;
+    left: 8px;
+    width: 1px;
+    background: linear-gradient(
+      180deg,
+      var(--color-accent),
+      rgba(28, 63, 138, 0.72) 48%,
+      var(--color-line)
+    );
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .systems__flow-row {
+    position: relative;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 6px !important;
+    padding: 0 0 0 31px;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .systems__flow-row::before {
+    content: '';
+    position: absolute;
+    top: 18px;
+    left: 5px;
+    z-index: 2;
+    width: 7px;
+    height: 7px;
+    border: 1px solid var(--color-accent);
+    border-radius: 50%;
+    background: var(--color-bg);
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .systems__flow-row[data-count="2"],
+  .systems--mobile-blueprints .systems__blueprint .systems__flow-row[data-count="3"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    padding-block: 6px;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .systems__flow-row[data-count="3"] .system-node:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .systems__flow-link {
+    display: none !important;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .system-node--flow {
+    display: grid !important;
+    gap: 3px !important;
+    min-width: 0;
+    min-height: 0;
+    padding: 10px 0 11px !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--color-line) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .systems__flow-row[data-count="2"] .system-node--flow,
+  .systems--mobile-blueprints .systems__blueprint .systems__flow-row[data-count="3"] .system-node--flow,
+  .systems--mobile-blueprints .systems__blueprint .system-node--flow.system-node--agent {
+    padding: 10px !important;
+    border: 1px solid var(--color-line) !important;
+    border-radius: var(--radius-1) !important;
+    background: var(--color-surface) !important;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .system-node--flow .system-node__type {
+    font-size: 0.47rem !important;
+    line-height: 1.25;
+    letter-spacing: 0.12em !important;
+    color: var(--color-accent);
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .system-node--flow strong {
+    font-size: 0.79rem !important;
+    line-height: 1.28 !important;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .system-node--flow small {
+    display: block !important;
+    overflow: visible;
+    font-size: 0.62rem;
+    line-height: 1.4;
+    color: var(--color-text-dim);
+    text-overflow: clip;
+    white-space: normal;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .system-node--flow.system-node--agent {
+    grid-column: 1 / -1;
+    padding-right: 34px !important;
+    border-color: rgba(212, 164, 55, 0.32) !important;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint .system-node__agent-mark {
+    top: 10px !important;
+    right: 10px !important;
+    width: 16px !important;
+  }
+
+  /* The two operating-model labels become chapter dividers, not fake offers. */
+  .services .svc-card--pillar {
+    min-height: 0 !important;
+    padding: 34px 2px 17px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .services .svc-card--pillar[data-pillar="02"] {
+    margin-top: 22px !important;
+  }
+
+  .services .svc-card--pillar .svc-pillar__title {
+    font-size: clamp(1.8rem, 9vw, 2.25rem) !important;
+  }
+
+  .services .svc-card--pillar .svc-pillar__desc {
+    max-width: 34ch;
+  }
+
+  /* Collapsed Standard rows explain their payoff before a tap. */
+  .privileges .privilege__head {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-rows: auto auto auto;
+    min-height: 92px;
+  }
+
+  .privileges .privilege__title {
+    font-size: 1.08rem;
+  }
+
+  .privileges .privilege__summary {
+    display: block;
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 0.68rem;
+    line-height: 1.35;
+    color: var(--color-text-muted);
+  }
+
+  .privileges .privilege__badge {
+    grid-column: 2;
+    grid-row: 3;
+    margin-top: 2px;
+  }
+
+  .privileges .privilege__chev {
+    grid-row: 1 / span 3;
+  }
+}
+
+/* ============================================================
+   MOBILE · AUTHORED, LOW-COST MOTION
+   One castling handoff and one system-online sequence carry the
+   voice. Supporting cards only acknowledge their arrival.
+   ============================================================ */
+@media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
+  body.mobile-motion-ready .mobile-motion--castling .castling__piece--king {
+    opacity: 0.35;
+    transform: translate3d(-22px, 0, 0) !important;
+    transition:
+      opacity 520ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 620ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  body.mobile-motion-ready .mobile-motion--castling .castling__piece--rook {
+    opacity: 0.35;
+    transform: translate3d(22px, 0, 0) !important;
+    transition:
+      opacity 520ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 620ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  body.mobile-motion-ready .mobile-motion--castling .castling__board {
+    opacity: 0.28;
+    transform: scaleX(0.58);
+    transition:
+      opacity 480ms cubic-bezier(0.16, 1, 0.3, 1) 70ms,
+      transform 650ms cubic-bezier(0.16, 1, 0.3, 1) 70ms !important;
+  }
+
+  body.mobile-motion-ready .mobile-motion--castling .castling__caption {
+    opacity: 0 !important;
+    transform: translate3d(0, 12px, 0) !important;
+    transition:
+      opacity 520ms cubic-bezier(0.16, 1, 0.3, 1) 190ms,
+      transform 620ms cubic-bezier(0.16, 1, 0.3, 1) 190ms !important;
+  }
+
+  body.mobile-motion-ready .mobile-motion--castling.is-mobile-visible .castling__piece--king,
+  body.mobile-motion-ready .mobile-motion--castling.is-mobile-visible .castling__piece--rook {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) !important;
+  }
+
+  body.mobile-motion-ready .mobile-motion--castling.is-mobile-visible .castling__board {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  body.mobile-motion-ready .mobile-motion--castling.is-mobile-visible .castling__caption {
+    opacity: 1 !important;
+    transform: translate3d(0, 0, 0) !important;
+  }
+
+  body.mobile-motion-ready .systems__blueprint.mobile-motion--blueprint {
+    opacity: 0.38;
+    clip-path: inset(0 0 8% 0);
+    transform: translate3d(0, 14px, 0);
+    transition:
+      opacity 460ms cubic-bezier(0.16, 1, 0.3, 1),
+      clip-path 620ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 620ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 220ms ease !important;
+  }
+
+  body.mobile-motion-ready .systems__blueprint.mobile-motion--blueprint::after {
+    content: '';
+    position: absolute;
+    inset: 0 auto auto 0;
+    z-index: 5;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-accent), transparent 72%);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 720ms cubic-bezier(0.16, 1, 0.3, 1) 80ms;
+    pointer-events: none;
+  }
+
+  body.mobile-motion-ready .systems__blueprint.mobile-motion--blueprint.is-mobile-visible {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  body.mobile-motion-ready .systems__blueprint.mobile-motion--blueprint.is-mobile-visible::after {
+    transform: scaleX(1);
+  }
+
+  body.mobile-motion-ready .systems__blueprint.is-mobile-current {
+    border-top-color: rgba(212, 164, 55, 0.6) !important;
+  }
+
+  body.mobile-motion-ready .mobile-motion--support {
+    opacity: 0.52 !important;
+    transform: translate3d(0, 10px, 0) !important;
+    transition:
+      opacity 380ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 480ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 180ms ease !important;
+    transition-delay: calc(var(--mobile-motion-order, 0) * 32ms) !important;
+  }
+
+  body.mobile-motion-ready .mobile-motion--support.is-mobile-visible {
+    opacity: 1 !important;
+    transform: translate3d(0, 0, 0) !important;
+  }
+}
+
+/* ============================================================
+   MOBILE · PREMIUM MOTION RESTORATION
+   Native vertical flow remains the interaction model. Depth and
+   choreography return through one castling move, one diagnosis
+   focus sequence, local light, and a deliberately small glass set.
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Safe default: content never depends on JavaScript to be readable. */
+  [data-fade] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
+    transform: none !important;
+  }
+
+  /* One refractive navigation plane; the rest of the page stays cheap. */
+  .nav__inner,
+  .nav.is-scrolled .nav__inner {
+    border: 1px solid var(--glass-border);
+    background:
+      linear-gradient(135deg, rgba(244, 237, 224, 0.045), transparent 42%),
+      var(--glass-bg-strong) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    box-shadow:
+      0 16px 34px rgba(0, 0, 0, 0.38),
+      inset 0 1px 0 rgba(244, 237, 224, 0.09),
+      0 0 0 1px rgba(212, 164, 55, 0.025) !important;
+    transition:
+      width 420ms var(--ease-out),
+      border-radius 420ms var(--ease-out),
+      background 320ms var(--ease-out),
+      box-shadow 320ms var(--ease-out) !important;
+  }
+
+  .voice-console {
+    background:
+      linear-gradient(145deg, rgba(244, 237, 224, 0.04), transparent 44%),
+      var(--glass-bg-strong) !important;
+    -webkit-backdrop-filter: var(--glass-blur) !important;
+    backdrop-filter: var(--glass-blur) !important;
+    border-color: var(--glass-border);
+    box-shadow:
+      0 28px 70px rgba(0, 0, 0, 0.46),
+      inset 0 1px 0 rgba(244, 237, 224, 0.085),
+      0 0 42px rgba(28, 63, 138, 0.11);
+  }
+
+  /* Section-local light replaces the costly fixed full-page orbs. */
+  .hero,
+  .castling,
+  .problem,
+  .systems {
+    isolation: isolate;
+  }
+
+  .hero__rook-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -65%;
+    z-index: -1;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle, rgba(80, 140, 240, 0.24), transparent 48%),
+      radial-gradient(circle at 55% 65%, rgba(212, 164, 55, 0.12), transparent 58%);
+    opacity: 0.8;
+    transform: scale(0.88);
+    pointer-events: none;
+  }
+
+  .castling::after {
+    content: '';
+    position: absolute;
+    inset: 8% 0;
+    z-index: -1;
+    background:
+      radial-gradient(ellipse at 50% 46%, rgba(28, 63, 138, 0.18), transparent 54%),
+      radial-gradient(ellipse at 50% 70%, rgba(212, 164, 55, 0.09), transparent 48%);
+    pointer-events: none;
+  }
+
+  .systems::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: -1;
+    height: min(720px, 72svh);
+    background: radial-gradient(ellipse at 50% 12%, rgba(28, 63, 138, 0.14), transparent 64%);
+    pointer-events: none;
+  }
+
+  /* A literal castling swap on the approved king and rook silhouettes. */
+  .mobile-castling-ready .castling__stage {
+    width: min(100%, 360px) !important;
+    box-sizing: border-box;
+    grid-template-columns:
+      clamp(66px, 19vw, 78px)
+      minmax(72px, 1fr)
+      clamp(66px, 19vw, 78px) !important;
+    padding-inline: 3px;
+    perspective: 680px;
+  }
+
+  .mobile-castling-ready .castling__piece {
+    width: clamp(66px, 19vw, 78px) !important;
+    max-width: 100%;
+  }
+
+  .mobile-castling-ready .castling__board {
+    border-color: rgba(212, 164, 55, 0.2);
+    background:
+      linear-gradient(180deg, rgba(244, 237, 224, 0.025), transparent),
+      var(--glass-bg);
+    box-shadow:
+      inset 0 8px 22px rgba(0, 0, 0, 0.34),
+      0 12px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .mobile-castling-ready .castling__board::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    background: linear-gradient(
+      100deg,
+      transparent 18%,
+      rgba(244, 237, 224, 0.04) 38%,
+      rgba(212, 164, 55, 0.24) 50%,
+      rgba(244, 237, 224, 0.04) 62%,
+      transparent 82%
+    );
+    opacity: 0;
+    transform: translate3d(-120%, 0, 0);
+    pointer-events: none;
+  }
+
+  .mobile-castling-ready.is-castling .castling__board::after {
+    animation: mobile-castling-sweep 980ms var(--ease-out) 80ms both;
+  }
+
+  .mobile-castling-ready.is-castling .castling__piece {
+    z-index: 5;
+    will-change: transform !important;
+  }
+
+  .mobile-castling-ready.is-castled .castling__piece--king {
+    transform: translate3d(var(--castle-distance), 0, 0) !important;
+  }
+
+  .mobile-castling-ready.is-castled .castling__piece--rook {
+    transform: translate3d(var(--castle-distance-back), 0, 0) !important;
+  }
+
+  .mobile-castling-ready .castling__caption {
+    opacity: 0 !important;
+    transform: translate3d(0, 16px, 0) !important;
+    transition:
+      opacity 650ms var(--ease-out) 760ms,
+      transform 700ms var(--ease-out) 760ms !important;
+  }
+
+  .mobile-castling-ready.is-castling .castling__caption,
+  .mobile-castling-ready.is-castled .castling__caption {
+    opacity: 1 !important;
+    transform: translate3d(0, 0, 0) !important;
+  }
+
+  /* Three thoughts, one focus: readable flow with cinematic emphasis. */
+  .diag.mobile-diag-ready {
+    position: relative !important;
+    padding-block: 82px 86px !important;
+    background:
+      radial-gradient(ellipse at 50% 26%, rgba(28, 63, 138, 0.17), transparent 52%),
+      radial-gradient(ellipse at 72% 78%, rgba(212, 164, 55, 0.08), transparent 46%),
+      var(--color-bg) !important;
+  }
+
+  .diag.mobile-diag-ready::before {
+    display: block !important;
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, transparent, rgba(28, 63, 138, 0.045) 44%, transparent),
+      radial-gradient(circle at 50% 44%, rgba(80, 140, 240, 0.1), transparent 48%);
+    opacity: 1;
+    pointer-events: none;
+  }
+
+  .mobile-diag-ready .diag__atmos {
+    display: block !important;
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .mobile-diag-ready .diag__beam {
+    top: 46%;
+    opacity: 0.48;
+    transform: scaleX(0.86);
+  }
+
+  .mobile-diag-ready .diag__stage {
+    gap: 18px !important;
+  }
+
+  .mobile-diag-ready .diag__stmt,
+  .mobile-diag-ready .diag__stmt.is-active,
+  .mobile-diag-ready .diag__stmt.is-past {
+    position: relative !important;
+    min-height: 124px !important;
+    padding: 22px 18px !important;
+    border-color: rgba(244, 237, 224, 0.075);
+    background:
+      linear-gradient(135deg, rgba(244, 237, 224, 0.035), transparent 46%),
+      rgba(13, 24, 40, 0.58) !important;
+    box-shadow:
+      0 18px 38px rgba(0, 0, 0, 0.24),
+      inset 0 1px 0 rgba(244, 237, 224, 0.04);
+    opacity: 0.46 !important;
+    transform: translate3d(0, 10px, 0) scale(0.985) !important;
+    transition:
+      opacity 520ms var(--ease-out),
+      transform 620ms var(--ease-out),
+      border-color 420ms var(--ease-out),
+      background 420ms var(--ease-out),
+      box-shadow 520ms var(--ease-out) !important;
+    overflow: hidden;
+  }
+
+  .mobile-diag-ready .diag__stmt::before {
+    content: '';
+    position: absolute;
+    inset: -45%;
+    z-index: 0;
+    background: radial-gradient(circle, rgba(80, 140, 240, 0.2), transparent 52%);
+    opacity: 0;
+    transform: translate3d(-20%, 10%, 0) scale(0.75);
+    transition:
+      opacity 620ms var(--ease-out),
+      transform 720ms var(--ease-out);
+    pointer-events: none;
+  }
+
+  .mobile-diag-ready .diag__stmt::after {
+    content: '';
+    position: absolute;
+    inset: auto 18px 0;
+    z-index: 2;
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-accent), transparent 74%);
+    opacity: 0.32;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition:
+      opacity 420ms var(--ease-out),
+      transform 720ms var(--ease-out);
+    pointer-events: none;
+  }
+
+  .mobile-diag-ready .diag__stmt.is-mobile-seen {
+    opacity: 0.72 !important;
+    transform: translate3d(0, 0, 0) scale(1) !important;
+  }
+
+  .mobile-diag-ready .diag__stmt.is-mobile-seen::after {
+    transform: scaleX(0.36);
+  }
+
+  .mobile-diag-ready .diag__stmt.is-mobile-current {
+    border-color: rgba(212, 164, 55, 0.34);
+    background:
+      linear-gradient(135deg, rgba(244, 237, 224, 0.065), transparent 48%),
+      var(--glass-bg-strong) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    box-shadow:
+      0 22px 52px rgba(0, 0, 0, 0.34),
+      inset 0 1px 0 rgba(244, 237, 224, 0.09),
+      0 0 34px rgba(28, 63, 138, 0.16);
+    opacity: 1 !important;
+    transform: translate3d(0, -2px, 0) scale(1.012) !important;
+  }
+
+  .mobile-diag-ready .diag__stmt.is-mobile-current::before {
+    opacity: 0.72;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  .mobile-diag-ready .diag__stmt.is-mobile-current::after {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  .mobile-diag-ready .diag__stmt > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .mobile-diag-ready .diag__ghost {
+    color: rgba(212, 164, 55, 0.72) !important;
+  }
+
+  .mobile-diag-ready .diag__text {
+    font-size: clamp(1.34rem, 6.4vw, 1.82rem) !important;
+    line-height: 1.16 !important;
+    text-wrap: balance;
+  }
+
+  .mobile-diag-ready .diag__dots {
+    position: relative !important;
+    inset: auto !important;
+    display: flex !important;
+    justify-content: center;
+    gap: 9px;
+    margin-top: 26px;
+    transform: none !important;
+  }
+
+  .mobile-diag-ready .diag__dot {
+    width: 32px;
+    height: 2px;
+    border-radius: 999px;
+  }
+
+  .systems--mobile-blueprints .systems__blueprint.is-mobile-current {
+    border-color: rgba(212, 164, 55, 0.3) !important;
+    background:
+      linear-gradient(145deg, rgba(244, 237, 224, 0.025), transparent 38%),
+      var(--color-surface);
+    box-shadow:
+      0 22px 52px rgba(0, 0, 0, 0.32),
+      inset 0 1px 0 rgba(244, 237, 224, 0.06),
+      0 0 32px rgba(28, 63, 138, 0.08);
+  }
+}
+
+@media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
+  body.mobile-motion-ready .mobile-motion--hero {
+    opacity: 0 !important;
+    transform: translate3d(0, 14px, 0) !important;
+    transition:
+      opacity 620ms var(--ease-out),
+      transform 720ms var(--ease-out) !important;
+    transition-delay: calc(var(--mobile-motion-order, 0) * 72ms) !important;
+  }
+
+  body.mobile-motion-ready .hero__rook-wrap.mobile-motion--hero {
+    transform: translate3d(0, 10px, 0) scale(0.92) !important;
+  }
+
+  body.mobile-motion-ready .mobile-motion--hero.is-mobile-visible {
+    opacity: 1 !important;
+    transform: translate3d(0, 0, 0) scale(1) !important;
+  }
+
+  body.mobile-motion-ready .hero__rook {
+    animation: mobile-rook-breathe 5.6s ease-in-out 1.2s infinite !important;
+  }
+
+  body.mobile-motion-ready .hero__rook-wrap::before {
+    animation: mobile-rook-light 5.6s ease-in-out 1.2s infinite;
+  }
+
+  .mobile-diag-ready .diag__particle {
+    animation: diag-twinkle 5.2s ease-in-out infinite;
+    animation-delay: var(--d);
+  }
+
+  @keyframes mobile-rook-breathe {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(0, -3px, 0) scale(1.018); }
+  }
+
+  @keyframes mobile-rook-light {
+    0%, 100% { opacity: 0.58; transform: scale(0.84); }
+    50% { opacity: 0.94; transform: scale(1); }
+  }
+
+  @keyframes mobile-castling-sweep {
+    0% { opacity: 0; transform: translate3d(-120%, 0, 0); }
+    28% { opacity: 1; }
+    100% { opacity: 0; transform: translate3d(120%, 0, 0); }
+  }
+}
+
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  [data-fade],
+  .mobile-motion--hero,
+  .mobile-castling-ready .castling__piece,
+  .mobile-castling-ready .castling__caption,
+  .mobile-diag-ready .diag__stmt {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .mobile-castling-ready.is-castled .castling__piece--king,
+  .mobile-castling-ready.is-castled .castling__piece--rook {
+    transform: none !important;
+  }
+
+  .mobile-diag-ready .diag__stmt::before {
+    opacity: 0.2;
+    transform: none;
+  }
+
+  .mobile-diag-ready .diag__stmt::after {
+    opacity: 0.65;
+    transform: scaleX(1);
+  }
+}
+
+/* ============================================================
+   NAV DEAD-ZONE FIX
+   `.nav__links` hides at <=960px but `.nav__hamburger` only appears
+   at <=768px, so between 769-960px the header offered no navigation
+   at all — just the logo and the booking button. Four-to-six short
+   links fit comfortably in that band once the spacing tightens, so
+   keep them rather than introducing a second collapsed state.
+   ============================================================ */
+@media (min-width: 769px) and (max-width: 960px) {
+  .nav__inner { grid-template-columns: auto 1fr auto; }
+  .nav__links {
+    display: flex;
+    gap: clamp(10px, 1.5vw, 16px);
+    font-size: 0.72rem;
+    white-space: nowrap;
+  }
+}
+
+/* ============================================================
+   PAGE TRANSITION + CURRENT-PAGE MARKER
+   The homepage does not load the portfolio stylesheets, so the
+   wayfinding rules are mirrored here. Without this the departure
+   fade would arm and delay navigation with nothing to show.
+   ============================================================ */
+.nav__links a { position: relative; padding-block: 6px; }
+.nav__links a[aria-current="page"] { color: var(--color-text); }
+.nav__links a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
+  background: var(--color-accent);
+  box-shadow: 0 0 10px var(--color-accent-glow);
+}
+html[data-leaving="true"] body { opacity: 0; transition: opacity 240ms var(--ease-out); }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-leaving="true"] body { opacity: 1; transition: none; }
+}
+
+/* ============================================================
+   NAV LINK-HIDING OVERRIDES
+   Three rules below were written for the previous seven-item
+   nav, where dropping the tail as the pill shrank was harmless.
+   The nav is now five route destinations, so those rules were
+   deleting real pages — "Technical" vanished on scroll. The
+   shrunken pill (960px) fits all five comfortably.
+   ============================================================ */
+/* `:not(.fn-nav)` scopes these to the old flat link list. In the three-door
+   nav every anchor sits inside a `.fn-nav__item` alongside its panel, so
+   `:nth-last-child(2)` and `:nth-child(n+4)` match by accident — and with
+   `!important` they were flattening panel links onto one line and collapsing
+   the chevrons into bars. */
+.nav.is-scrolled .nav__links:not(.fn-nav) a:last-child,
+.nav.is-scrolled .nav__links:not(.fn-nav) a:nth-child(n + 4),
+.nav:not(.is-scrolled) .nav__links:not(.fn-nav) a:nth-last-child(2) {
+  display: block !important;
+}
+
+/* ============================================================
+   HERO — desktop two-column layout
+   The rook used to be absolutely positioned against the right
+   edge while the copy flowed at full width, so between roughly
+   960px and 1400px the lead paragraph and the CTA row ran
+   underneath the illustration (measured: 135x74 and 240x51 of
+   overlap at 1000px). Giving the rook its own grid column means
+   the collision cannot happen at any width.
+   ============================================================ */
+@media (min-width: 961px) {
+  .hero__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(180px, 22vw, 320px);
+    column-gap: clamp(28px, 4vw, 72px);
+  }
+  /* The headline keeps the full measure — squeezing it into a column forced
+     "We run your operations." onto three lines and broke the couplet. */
+  .hero__eyebrow,
+  .hero__parallax { grid-column: 1 / -1; min-width: 0; }
+
+  .hero__lead,
+  .hero__ctas { grid-column: 1; min-width: 0; }
+  .hero__lead { max-width: 52ch; }
+
+  /* The rook sits beside the lead and CTAs, which are short enough to leave
+     it room. Rows 3 and 4 are the lead and the button row. */
+  .hero__rook-wrap {
+    position: static;
+    grid-column: 2;
+    grid-row: 3 / span 2;
+    justify-self: center;
+    align-self: center;
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+/* ============================================================
+   MOBILE LEGIBILITY FLOOR
+   Measured on a 375px phone, real prose was rendering between
+   7.4px and 13.4px: system status labels at 0.49rem, body copy
+   in the "why" and "step" blocks at 13px, and the hero lead at
+   14px. Small type is a legitimate brand voice for mono labels;
+   it is not a licence to set sentences below the point where a
+   phone can read them.
+
+   Floors applied here: 10.5px for mono micro-labels, 15px for
+   anything that is a sentence. Selectors mirror the originals
+   so they win on source order rather than on !important.
+   ============================================================ */
+@media (max-width: 768px) {
+  /* --- mono micro-labels: small, but never sub-10px --- */
+  .systems--story-ready .systems__viewport-topline { font-size: 0.68rem; letter-spacing: 0.07em; }
+  .systems__viewport-topline,
+  .systems__viewport-footer { font-size: 0.68rem; letter-spacing: 0.07em; }
+  .service-focus__foot,
+  .contact__meta,
+  .footer__legal-meta,
+  .selected-system__status { font-size: 0.7rem; letter-spacing: 0.07em; }
+
+  /* --- sentences: 15px floor, with the line-height prose needs --- */
+  .hero__lead,
+  .contact__lead,
+  .svc-pillar__desc,
+  .why-cell__copy,
+  .step__copy,
+  .privilege__summary,
+  .selected-systems__note,
+  .voice-console__note,
+  .voice-console__line { font-size: 0.95rem; line-height: 1.6; }
+
+  /* Secondary prose can sit a step down, but not below 14px. */
+  .selected-systems__note,
+  .voice-console__note { font-size: 0.88rem; }
+
+  /* --- the display serif is for accent words, not for 13px prose ---
+     Cormorant at 13-14px on a phone loses its counters and reads as a
+     blur. Below the display sizes, hand these back to the sans. */
+  .step__lead {
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
+  }
+}
+
+
+/* =========================================================
+   SITE NAVIGATION — shared by every page
+   ========================================================= */
+.fn-nav { display: flex; align-items: center; gap: clamp(4px, 1.4vw, 18px); }
+.fn-nav__item { position: relative; }
+
+.fn-nav__item > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 99px;
+  color: var(--color-text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-decoration: none;
+  text-transform: none;
+  transition: color 220ms var(--ease-out), background-color 220ms var(--ease-out);
+}
+.fn-nav__item > a i {
+  width: 5px; height: 5px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  opacity: 0.55;
+  transition: transform 260ms var(--ease-out), opacity 220ms var(--ease-out);
+}
+.fn-nav__item > a:hover,
+.fn-nav__item.is-open > a { color: var(--color-text); background: rgba(255, 255, 255, 0.06); }
+.fn-nav__item.is-open > a i { transform: translateY(0) rotate(225deg); opacity: 1; }
+.fn-nav__item > a[aria-current="page"] { color: var(--color-text); }
+
+/* ---- The panel ----
+   Liquid glass: a heavily blurred, saturated pane; a specular top edge; and a
+   soft light that tracks the pointer (--mx/--my, set by funnel.js). */
+.fn-nav__pop {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  z-index: 60;
+  width: max(268px, 20vw);
+  padding: 8px;
+  display: grid;
+  gap: 2px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  /* Opaque enough that the page behind reads as texture, not as text. At 0.62
+     the hero headline showed straight through and looked like overlap. */
+  background: rgba(10, 19, 33, 0.94);
+  backdrop-filter: blur(26px) saturate(1.5);
+  -webkit-backdrop-filter: blur(26px) saturate(1.5);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55),
+              inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(calc(-50% + var(--shift, 0px)), -8px) scale(0.97);
+  transform-origin: top center;
+  transition: opacity 260ms var(--ease-out),
+              transform 340ms var(--ease-out),
+              visibility 0s linear 260ms;
+}
+.fn-nav__item.is-open .fn-nav__pop {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(calc(-50% + var(--shift, 0px)), 0) scale(1);
+  transition-delay: 0s;
+}
+
+/* The bridge: without it the pointer crosses a 10px dead gap and the panel
+   closes on the way down. */
+.fn-nav__pop::before {
+  content: "";
+  position: absolute;
+  inset: -12px 0 auto;
+  height: 14px;
+}
+
+/* The travelling highlight. */
+.fn-nav__sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  overflow: hidden;
+}
+.fn-nav__sheen::after {
+  content: "";
+  position: absolute;
+  left: var(--mx, 50%);
+  top: var(--my, 0%);
+  width: 240px; height: 240px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 182, 39, 0.16), transparent 62%);
+  opacity: 0;
+  transition: opacity 300ms var(--ease-out);
+}
+.fn-nav__item.is-open .fn-nav__sheen::after { opacity: 1; }
+
+.fn-nav__pop > a {
+  position: relative;
+  display: grid;
+  gap: 1px;
+  padding: 9px 12px;
+  border-radius: 11px;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out),
+              background-color 200ms var(--ease-out);
+}
+.fn-nav__item.is-open .fn-nav__pop > a { opacity: 1; transform: none; }
+.fn-nav__item.is-open .fn-nav__pop > a:nth-child(2) { transition-delay: 30ms; }
+.fn-nav__item.is-open .fn-nav__pop > a:nth-child(3) { transition-delay: 60ms; }
+.fn-nav__item.is-open .fn-nav__pop > a:nth-child(4) { transition-delay: 90ms; }
+.fn-nav__item.is-open .fn-nav__pop > a:nth-child(5) { transition-delay: 120ms; }
+.fn-nav__item.is-open .fn-nav__pop > a:nth-child(6) { transition-delay: 150ms; }
+.fn-nav__item.is-open .fn-nav__pop > a:nth-child(7) { transition-delay: 180ms; }
+
+.fn-nav__pop > a:hover { background: rgba(255, 255, 255, 0.07); }
+.fn-nav__pop b {
+  color: var(--color-text);
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+.fn-nav__pop span {
+  color: var(--color-text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fn-nav__pop,
+  .fn-nav__pop > a { transition-duration: 1ms !important; transition-delay: 0s !important; }
+  .fn-nav__pop { transform: translate(calc(-50% + var(--shift, 0px)), 0) scale(1); }
+}
+
+
+/* styles.css still carries show/hide rules written for the old flat link
+   list, and `a:nth-last-child(2)` happens to match every trigger in this
+   markup (anchor + panel = exactly two children). That forced the anchors to
+   display:block, which un-blockified the chevron and rendered it as a 1px
+   vertical bar. Specificity here is matched deliberately. */
+.nav .fn-nav .fn-nav__item > a { display: inline-flex; }
+.nav .fn-nav .fn-nav__item > a i { display: block; flex: 0 0 auto; }
+
+/* The same legacy selectors also reach the links *inside* each panel, where
+   `a:nth-last-child(2)` lands on the second-to-last one and flattens its
+   title and description onto a single line. Four classes to outrank it. */
+.nav .fn-nav .fn-nav__item .fn-nav__pop > a { display: grid; }
+
+/* Technical has one destination, so it is a plain link rather than a
+   dropdown holding a single item. It still needs the trigger's sizing. */
+.fn-nav__solo { padding-right: 12px; }
+.fn-nav__solo::after { content: none; }

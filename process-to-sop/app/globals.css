@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+/* ── Bluerook tokens (Brand Standards Vol. II) ─────────────────────────── */
+@theme inline {
+  --color-midnight: #08111e;
+  --color-harbour: #0e1a2b;
+  --color-rook: #1c3f8a;
+  --color-brass: #d4a437;
+  --color-paper: #f4ede0;
+  --color-slate: #7a8aa0;
+  --color-line: #1a2b47;
+  /* ink tones for type set on Paper panels */
+  --color-ink: #08111e;
+
+  --font-display: var(--font-cormorant), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-geist), "Helvetica Neue", system-ui, Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, Menlo, monospace;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-midnight);
+  color: var(--color-paper);
+  font-family: var(--font-geist), "Helvetica Neue", system-ui, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(212, 164, 55, 0.25);
+}
+
+/* ── Recurring editorial pieces ────────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--font-geist-mono), ui-monospace, Menlo, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.field-input {
+  width: 100%;
+  background: var(--color-harbour);
+  border: 1px solid var(--color-line);
+  border-radius: 2px;
+  padding: 0.75rem 0.875rem;
+  color: var(--color-paper);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  transition: border-color 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.field-input::placeholder {
+  color: rgba(244, 237, 224, 0.32);
+}
+.field-input:focus-visible {
+  outline: none;
+  border-color: var(--color-brass);
+}
+
+/* Focus ring for buttons and editable text */
+.focus-brass:focus-visible {
+  outline: 2px solid var(--color-brass);
+  outline-offset: 2px;
+}
+
+/* Editable fields inside the paper document */
+[contenteditable="true"] {
+  border-radius: 2px;
+  transition: background 180ms ease, box-shadow 180ms ease;
+  cursor: text;
+}
+[contenteditable="true"]:hover {
+  background: rgba(28, 63, 138, 0.07);
+}
+[contenteditable="true"]:focus-visible {
+  outline: none;
+  background: rgba(28, 63, 138, 0.08);
+  box-shadow: 0 0 0 1px rgba(28, 63, 138, 0.45);
+}
+
+/* ── Print: the paper document becomes the page ───────────────────────── */
+@media print {
+  body {
+    background: #fff !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .sop-paper {
+    box-shadow: none !important;
+    border: none !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .sop-section {
+    break-inside: avoid-page;
+  }
+  main {
+    padding: 0 !important;
+  }
+}

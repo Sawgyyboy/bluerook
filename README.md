@@ -1,6 +1,11 @@
 # Bluerook
 
-Marketing website for **Bluerook** — a premium BPO & virtual-assistant agency for
+> **Agent workspace:** the cross-project source of truth is
+> `C:\Projects\BLUEROOK_WORKSPACE`. Agents opened directly in this repository must
+> start with [`AGENTS.md`](AGENTS.md).
+
+Marketing website for **Bluerook** — an AI operations and business-process agency
+building role-based AI System VAs and connected automation systems for
 high-performing entrepreneurs.
 
 **Live:** https://bluerook.co · **Stack:** vanilla static site (HTML/CSS/JS, no build)
@@ -42,7 +47,7 @@ New AI/agent sessions should start with **[CLAUDE.md](CLAUDE.md)**.
 No build step. Preview with any static server:
 
 ```bash
-python -m http.server 5173   # → http://localhost:5173
+python -m http.server 5173 --bind 127.0.0.1   # → http://localhost:5173
 ```
 
 Edit the files directly, verify at **mobile 390×844** and **desktop**, then:
@@ -54,6 +59,18 @@ git add . && git commit -m "…" && git push origin main   # Vercel auto-deploys
 Pull brand values from `tokens.css` — never hard-code hexes. See
 [CLAUDE.md](CLAUDE.md) for the full house rules (canonical domain, no-build, asset
 locations, etc.).
+
+## Retell voice trial
+
+The homepage voice console and `/voice-agent-demo/` use Retell's public website
+widget. For local testing, open:
+
+`/?voiceAgentId=YOUR_AGENT_ID&publicKey=YOUR_PUBLIC_WIDGET_KEY#voice-trial`
+
+The production public agent ID and widget key are configured on the
+`data-voice-agent-id` and `data-voice-public-key` attributes of
+`[data-voice-console]` in `index.html`. Never place a private Retell API key in
+frontend code.
 
 ## Open items
 

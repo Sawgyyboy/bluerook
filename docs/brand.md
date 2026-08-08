@@ -71,16 +71,19 @@ L 68,14 L 68,0 L 74,0 L 74,26 L 90,94 L 96,94 L 96,104 L 4,104 L 4,94 L 10,94 L 
 Fill Paper `#F4EDE0` (on Midnight) or Bluerook Blue `#1C3F8A` (favicon). Always
 followed by the brass rule: `<rect x="4" y="111" width="92" height="4" fill="#D4A437"/>`.
 
-**King** (stepped-crown construction) lives in the castling section of `index.html`
-(`.castling__piece--king`) — a spire + two stepped shoulders + tiara band + tapered
-body + brass rule.
+**King** is a narrative chess piece used only in the castling section of
+`index.html` (`.castling__piece--king`). Its owner-approved silhouette uses a
+compact cross, trapezoid crown, separated tapered body, base shelf, and brass rule.
+It represents the founder and is not a Bluerook mark or logo alternative.
 
 Favicon/logo tile: **navy rounded square + Paper rook + brass rule** (see
 `favicon-src.svg` → `favicon.ico`, `linkedin-logo.png`, `web-app-manifest-*`).
 
 ## Motion
 
-GSAP + ScrollTrigger drive the desktop cinematics; mobile uses CSS + a bespoke
-scroll-scrubbed castling animation. Easings/timings are tokenized (`--ease-*`,
-`--dur-*`). The hero, "diagnosis," "castling," and "why" sections are all
-scroll-linked — see [`tech.md`](tech.md) for how they're wired.
+GSAP + ScrollTrigger drive the desktop cinematics. Mobile uses CSS, bounded Web
+Animations, one-shot observers, and discrete native-scroll state changes; it does
+not rewrite visual transforms on every scroll frame. The Diagnosis, Systems, and
+Services chapters may pin one focal scene on tall portrait phones, while short,
+landscape, and reduced-motion phones keep the normal-flow fallback. Easings and
+timings remain tokenized (`--ease-*`, `--dur-*`). See [`tech.md`](tech.md).

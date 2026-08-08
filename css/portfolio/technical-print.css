@@ -1,0 +1,68 @@
+/* Print/PDF treatment for the technical portfolio only. */
+@media print {
+  @page { size: A4; margin: 14mm; }
+  html, body.portfolio-page { background: #fff !important; }
+  body.portfolio-page::before,
+  .portfolio-nav,
+  .portfolio-menu,
+  .mode-dock,
+  .chapter-rail,
+  .page-progress,
+  .portfolio-skip,
+  .portfolio-live,
+  .inspect-mode-panel,
+  .portfolio-footer,
+  [data-print-hide] { display: none !important; }
+  html[data-portfolio-mode="summary"] [data-story-content],
+  html[data-portfolio-mode="summary"] [data-inspect-content] { display: block !important; }
+  html[data-portfolio-mode] .portfolio-summary { display: none !important; }
+  .portfolio-main { padding: 0; }
+  .technical-print-header { display: grid !important; grid-template-columns: 1fr auto; gap: 16pt; align-items: end; padding-bottom: 12pt; border-bottom: 1px solid #777; }
+  .portfolio-hero,
+  .portfolio-chapter,
+  .portfolio-conversion { display: block !important; min-height: 0 !important; padding: 18pt 0 !important; color: #111 !important; background: #fff !important; break-inside: auto; }
+  .portfolio-wrap { width: 100%; max-width: none; }
+  .portfolio-hero__grid,
+  .chapter-head,
+  .summary-grid { grid-template-columns: 1fr !important; gap: 12pt !important; }
+  .portfolio-title { font-size: 27pt !important; }
+  .chapter-title { font-size: 20pt !important; }
+  .portfolio-lede,
+  .chapter-lede,
+  .dossier__body p,
+  .summary-fact dd,
+  .record-row dd { color: #333 !important; }
+  .scene,
+  .dossier,
+  .metric-card,
+  .architecture-node,
+  .record-list,
+  .summary-facts { border-color: #aaa !important; background: #fff !important; break-inside: avoid; }
+  .scene-grid > *,
+  .control-note { color: #111 !important; background: #fff !important; }
+  .scene__topline,
+  .architecture-node small,
+  .architecture-node span,
+  .timeline-step p,
+  .conversion-check span,
+  .conversion-check strong,
+  .control-note,
+  .control-note p { color: #333 !important; }
+  .conversion-checks,
+  .conversion-check { border-color: #aaa !important; }
+  .dossier-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8pt !important; }
+  .status-label,
+  .portfolio-kicker,
+  .meta-label,
+  .scene-label,
+  .dossier__label,
+  .chapter-index,
+  .record-row dt,
+  .summary-fact dt { color: #333 !important; }
+  [data-reveal] { opacity: 1 !important; transform: none !important; filter: none !important; }
+  a[href^="http"]::after,
+  a[href^="mailto"]::after { content: " (" attr(href) ")"; font-family: Arial, sans-serif; font-size: 7pt; font-style: normal; }
+  h1, h2, h3, p { orphans: 3; widows: 3; }
+}
+
+.technical-print-header { display: none; }
