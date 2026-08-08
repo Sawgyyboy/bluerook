@@ -122,7 +122,12 @@ module.exports = async function handler(request, response) {
       // back rather than locking this number out for a day over our failure.
       await releaseGate(gatePayload);
       const reason = error.message === 'call_creation_failed' ? 'call_creation_failed' : 'retell_unavailable';
-      return fail(response, reason, { leadId: verdict.leadId });
+      return fail(response, reason, {
+        leadId: verdict.leadId,
+        // Status only. Enough to tell a dead channel from an unroutable
+        // number, without echoing the provider's response to the page.
+        upstream: error.upstream || null
+      });
     }
     if (verdict.degraded) commitLocal(phone);
     steps.push({ id: 'dialling', label: 'Agent dialling', ms: since() });

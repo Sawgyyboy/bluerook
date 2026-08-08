@@ -256,7 +256,13 @@ async function placeCall({ name, phone, leadId }) {
   if (!response.ok) {
     const detail = await response.text();
     console.error('[bluerook lead] retell error', response.status, detail.slice(0, 300));
-    throw new Error('call_creation_failed');
+    // The status travels back with the failure. A visitor never sees it, but
+    // without it a dead outbound channel is indistinguishable from a number
+    // the network would not route, and the two need different fixes.
+    const error = new Error('call_creation_failed');
+    error.upstream = response.status;
+    error.detail = detail.slice(0, 200);
+    throw error;
   }
   return response.json();
 }
