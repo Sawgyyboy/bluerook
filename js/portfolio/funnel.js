@@ -720,6 +720,10 @@
       too_many_requests: 'Give it a moment before trying again.',
       daily_cap_reached: 'The demo has hit its daily call limit. Book a call instead and we will talk properly.',
       speed_to_lead_unconfigured: 'The outbound channel is not switched on for this environment yet.',
+      destination_rejected: 'The network would not take a call to that number. Check it, or pick Text me instead.',
+      outbound_line_unavailable: 'Our outbound line is down, so nothing can dial right now. Book a call and we will talk properly.',
+      outbound_not_authorised: 'Our outbound line is down, so nothing can dial right now. Book a call and we will talk properly.',
+      outbound_billing: 'Our outbound line is down, so nothing can dial right now. Book a call and we will talk properly.',
       call_creation_failed: 'The call did not go through. Your number was not used up, so try once more, or book a call.',
       retell_unavailable: 'The voice provider did not answer. Book a call instead and we will talk properly.'
     };

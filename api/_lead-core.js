@@ -229,6 +229,35 @@ function retellConfigured() {
   return Boolean(process.env.RETELL_API_KEY && process.env.RETELL_FROM_NUMBER);
 }
 
+/*
+ * Retell rejects a call with a 400 and a sentence. Two of the things that
+ * sentence can mean look identical from the outside and need opposite fixes:
+ * a destination the network will not take, and an outbound line that is not
+ * provisioned on the account. One is the visitor's problem, the other is ours.
+ */
+function classifyCallFailure(status, detail) {
+  const text = String(detail || '').toLowerCase();
+  if (status === 401 || status === 403) return 'outbound_not_authorised';
+  if (status === 402) return 'outbound_billing';
+  if (/from[_ ]?number|not owned|not purchased|no such number|does not exist/.test(text)) {
+    return 'outbound_line_unavailable';
+  }
+  if (/to[_ ]?number|invalid number|not a valid|unreachable|destination|cannot be reached/.test(text)) {
+    return 'destination_rejected';
+  }
+  return 'call_creation_failed';
+}
+
+/* Enough of the provider's wording to diagnose, with every phone number taken
+   out of it, so the shape of the error can travel without the numbers doing so. */
+function redactNumbers(detail) {
+  return String(detail || '')
+    .replace(/\+?\d[\d\s()\-.]{6,}\d/g, '<number>')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 180);
+}
+
 async function placeCall({ name, phone, leadId }) {
   const response = await fetch(RETELL_PHONE_CALL_URL, {
     method: 'POST',
@@ -256,18 +285,17 @@ async function placeCall({ name, phone, leadId }) {
   if (!response.ok) {
     const detail = await response.text();
     console.error('[bluerook lead] retell error', response.status, detail.slice(0, 300));
-    // The status travels back with the failure. A visitor never sees it, but
-    // without it a dead outbound channel is indistinguishable from a number
-    // the network would not route, and the two need different fixes.
-    const error = new Error('call_creation_failed');
+    const error = new Error(classifyCallFailure(response.status, detail));
     error.upstream = response.status;
-    error.detail = detail.slice(0, 200);
+    error.hint = redactNumbers(detail);
     throw error;
   }
   return response.json();
 }
 
 module.exports = {
+  classifyCallFailure,
+  redactNumbers,
   isAllowedCaller,
   normalizePhone,
   cleanName,

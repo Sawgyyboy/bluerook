@@ -36,11 +36,15 @@ const STATUS = {
   name_required: 400,
   invalid_number: 400,
   invalid_channel: 400,
+  destination_rejected: 400,
   number_already_called: 429,
   recently_submitted: 429,
   too_many_requests: 429,
   daily_cap_reached: 429,
   speed_to_lead_unconfigured: 503,
+  outbound_line_unavailable: 503,
+  outbound_not_authorised: 503,
+  outbound_billing: 503,
   call_creation_failed: 502,
   retell_unavailable: 502
 };
@@ -121,12 +125,14 @@ module.exports = async function handler(request, response) {
       // The slot was spent at the decision. The call never happened, so give it
       // back rather than locking this number out for a day over our failure.
       await releaseGate(gatePayload);
-      const reason = error.message === 'call_creation_failed' ? 'call_creation_failed' : 'retell_unavailable';
+      const reason = STATUS[error.message] ? error.message : 'retell_unavailable';
       return fail(response, reason, {
         leadId: verdict.leadId,
-        // Status only. Enough to tell a dead channel from an unroutable
-        // number, without echoing the provider's response to the page.
-        upstream: error.upstream || null
+        // The provider's status and the shape of its complaint, with every
+        // phone number stripped out. Without this a dead outbound line and an
+        // unroutable destination are the same opaque failure.
+        upstream: error.upstream || null,
+        hint: error.hint || null
       });
     }
     if (verdict.degraded) commitLocal(phone);
