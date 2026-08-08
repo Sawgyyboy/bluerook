@@ -481,6 +481,32 @@ publish.
 As of the last change that is **v3**, carrying the 17,445-character outbound
 prompt. v4 is the empty draft that publishing created.
 
+## Which countries the demo can actually call
+
+Retell will only dial countries on its carrier list. Everything else comes back
+`Call country not supported: XX` before any call is attempted.
+
+Supported, via Twilio: United States and toll-free, Canada, Mexico, United
+Kingdom, France, Spain, Germany, Italy, India, Japan, Australia, Indonesia,
+Malaysia, Philippines, Thailand. Via Telnyx: United States, Canada, India.
+Rates run from $0.015/min for the US to $0.80/min for the Philippines, on top
+of the agent's own cost.
+
+**Morocco is not on the list, and neither is any other African or Middle
+Eastern country.** This is not an account setting. When another customer asked
+Retell to whitelist Portugal, Retell declined and pointed at custom SIP
+telephony instead, so asking will not fix it. The only route to an unsupported
+country is bringing your own SIP trunk.
+
+What this means for the page: a visitor in a supported country gets a real
+call. Everyone else gets an honest message saying the carrier does not reach
+them, their lead recorded anyway, and a nudge to the text channel. That makes
+WhatsApp the only working channel for a large part of the world, which is worth
+weighing when deciding how much the WhatsApp build matters.
+
+To test the demo yourself, use a number in a supported country. The UK number
+on the WhatsApp Business profile qualifies, if calls can be answered on it.
+
 ## Cost
 
 The agent runs about **$0.141 a minute** before telephony, and the from-number is
