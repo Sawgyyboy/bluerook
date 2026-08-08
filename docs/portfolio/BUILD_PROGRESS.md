@@ -1418,3 +1418,48 @@ on all five pages.
 **Still open:** `/products/`, `/capabilities/` and `/technical-portfolio/` set
 their `h1` in the sans rather than the display serif. A colour and
 simplification pass over the console graphics is also outstanding.
+
+---
+
+## Deployed, and what the integrations actually look like
+
+Merged to `main` and live. Production verified: all 7 scenes pin and drive
+state, the three-door nav and theme toggle work on every page, the channel
+chooser and the carousel are live.
+
+### Endpoint status on production (probed 2026-08-08)
+
+Probed with a deliberately invalid body so the env check fires before any
+payload validation — no call was ever placed.
+
+| Endpoint | Result | Means |
+|---|---|---|
+| `/api/create-phone-call` | 400 `consent_required` | `RETELL_API_KEY` **and** `RETELL_FROM_NUMBER` are set |
+| `/api/create-web-call` | 201 + real access token | Retell key valid, agent id accepted, browser voice works end to end |
+| `/api/chat` | 400 `A non-empty message list is required` | `ANTHROPIC_API_KEY` is set |
+| `/api/retell-calendar` | 401 `unauthorized` | Guard works; Google OAuth vars unverifiable without the tool secret |
+| any, no `Origin` header | 403 `origin_not_allowed` | Origin guard holds |
+
+### n8n
+
+**There is no n8n integration in this codebase.** No webhook URLs, no API
+calls, no credentials — searched `api/`, `js/`, `script.js` and the whole tree.
+The n8n canvas on `/work/` and in the deck is a *depiction* of a workflow
+shape, drawn in SVG. If a real n8n instance is meant to sit behind Arden or the
+chatbot, it is wired inside Retell's own agent config or in n8n itself, not
+here, and nothing in this repo would show it.
+
+### Known live issue
+
+`bluerook.co` still 307-redirects to `www.bluerook.co`, the reverse of the
+documented intent. Every canonical, `og:url`, sitemap entry and JSON-LD URL
+points at the apex, so search engines are being sent to a URL that redirects
+away. This is the open item already recorded in `docs/deployment.md` and it is
+a Vercel domain setting, not a code change.
+
+### Deck
+
+`deck/index.html` rebuilt: 12 slides, `noindex`, authored at 1280x720 and
+scaled to the viewport so a projector, a laptop and a PDF share geometry.
+Verified every slide fits the frame with zero overflow and zero collisions in
+the canvas. Press P for a print-ready stack.
