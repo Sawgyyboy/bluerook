@@ -585,6 +585,7 @@
     const clockFace = $('[data-try-clock]', form);
     const clockNote = $('[data-try-clocknote]', form);
     const stepList = $('[data-try-steps]', form);
+    const country = $('[data-try-country]', form);
     const channels = $$('[data-try-channel]', form);
     if (!nameField || !phoneField || !go) return;
 
@@ -743,6 +744,41 @@
       sync();
     }));
     [nameField, phoneField].forEach((field) => field.addEventListener('input', sync));
+
+    /* The country list is the carrier's list. Choosing from it fills the
+       dialling code so nobody has to know theirs, and choosing "somewhere
+       else" says so up front rather than after a wasted submit. */
+    if (country) {
+      country.addEventListener('change', () => {
+        const value = country.value;
+        form.classList.toggle('is-nocountry', value === 'none');
+
+        if (value === 'none') {
+          const alt = $('[data-vc-card]');
+          if (alt) {
+            alt.classList.add('is-nudge');
+            alt.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          }
+          sync();
+          if (note) {
+            note.textContent = 'Our phone carrier does not reach every country. Use the highlighted browser call instead. Same agent, no phone network.';
+          }
+          return;
+        }
+
+        if (value) {
+          // Canada shares +1 with the US, so its option value is suffixed to
+          // keep them distinct in the list. Only the code goes in the field.
+          const dial = value.replace(/[^+\d]/g, '');
+          const rest = phoneField.value.replace(/^\+\d{1,4}\s*/, '').trim();
+          phoneField.value = rest ? `${dial} ${rest}` : `${dial} `;
+          phoneField.focus();
+          const end = phoneField.value.length;
+          try { phoneField.setSelectionRange(end, end); } catch (error) { /* not supported */ }
+        }
+        sync();
+      });
+    }
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();

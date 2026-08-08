@@ -42,6 +42,7 @@
   <link rel="stylesheet" href="/styles.css?v=20260805g">
   <link rel="stylesheet" href="/css/portfolio/showcase.css?v=20260807f">
   <link rel="stylesheet" href="/css/portfolio/funnel.css?v=20260808e">
+  <link rel="stylesheet" href="/css/portfolio/voice-console.css?v=20260808b">
 
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="/favicon-src.svg">
@@ -719,6 +720,31 @@
               <label for="try-name">First name</label>
               <input id="try-name" type="text" autocomplete="given-name" maxlength="40" placeholder="Hatim" data-try-name required>
             </div>
+            <!-- Only the countries the carrier will actually dial. Listing
+                 them is more honest than accepting any number and refusing
+                 it after the visitor has waited for a call. -->
+            <div class="pf-field" data-try-countryfield>
+              <label for="try-country">Country</label>
+              <select id="try-country" data-try-country>
+                <option value="" selected>Where are you?</option>
+                <option value="+44">United Kingdom · +44</option>
+                <option value="+1">United States · +1</option>
+                <option value="+1ca">Canada · +1</option>
+                <option value="+33">France · +33</option>
+                <option value="+34">Spain · +34</option>
+                <option value="+49">Germany · +49</option>
+                <option value="+39">Italy · +39</option>
+                <option value="+52">Mexico · +52</option>
+                <option value="+61">Australia · +61</option>
+                <option value="+91">India · +91</option>
+                <option value="+81">Japan · +81</option>
+                <option value="+60">Malaysia · +60</option>
+                <option value="+62">Indonesia · +62</option>
+                <option value="+63">Philippines · +63</option>
+                <option value="+66">Thailand · +66</option>
+                <option value="none">Somewhere else</option>
+              </select>
+            </div>
             <div class="pf-field" data-try-phonefield>
               <label for="try-phone">Mobile, with country code</label>
               <input id="try-phone" type="tel" autocomplete="tel" inputmode="tel"
@@ -757,20 +783,47 @@
         </form>
 
         <aside class="fn-try__alts" data-pf-fade>
-          <p class="fn-try__altstitle">No number at all?</p>
-          <div class="pf-alt" data-call-card>
+          <p class="fn-try__altstitle">Outside those countries?</p>
+          <div class="pf-alt" data-vc-card>
             <div>
               <strong>Talk in the browser</strong>
-              <span>Uses your mic for the conversation only.</span>
+              <span>Same agent, no phone network. Works anywhere.</span>
             </div>
             <label class="pf-alt__consent">
-              <input type="checkbox" data-call-consent>
+              <input type="checkbox" data-vc-consent>
               <span class="sr-only">Allow microphone use</span>
             </label>
-            <button class="btn btn--ghost pf-btn-sm" type="button" data-call-go disabled><span data-call-label>Start</span></button>
+            <button class="btn btn--ghost pf-btn-sm" type="button" data-vc-go disabled><span data-vc-label>Start</span></button>
           </div>
-          <p class="pf-live-note" data-call-note>Tick the box to enable the microphone.</p>
+          <p class="pf-live-note" data-vc-cardnote>Tick the box to enable the microphone.</p>
         </aside>
+
+        <!-- The console. Hidden until a call starts, then it takes the whole
+             width, because during a call the form beside it is not what the
+             visitor is doing. It stays up afterwards so the transcript can
+             still be exported: nothing is stored, so this is the only copy. -->
+        <div class="vc" data-vc hidden>
+          <div class="vc__head">
+            <span class="vc__dot" aria-hidden="true"></span>
+            <strong data-vc-state>Idle</strong>
+            <span class="vc__timer" data-vc-timer>0.0s</span>
+          </div>
+
+          <div class="vc__stage">
+            <canvas class="vc__canvas" data-vc-canvas aria-hidden="true"></canvas>
+            <p class="vc__who" data-vc-who>Not connected</p>
+          </div>
+
+          <div class="vc__log" data-vc-log role="log" aria-live="polite" aria-label="Live transcript"></div>
+
+          <div class="vc__bar">
+            <button class="btn btn--ghost" type="button" data-vc-mute aria-pressed="false" hidden>Mute</button>
+            <button class="btn btn--primary" type="button" data-vc-end disabled>End call</button>
+            <button class="btn btn--ghost" type="button" data-vc-export disabled>Export transcript</button>
+          </div>
+
+          <p class="vc__note" data-vc-note>The conversation lives in this tab only. Closing it erases the transcript.</p>
+        </div>
       </div>
     </div>
 </section>
@@ -875,6 +928,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <script defer src="/js/portfolio/showcase.js?v=20260808a"></script>
 <script defer src="/js/nav.js?v=20260808a"></script>
-<script defer src="/js/portfolio/funnel.js?v=20260808e"></script>
+<script defer src="/js/portfolio/funnel.js?v=20260808f"></script>
+<script defer src="/js/portfolio/voice-console.js?v=20260808b"></script>
 </body>
 </html>

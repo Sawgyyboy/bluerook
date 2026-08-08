@@ -1,0 +1,173 @@
+/* Bluerook — browser voice console
+   ------------------------------------------------------------------
+   For every country the phone network refuses, this is the demo rather
+   than the consolation prize, so it is built at the same weight as the
+   consoles in the scroll above it.
+
+   Tokens only. Colours come from tokens.css and the .fn-body block in
+   funnel.css; nothing here invents a brand value.
+   ------------------------------------------------------------------ */
+
+/* While a call is running the console takes the whole width. The form
+   beside it is not what the visitor is doing any more. */
+.fn-try.is-voice-live > .fn-try__main,
+.fn-try.is-voice-live > .fn-try__alts { display: none; }
+
+.fn-try > .vc {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: clamp(14px, 1.8vw, 20px);
+  padding: clamp(18px, 2.4vw, 28px);
+  border-radius: var(--fn-radius);
+  border: var(--fn-border);
+  background: color-mix(in srgb, var(--color-surface) 72%, transparent);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--fn-shadow);
+}
+.vc[hidden] { display: none; }
+
+/* ── status line ─────────────────────────────────────────────── */
+.vc__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+.vc__head strong {
+  font-weight: var(--fw-medium);
+  color: var(--color-text);
+  letter-spacing: 0.08em;
+}
+.vc__timer {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-live);
+  font-size: 0.86rem;
+}
+.vc__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-text-fade);
+  flex: none;
+}
+.vc.is-live .vc__dot {
+  background: var(--color-live);
+  box-shadow: 0 0 0 0 rgba(255, 182, 39, 0.5);
+  animation: vc-pulse 1.9s ease-out infinite;
+}
+@keyframes vc-pulse {
+  70%  { box-shadow: 0 0 0 9px rgba(255, 182, 39, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 182, 39, 0); }
+}
+
+/* ── the ring ────────────────────────────────────────────────── */
+.vc__stage {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding-block: clamp(6px, 1.4vh, 16px);
+}
+.vc__canvas {
+  width: min(300px, 58vw);
+  aspect-ratio: 1;
+  display: block;
+}
+.vc__who {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  min-height: 1.2em;
+}
+
+/* ── transcript ──────────────────────────────────────────────── */
+.vc__log {
+  max-height: clamp(150px, 26vh, 260px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  padding: 12px;
+  border-radius: var(--fn-radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.22);
+}
+.vc__log:empty::after {
+  content: 'The transcript appears here as you speak.';
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-text-fade);
+}
+.vc__line {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 10px;
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+.vc__line span {
+  font-family: var(--font-mono);
+  /* 0.72rem is the floor: anything smaller lands under 11px, which is the
+     size this page was already pulled up from once. */
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-fade);
+  padding-top: 0.28em;
+}
+.vc__line[data-who="agent"] span { color: var(--color-live); }
+.vc__line b { font-weight: var(--fw-regular); }
+.vc__line[data-who="user"] b { color: var(--color-text-dim); }
+
+/* ── controls ────────────────────────────────────────────────── */
+.vc__bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.vc__bar .btn {
+  min-height: 44px;             /* the floor every control on this site holds */
+  padding: 0 18px;
+  font-size: 0.76rem;
+  border-radius: 999px;
+}
+.vc__bar .btn[disabled] { opacity: 0.38; pointer-events: none; }
+.vc__bar [data-vc-export] { margin-left: auto; }
+.vc__bar [data-vc-mute][aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--color-live) 55%, transparent);
+  color: var(--color-live);
+}
+.vc__note {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* After the call the panel stays so the transcript can still be saved,
+   but it stops competing with the form that has come back. */
+.vc.is-ended { opacity: 0.92; }
+.vc.is-ended .vc__canvas { opacity: 0.4; }
+
+@media (max-width: 720px) {
+  .vc__bar { display: grid; grid-template-columns: 1fr 1fr; }
+  .vc__bar [data-vc-export] { margin-left: 0; grid-column: 1 / -1; }
+  .vc__line { grid-template-columns: 44px minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vc.is-live .vc__dot { animation: none; }
+  .vc__log { scroll-behavior: auto; }
+}
