@@ -34,11 +34,10 @@ Set **AI speaks first** with a custom message. On an outbound call, the person
 picks up with no idea who this is, so the first sentence has to explain itself.
 
 ```
-Hi {{lead_name}}, this is Arden — Bluerook's AI voice agent, not a person. You
-asked for a call on the Bluerook site a few seconds ago, and that gap is the
-whole point. Do you want the short version of how this works, or shall I find
-you a time with Hatim?
+Hi {{lead_name}}, this is Arden — Bluerook's AI voice agent, not a person. You asked for a call on the Bluerook site a few seconds ago, and that gap is the whole point. Do you want the short version of how this works, or shall I get you a time with Hatim?
 ```
+
+Keep it on one line. It is spoken, not read.
 
 `{{lead_name}}` is sent by `api/lead.js` as a Retell dynamic variable, along with
 `lead_source`. If someone submits without a name it arrives as `there`, which
@@ -458,7 +457,29 @@ result.
 | Voice | Nico | Same as the booker. One Bluerook voice. |
 
 Leave the functions and knowledge base exactly as the duplicate inherited them.
-The calendar tools are the same tools.
+The calendar tools are the same tools: `check_strategy_call_availability`,
+`book_strategy_call` and `end_call` all came across with the duplicate.
+
+## Publish, and why it matters more than it looks
+
+Duplicating carried the booker's published history across, so **agent v0 is a
+published version holding the old inbound prompt** — the one that opens with
+"Thanks for calling Bluerook." Editing the draft does not retire it.
+
+Retell's behaviour when a call names an agent without naming a version is not
+worth guessing at, so the current version must always be the published one.
+After any prompt change, publish. Verify with:
+
+```
+GET /get-agent-versions/{agent_id}
+```
+
+The highest `is_published: true` version is the one that answers. It should be
+the highest version overall, apart from the fresh draft Retell opens after each
+publish.
+
+As of the last change that is **v3**, carrying the 17,445-character outbound
+prompt. v4 is the empty draft that publishing created.
 
 ## Cost
 
