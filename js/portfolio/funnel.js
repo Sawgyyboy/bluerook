@@ -721,7 +721,7 @@
       daily_cap_reached: 'The demo has hit its daily call limit. Book a call instead and we will talk properly.',
       speed_to_lead_unconfigured: 'The outbound channel is not switched on for this environment yet.',
       destination_rejected: 'The network would not take a call to that number. Check it, or pick Text me instead.',
-      country_not_supported: 'Our phone carrier does not reach that country yet. Pick Text me instead.',
+      country_not_supported: 'Our phone carrier does not reach that country yet. Talk to Arden in the browser instead.',
       outbound_line_unavailable: 'Our outbound line is down, so nothing can dial right now. Book a call and we will talk properly.',
       outbound_not_authorised: 'Our outbound line is down, so nothing can dial right now. Book a call and we will talk properly.',
       outbound_billing: 'Our outbound line is down, so nothing can dial right now. Book a call and we will talk properly.',
@@ -778,9 +778,19 @@
           /* A country our carrier does not reach is our limit, not their
              mistake, and the lead was still captured. Say both. */
           if (payload.error === 'country_not_supported') {
+            /* The browser call is WebRTC, so no carrier can block it. It is a
+               better answer than the text channel here: same agent, same
+               voice, works from anywhere, and it is already on this screen. */
             reason = 'Our phone carrier does not reach that country yet. Nothing wrong with your number.'
-              + (payload.recorded ? ' We have your details and can pick this up.' : '')
-              + ' Choose Text me to carry on now.';
+              + (payload.recorded ? ' We have your details either way.' : '')
+              // No directional wording: the card is beside the form on desktop
+              // and below it on a phone.
+              + ' Use the highlighted “Talk in the browser” card instead. Same agent, no phone network involved.';
+            const alt = $('[data-call-card]');
+            if (alt) {
+              alt.classList.add('is-nudge');
+              alt.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }
           }
           sent = false;
           if (label) label.textContent = LABELS[mode];

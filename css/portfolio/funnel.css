@@ -1607,6 +1607,24 @@
 }
 .fn-try__steps li.is-warn em { color: var(--color-text-muted); }
 
+/* When the phone network refuses a country, the browser call is the answer and
+   it is already on screen. This points at it once rather than making the
+   visitor re-read the paragraph to find out where to go. */
+.fn-body .pf-alt.is-nudge {
+  border-color: color-mix(in srgb, var(--color-live) 55%, transparent);
+  background: rgba(255, 182, 39, 0.07);
+  animation: fn-nudge 2.4s var(--ease-out) 1;
+}
+@keyframes fn-nudge {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 182, 39, 0.42); }
+  70%  { box-shadow: 0 0 0 12px rgba(255, 182, 39, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 182, 39, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* The colour change alone still carries it. */
+  .fn-body .pf-alt.is-nudge { animation: none; }
+}
+
 /* The budget. Dots first, because a count of remaining runs is read faster
    as objects than as a sentence. */
 .fn-try__quota {
