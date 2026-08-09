@@ -55,3 +55,136 @@
   .selected-system,
   .selected-system__arrow { transition: none; }
 }
+
+/* =========================================================
+   SELECTED SYSTEMS — cards
+   The old treatment was four rows with a number and an arrow. Beside a
+   site that argues with working surfaces everywhere else, a bare list
+   read as the one section we ran out of ideas on.
+
+   Each card now carries a three-line strip of what its system actually
+   does, in the same mono the consoles use, so the evidence is on the
+   card rather than promised behind the link.
+   ========================================================= */
+.selected-systems__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(14px, 1.6vw, 22px);
+}
+
+.syscard {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto auto;
+  gap: 12px;
+  padding: clamp(20px, 2.2vw, 30px);
+  border-radius: 16px;
+  border: 1px solid rgba(244, 237, 224, 0.08);
+  background: color-mix(in srgb, var(--color-surface) 62%, transparent);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.28);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform 320ms var(--ease-out),
+    border-color 320ms var(--ease-out),
+    box-shadow 320ms var(--ease-out);
+}
+.syscard:hover,
+.syscard:focus-visible {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--color-accent) 42%, transparent);
+  box-shadow: 0 26px 54px rgba(0, 0, 0, 0.42);
+}
+
+.syscard__meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.syscard__meta b {
+  font-weight: 400;
+  color: var(--color-accent);
+}
+.syscard__tag {
+  padding: 3px 9px;
+  border-radius: 99px;
+  border: 1px solid rgba(244, 237, 224, 0.14);
+  color: var(--color-text-dim);
+  /* 0.72rem is the floor here: 0.68 lands at 10.88px. */
+  font-size: 0.72rem;
+}
+/* The one that is a product rather than a demonstration says so. */
+.syscard__tag--product {
+  border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+  color: var(--color-accent);
+}
+
+.syscard h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.syscard p {
+  margin: 0;
+  max-width: 46ch;
+  color: var(--color-text-muted);
+  font-size: 0.94rem;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+/* The strip. Same mono, same status colours as the consoles on /work/, so
+   a visitor who has seen one recognises the other. */
+.syscard__strip {
+  display: grid;
+  gap: 5px;
+  padding: 12px 13px;
+  border-radius: 10px;
+  border: 1px solid rgba(244, 237, 224, 0.06);
+  background: rgba(0, 0, 0, 0.24);
+}
+.syscard__strip i {
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--color-text-dim);
+}
+.syscard__strip i.is-ok   { color: #4FB477; }
+.syscard__strip i.is-hold { color: var(--color-accent); }
+
+.syscard__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+.syscard__go b {
+  font-weight: 400;
+  color: var(--color-accent);
+  transition: transform 320ms var(--ease-out);
+}
+.syscard:hover .syscard__go b { transform: translateX(4px); }
+
+@media (max-width: 900px) {
+  .selected-systems__grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .syscard,
+  .syscard__go b { transition: none; }
+  .syscard:hover,
+  .syscard:focus-visible { transform: none; }
+}

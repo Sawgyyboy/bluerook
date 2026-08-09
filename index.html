@@ -64,7 +64,7 @@
   <link rel="stylesheet" href="tokens.css" />
   <link rel="stylesheet" href="styles.css?v=20260809a" />
   <link rel="stylesheet" href="cinematic-mobile.css?v=20260806p" />
-  <link rel="stylesheet" href="/css/portfolio/home-integration.css?v=20260802a" />
+  <link rel="stylesheet" href="/css/portfolio/home-integration.css?v=20260809b" />
 
   <!-- Favicons (real crawlable files so Google can show the icon in search results) -->
   <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -1093,34 +1093,67 @@
           <p class="selected-systems__eyebrow">Selected systems</p>
           <h2 class="selected-systems__title">Inspect the operation.</h2>
         </div>
-        <p class="selected-systems__intro">Enter public-safe, interactive chapters that show inputs, state, human control, failure and completion, not only the polished outcome. Evidence and prototype labels stay visible throughout.</p>
+        <p class="selected-systems__intro">Four systems you can open and use. You see the inputs, the state, the moment a person takes over, and what happens when something fails. Every name and number inside them is invented.</p>
       </header>
 
-      <div class="selected-systems__list" data-reveal>
-        <a class="selected-system" href="/work/ecommerce-operations/">
-          <span class="selected-system__no">01</span>
-          <div><span class="selected-system__status">Fictional interactive demonstration</span><h3>Connected E-commerce Operations</h3><p>A synthetic retailer joins catalogue, content approval, asset review, order exceptions, support context and management state.</p></div>
-          <span class="selected-system__arrow" aria-hidden="true">→</span>
+      <!-- Cards, not rows. Every other section on this site argues with a
+           working surface, and a bare list of links next to that reads as
+           the one place we ran out of ideas. Each card carries three lines
+           of what its system actually does. -->
+      <div class="selected-systems__grid" data-reveal>
+
+        <a class="syscard" href="/work/ecommerce-operations/">
+          <span class="syscard__meta"><b>01</b><span class="syscard__tag">Interactive demo</span></span>
+          <h3>Connected commerce</h3>
+          <p>One price changes. Four surfaces end up agreeing, and a named person approved it before any of them moved.</p>
+          <div class="syscard__strip" aria-hidden="true">
+            <i>price AV-104 · 48.00 &rarr; 42.00</i>
+            <i class="is-hold">held &middot; awaiting approval</i>
+            <i class="is-ok">4 surfaces in agreement</i>
+          </div>
+          <span class="syscard__go">Open it<b aria-hidden="true">&rarr;</b></span>
         </a>
-        <a class="selected-system" href="/work/sports-enrollment-operations/">
-          <span class="selected-system__no">02</span>
-          <div><span class="selected-system__status">Fictional demonstration · layered anonymized evidence</span><h3>Enrollment and Operations</h3><p>A synthetic journey distinguishes verified CRM, scoring, booking, handoff, audit and reporting modules from controlled prototypes.</p></div>
-          <span class="selected-system__arrow" aria-hidden="true">→</span>
+
+        <a class="syscard" href="/work/sports-enrollment-operations/">
+          <span class="syscard__meta"><b>02</b><span class="syscard__tag">Interactive demo</span></span>
+          <h3>Enrollment operations</h3>
+          <p>A parent asks at 21:40 with half the form empty. It checks the real calendar, holds the slot, then stops at the question it should not answer.</p>
+          <div class="syscard__strip" aria-hidden="true">
+            <i>21:40 &middot; whatsapp &middot; new enquiry</i>
+            <i class="is-ok">capacity 2 of 12 &middot; slot held</i>
+            <i class="is-hold">human &middot; fee question</i>
+          </div>
+          <span class="syscard__go">Open it<b aria-hidden="true">&rarr;</b></span>
         </a>
-        <a class="selected-system" href="/work/sports-operations-os/">
-          <span class="selected-system__no">03</span>
-          <div><span class="selected-system__status">Fictional interactive demonstration</span><h3>Sports Operations OS</h3><p>Prepared enquiry, trial, handoff and reactivation scenarios share resettable browser-local state with no external services.</p></div>
-          <span class="selected-system__arrow" aria-hidden="true">→</span>
+
+        <a class="syscard" href="/work/sports-operations-os/">
+          <span class="syscard__meta"><b>03</b><span class="syscard__tag">Interactive demo</span></span>
+          <h3>Sports Operations OS</h3>
+          <p>A whole club system: enquiry, trial, handoff, reactivation. It runs in your browser and you can reset it whenever you like.</p>
+          <div class="syscard__strip" aria-hidden="true">
+            <i>state &middot; browser-local</i>
+            <i>no external services</i>
+            <i class="is-ok">reset any time</i>
+          </div>
+          <span class="syscard__go">Open it<b aria-hidden="true">&rarr;</b></span>
         </a>
-        <a class="selected-system" href="/work/follow-up-gap-detector/">
-          <span class="selected-system__no">04</span>
-          <div><span class="selected-system__status">Bluerook product · inactive package</span><h3>Follow-Up Gap Detector</h3><p>Six synthetic CRM records enter a deterministic review; five gaps surface, the healthy record stays out and no outreach is sent.</p></div>
-          <span class="selected-system__arrow" aria-hidden="true">→</span>
+
+        <a class="syscard" href="/work/follow-up-gap-detector/">
+          <span class="syscard__meta"><b>04</b><span class="syscard__tag syscard__tag--product">Product</span></span>
+          <h3>Follow-up gap detector</h3>
+          <p>Six records go in. Five gaps come out, the healthy one is left alone, and nobody is messaged.</p>
+          <div class="syscard__strip" aria-hidden="true">
+            <i>scanned 6</i>
+            <i class="is-hold">gaps 5 &middot; healthy 1</i>
+            <i class="is-ok">messages sent 0 &mdash; by design</i>
+          </div>
+          <span class="syscard__go">Open it<b aria-hidden="true">&rarr;</b></span>
         </a>
+
       </div>
 
       <div class="selected-systems__footer" data-reveal>
-        <p class="selected-systems__note">All names, organizations, records and outcomes in the public demonstrations are synthetic. Anonymized implementation evidence is described without exposing source records or identifiers.</p>
+        <p class="selected-systems__note">Every record in these demonstrations is synthetic. Where real work is described, it is described without the records or the identifiers.</p>
         <a class="btn btn--ghost" href="/work/">Enter the full portfolio</a>
       </div>
     </div>
