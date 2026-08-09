@@ -681,122 +681,45 @@
     <div class="fn-wrap">
       <div class="pf-live-head">
         <p class="fn-kicker" data-pf-fade>09 · Live · not a simulation</p>
-        <h2 class="pf-live-title" data-pf-fade>Everything above was a demo.<br><em>This part calls you back.</em></h2>
-        <p class="pf-live-lead" data-pf-fade>Leave a number. The gap between that and your phone ringing is the product.</p>
+        <h2 class="pf-live-title" data-pf-fade>Everything above was a demo.<br><em>This one answers.</em></h2>
+        <p class="pf-live-lead" data-pf-fade>Two ways to hear the same agent. It does not know it is a demo.</p>
       </div>
 
-      <div class="fn-try">
-        <form class="fn-try__main" data-pf-fade data-try-form>
+      <!-- The outbound "leave your number and it rings you" form lived here.
+           It is out until the carrier permits the call: a form that captures a
+           number and then cannot dial it is worse than no form. The endpoint,
+           the n8n gate and the country picker are all still in the repo, and
+           initTry() in funnel.js exits quietly when the form is absent, so
+           restoring it is a markup change and nothing else. -->
+      <div class="fn-try fn-try--ways">
+        <!-- Two ways in, and both of them work. The number is the product
+             stated plainly: a line that answers. The browser call is for
+             anyone who would rather not spend an international minute. -->
+        <section class="fn-try__alts fn-try__way" data-pf-fade>
+          <p class="fn-try__altstitle">Option one · the phone</p>
+          <strong class="fn-way__title">Call the number</strong>
+          <p class="fn-way__body">It picks up, asks what you need, and puts the time straight into a calendar. No queue, no voicemail, no office hours.</p>
+          <a class="btn btn--primary fn-way__cta" href="tel:+19302003553">+1 (930) 200-3553</a>
+          <p class="pf-live-note">A United States line, so your own network may charge you international rates. You are talking to the agent, not to a person.</p>
+        </section>
 
-          <!-- Channel first: the choice changes what the button does, so it
-               has to be made before the button is read. -->
-          <fieldset class="fn-try__ch">
-            <legend>How should Arden reach you?</legend>
-            <label class="fn-try__opt">
-              <input type="radio" name="fn-channel" value="call" checked data-try-channel>
-              <span class="fn-try__optbody">
-                <b>Call me</b>
-                <small>Arden rings this number in about twenty seconds.</small>
-              </span>
-            </label>
-            <label class="fn-try__opt">
-              <input type="radio" name="fn-channel" value="text" data-try-channel>
-              <span class="fn-try__optbody">
-                <b>Text me</b>
-                <small>Opens WhatsApp with your message ready. You press send.</small>
-              </span>
-            </label>
-            <label class="fn-try__opt">
-              <input type="radio" name="fn-channel" value="both" data-try-channel>
-              <span class="fn-try__optbody">
-                <b>Both</b>
-                <small>The call first, then the thread to carry on in.</small>
-              </span>
-            </label>
-          </fieldset>
-
-          <div class="fn-try__fields">
-            <div class="pf-field">
-              <label for="try-name">First name</label>
-              <input id="try-name" type="text" autocomplete="given-name" maxlength="40" placeholder="Hatim" data-try-name required>
-            </div>
-            <!-- Only the countries the carrier will actually dial. Listing
-                 them is more honest than accepting any number and refusing
-                 it after the visitor has waited for a call. -->
-            <div class="pf-field" data-try-countryfield>
-              <label for="try-country">Country</label>
-              <select id="try-country" data-try-country>
-                <option value="" selected>Where are you?</option>
-                <option value="+44">United Kingdom · +44</option>
-                <option value="+1">United States · +1</option>
-                <option value="+1ca">Canada · +1</option>
-                <option value="+33">France · +33</option>
-                <option value="+34">Spain · +34</option>
-                <option value="+49">Germany · +49</option>
-                <option value="+39">Italy · +39</option>
-                <option value="+52">Mexico · +52</option>
-                <option value="+61">Australia · +61</option>
-                <option value="+91">India · +91</option>
-                <option value="+81">Japan · +81</option>
-                <option value="+60">Malaysia · +60</option>
-                <option value="+62">Indonesia · +62</option>
-                <option value="+63">Philippines · +63</option>
-                <option value="+66">Thailand · +66</option>
-                <option value="none">Somewhere else</option>
-              </select>
-            </div>
-            <div class="pf-field" data-try-phonefield>
-              <label for="try-phone">Mobile, with country code</label>
-              <input id="try-phone" type="tel" autocomplete="tel" inputmode="tel"
-                     placeholder="+44 7700 900123" pattern="^\+[1-9][0-9\s\(\)\-.]{7,20}$" data-try-phone required>
-            </div>
-          </div>
-
-          <div class="fn-try__go">
-            <button class="btn btn--primary" type="submit" data-try-go disabled>
-              <span data-try-label>Call me now</span>
-            </button>
-            <div class="fn-try__clock">
-              <strong data-try-clock>0.0s</strong>
-              <span data-try-clocknote>Clock starts when you show intent</span>
-            </div>
-          </div>
-
-          <!-- Before submit these are what will happen. After submit the list
-               is replaced by what did happen, timed by the workflow that ran
-               it. No step is drawn that the server did not report. -->
-          <ol class="fn-try__steps" data-try-steps aria-live="polite">
-            <li>Intent captured</li>
-            <li>Lead recorded</li>
-            <li>Agent dialling</li>
-          </ol>
-
-          <!-- Usage budget. The dots are the honest bit of the promise: this
-               demo costs real money per run, so it is capped. -->
-          <div class="fn-try__quota" data-try-quota>
-            <span class="fn-try__dots" data-try-dots aria-hidden="true"></span>
-            <span data-try-quotatext>2 of 2 demo runs left today</span>
-          </div>
-
-          <p class="pf-live-note" data-try-note>Add your name and mobile to enable it.</p>
-          <p class="pf-live-note">Requesting it confirms this is your own number. One call per number per day. Your name and number are recorded as a lead and sent to us, the same way a real enquiry would be. Ask and we will delete it: <a href="mailto:hatim@bluerook.co">hatim@bluerook.co</a>.</p>
-        </form>
-
-        <aside class="fn-try__alts" data-pf-fade>
-          <p class="fn-try__altstitle">Outside those countries?</p>
+        <section class="fn-try__alts fn-try__way" data-pf-fade>
+          <p class="fn-try__altstitle">Option two · the browser</p>
+          <strong class="fn-way__title">Talk in the browser</strong>
+          <p class="fn-way__body">The same agent, over your microphone. No phone network involved, so it reaches every country and costs you nothing.</p>
           <div class="pf-alt" data-vc-card>
-            <div>
-              <strong>Talk in the browser</strong>
-              <span>Same agent, no phone network. Works anywhere.</span>
-            </div>
             <label class="pf-alt__consent">
               <input type="checkbox" data-vc-consent>
               <span class="sr-only">Allow microphone use</span>
             </label>
+            <div>
+              <strong>Use my microphone</strong>
+              <span>Nothing is recorded or kept.</span>
+            </div>
             <button class="btn btn--ghost pf-btn-sm" type="button" data-vc-go disabled><span data-vc-label>Start</span></button>
           </div>
           <p class="pf-live-note" data-vc-cardnote>Tick the box to enable the microphone.</p>
-        </aside>
+        </section>
 
         <!-- The console. Hidden until a call starts, then it takes the whole
              width, because during a call the form beside it is not what the

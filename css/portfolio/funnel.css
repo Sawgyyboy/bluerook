@@ -2019,3 +2019,139 @@
   .fn-stream i, .n8n__log i, .fn-tline { animation: none !important; }
   .fn-phone__live i { animation: none !important; }
 }
+
+/* =========================================================
+   PHONE FIELD — country selector plus national number
+
+   One control that reads as one control. The native <select> sits
+   transparent and full-bleed over the country face, so the picker is
+   the OS picker on a phone, keyboard focus lands on a real form
+   control, and the visible face stays narrow enough to leave the
+   number room. Appended here because `.fn-body .pf-field input`
+   above owns border, radius and background for every other field.
+   ========================================================= */
+.fn-body .pf-tel {
+  display: flex;
+  align-items: stretch;
+  min-height: 46px;
+  border: var(--fn-border);
+  border-radius: var(--fn-radius-xs);
+  background: rgba(255, 255, 255, 0.03);
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+.fn-body .pf-tel:focus-within {
+  border-color: color-mix(in srgb, var(--color-live) 60%, transparent);
+  background: rgba(255, 255, 255, 0.05);
+}
+/* Grid items default to min-width:auto, which lets the flex row inside
+   push the track wider than its column. */
+.fn-try__fields .pf-field--tel { min-width: 0; }
+
+.pf-tel__cc {
+  position: relative;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 10px 0 13px;
+  border-right: var(--fn-border);
+  cursor: pointer;
+}
+.pf-tel__cc:has(.pf-tel__select:focus-visible) {
+  outline: 2px solid var(--color-live);
+  outline-offset: -2px;
+}
+.pf-tel__flag { font-size: 0.95rem; line-height: 1; letter-spacing: 0.04em; }
+.pf-tel__dial {
+  font-size: 0.84rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+.pf-tel__chev { flex: 0 0 auto; width: 9px; height: 6px; opacity: 0.5; }
+
+.pf-tel__select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+/* The dropdown itself is drawn by the OS and does not inherit the page's
+   dark field, so it needs explicit colours or it renders dark-on-dark. */
+.pf-tel__select option,
+.pf-tel__select optgroup { color: #10151f; background: #ffffff; }
+.pf-tel__select optgroup { font-style: normal; font-weight: 600; }
+
+.fn-body .pf-tel .pf-tel__num {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+.fn-body .pf-tel .pf-tel__num:focus-visible {
+  border: 0;
+  background: transparent;
+  outline: none;
+}
+
+/* =========================================================
+   TRY SECTION — two ways in
+
+   The outbound form is out until the carrier permits the call,
+   so the section is now two equal cards rather than a wide form
+   with a narrow fallback beside it. `.fn-try__alts` is reused
+   for the card chrome so the existing `is-voice-live` rule keeps
+   hiding both of them once a call starts.
+   ========================================================= */
+.fn-try--ways {
+  grid-template-columns: repeat(auto-fit, minmax(clamp(260px, 40%, 340px), 1fr));
+  /* `.fn-try` sets `start`, which was right when the fallback card sat beside a
+     tall form. Two peers should match. */
+  align-items: stretch;
+}
+.fn-try__way {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+.fn-try__way .fn-try__altstitle { margin-bottom: 2px; }
+
+.fn-way__title {
+  font-size: clamp(1.05rem, 1.5vw, 1.28rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.fn-way__body {
+  margin: 0;
+  color: var(--color-text-dim);
+  font-size: 0.86rem;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+/* Pushed to the bottom so both cards line their actions up even when the
+   copy above them runs to a different number of lines. */
+.fn-way__cta {
+  margin-top: auto;
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.fn-try__way .pf-alt { margin-top: auto; }
+.fn-try__way .pf-live-note { margin: 0; }
+
+@media (max-width: 700px) {
+  /* A phone number on a phone is a tap target, so it earns the full width. */
+  .fn-way__cta { align-self: stretch; text-align: center; }
+}

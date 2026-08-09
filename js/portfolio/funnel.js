@@ -570,6 +570,79 @@
   const WA_NUMBER = '447716623966';
   const WA_TEXT = 'Hi Bluerook — I just came from the portfolio and want to test the speed-to-lead system.';
 
+  /* --- country dialling codes ---
+     Held here rather than in the markup because two hundred <option> tags in
+     index.html would bury the form, and the list needs splitting into two
+     groups at render time anyway.
+
+     Format is ISO|dial|name. The ISO code earns its place twice: it separates
+     the countries that share a dialling code (+1 is the US, Canada and most of
+     the Caribbean) and it doubles as the compact label when a platform will
+     not draw flag emoji. */
+  const COUNTRIES = (
+    'AF|93|Afghanistan;AL|355|Albania;DZ|213|Algeria;AD|376|Andorra;AO|244|Angola;' +
+    'AG|1268|Antigua and Barbuda;AR|54|Argentina;AM|374|Armenia;AW|297|Aruba;AU|61|Australia;' +
+    'AT|43|Austria;AZ|994|Azerbaijan;BS|1242|Bahamas;BH|973|Bahrain;BD|880|Bangladesh;' +
+    'BB|1246|Barbados;BY|375|Belarus;BE|32|Belgium;BZ|501|Belize;BJ|229|Benin;BM|1441|Bermuda;' +
+    'BT|975|Bhutan;BO|591|Bolivia;BA|387|Bosnia and Herzegovina;BW|267|Botswana;BR|55|Brazil;' +
+    'BN|673|Brunei;BG|359|Bulgaria;BF|226|Burkina Faso;BI|257|Burundi;KH|855|Cambodia;' +
+    'CM|237|Cameroon;CA|1|Canada;CV|238|Cape Verde;KY|1345|Cayman Islands;CF|236|Central African Republic;' +
+    'TD|235|Chad;CL|56|Chile;CN|86|China;CO|57|Colombia;KM|269|Comoros;CG|242|Congo;' +
+    'CD|243|Congo (DRC);CR|506|Costa Rica;CI|225|Côte d’Ivoire;HR|385|Croatia;CU|53|Cuba;' +
+    'CY|357|Cyprus;CZ|420|Czechia;DK|45|Denmark;DJ|253|Djibouti;DM|1767|Dominica;' +
+    'DO|1809|Dominican Republic;EC|593|Ecuador;EG|20|Egypt;SV|503|El Salvador;GQ|240|Equatorial Guinea;' +
+    'ER|291|Eritrea;EE|372|Estonia;SZ|268|Eswatini;ET|251|Ethiopia;FJ|679|Fiji;FI|358|Finland;' +
+    'FR|33|France;GA|241|Gabon;GM|220|Gambia;GE|995|Georgia;DE|49|Germany;GH|233|Ghana;' +
+    'GI|350|Gibraltar;GR|30|Greece;GD|1473|Grenada;GT|502|Guatemala;GN|224|Guinea;GW|245|Guinea-Bissau;' +
+    'GY|592|Guyana;HT|509|Haiti;HN|504|Honduras;HK|852|Hong Kong;HU|36|Hungary;IS|354|Iceland;' +
+    'IN|91|India;ID|62|Indonesia;IR|98|Iran;IQ|964|Iraq;IE|353|Ireland;IL|972|Israel;IT|39|Italy;' +
+    'JM|1876|Jamaica;JP|81|Japan;JO|962|Jordan;KZ|7|Kazakhstan;KE|254|Kenya;KW|965|Kuwait;' +
+    'KG|996|Kyrgyzstan;LA|856|Laos;LV|371|Latvia;LB|961|Lebanon;LS|266|Lesotho;LR|231|Liberia;' +
+    'LY|218|Libya;LI|423|Liechtenstein;LT|370|Lithuania;LU|352|Luxembourg;MO|853|Macau;' +
+    'MG|261|Madagascar;MW|265|Malawi;MY|60|Malaysia;MV|960|Maldives;ML|223|Mali;MT|356|Malta;' +
+    'MR|222|Mauritania;MU|230|Mauritius;MX|52|Mexico;MD|373|Moldova;MC|377|Monaco;MN|976|Mongolia;' +
+    'ME|382|Montenegro;MA|212|Morocco;MZ|258|Mozambique;MM|95|Myanmar;NA|264|Namibia;NP|977|Nepal;' +
+    'NL|31|Netherlands;NZ|64|New Zealand;NI|505|Nicaragua;NE|227|Niger;NG|234|Nigeria;' +
+    'MK|389|North Macedonia;NO|47|Norway;OM|968|Oman;PK|92|Pakistan;PS|970|Palestine;PA|507|Panama;' +
+    'PG|675|Papua New Guinea;PY|595|Paraguay;PE|51|Peru;PH|63|Philippines;PL|48|Poland;' +
+    'PT|351|Portugal;PR|1787|Puerto Rico;QA|974|Qatar;RO|40|Romania;RU|7|Russia;RW|250|Rwanda;' +
+    'SA|966|Saudi Arabia;SN|221|Senegal;RS|381|Serbia;SC|248|Seychelles;SL|232|Sierra Leone;' +
+    'SG|65|Singapore;SK|421|Slovakia;SI|386|Slovenia;SO|252|Somalia;ZA|27|South Africa;' +
+    'KR|82|South Korea;SS|211|South Sudan;ES|34|Spain;LK|94|Sri Lanka;SD|249|Sudan;SR|597|Suriname;' +
+    'SE|46|Sweden;CH|41|Switzerland;SY|963|Syria;TW|886|Taiwan;TJ|992|Tajikistan;TZ|255|Tanzania;' +
+    'TH|66|Thailand;TG|228|Togo;TT|1868|Trinidad and Tobago;TN|216|Tunisia;TR|90|Türkiye;' +
+    'TM|993|Turkmenistan;UG|256|Uganda;UA|380|Ukraine;AE|971|United Arab Emirates;' +
+    'GB|44|United Kingdom;US|1|United States;UY|598|Uruguay;UZ|998|Uzbekistan;VE|58|Venezuela;' +
+    'VN|84|Vietnam;YE|967|Yemen;ZM|260|Zambia;ZW|263|Zimbabwe'
+  ).split(';').map((row) => {
+    const [iso, dial, name] = row.split('|');
+    return { iso, dial: `+${dial}`, name };
+  });
+
+  /* The countries our carrier will actually dial. Everything else still gets a
+     working phone field — refusing to show a country is not the same as being
+     honest about it — but the form says up front that the browser call is the
+     route, instead of taking the number and failing after the wait. */
+  const DIALABLE = new Set(['GB', 'US', 'CA', 'FR', 'ES', 'DE', 'IT', 'MX', 'AU',
+    'IN', 'JP', 'MY', 'ID', 'PH', 'TH']);
+
+  /* Regional-indicator pairs. Windows draws these as the two letters rather
+     than a flag, which is exactly the fallback we would have written anyway,
+     so no support test is needed. */
+  const flagOf = (iso) => String.fromCodePoint(
+    ...iso.split('').map((ch) => 0x1F1E6 + ch.charCodeAt(0) - 65)
+  );
+
+  /* Longest dial code first, so +1268 (Antigua) is matched before +1. Where the
+     code is genuinely shared the tie has to be broken deliberately: +1 is the
+     US and Canada, +7 is Russia and Kazakhstan, and alphabetical order would
+     hand both to the smaller one. Resolving an area code properly would mean
+     shipping the whole NANP table, so the busier country wins the guess and the
+     selector is one tap away if it guessed wrong. */
+  const PRIMARY = new Set(['US', 'RU']);
+  const BY_DIAL = COUNTRIES.slice().sort((a, b) =>
+    b.dial.length - a.dial.length || (PRIMARY.has(b.iso) - PRIMARY.has(a.iso)));
+
   function initTry() {
     const form = $('[data-try-form]');
     if (!form) return;
@@ -586,8 +659,56 @@
     const clockNote = $('[data-try-clocknote]', form);
     const stepList = $('[data-try-steps]', form);
     const country = $('[data-try-country]', form);
+    const flagFace = $('[data-tel-flag]', form);
+    const dialFace = $('[data-tel-dial]', form);
     const channels = $$('[data-try-channel]', form);
     if (!nameField || !phoneField || !go) return;
+
+    /* --- the country control ---
+       Two groups, because the honest thing and the usable thing are not in
+       conflict here: every country is selectable, and the ones the carrier
+       cannot reach say so before a number is typed rather than after a wait. */
+    let picked = COUNTRIES.find((c) => c.iso === 'GB');
+
+    const paintCountry = () => {
+      if (flagFace) flagFace.textContent = flagOf(picked.iso);
+      if (dialFace) dialFace.textContent = picked.dial;
+      form.classList.toggle('is-nocountry', !DIALABLE.has(picked.iso));
+    };
+
+    if (country) {
+      const group = (label, list) => {
+        const set = doc.createElement('optgroup');
+        set.label = label;
+        list.forEach((c) => {
+          const option = doc.createElement('option');
+          option.value = c.iso;
+          option.textContent = `${flagOf(c.iso)}  ${c.name}  ${c.dial}`;
+          set.append(option);
+        });
+        return set;
+      };
+      const byName = (a, b) => a.name.localeCompare(b.name);
+      country.replaceChildren(
+        group('We can call these', COUNTRIES.filter((c) => DIALABLE.has(c.iso)).sort(byName)),
+        group('Browser call only', COUNTRIES.filter((c) => !DIALABLE.has(c.iso)).sort(byName))
+      );
+
+      /* Start on the visitor's own region when the browser will say, so the
+         common case needs no interaction at all. */
+      const region = (navigator.language || '').split('-')[1];
+      const guess = region && COUNTRIES.find((c) => c.iso === region.toUpperCase());
+      if (guess) picked = guess;
+      country.value = picked.iso;
+    }
+    paintCountry();
+
+    /* Digits only, and never the dialling code: that is the selector's job. A
+       leading 0 is national trunk notation (07700 in the UK, 06 in France) and
+       is dropped, which is what every phone field does and what nobody
+       remembers to do by hand. */
+    const nationalDigits = () => phoneField.value.replace(/\D/g, '').replace(/^0+/, '');
+    const e164 = () => `${picked.dial}${nationalDigits()}`;
 
     const waHref = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(WA_TEXT)}`;
     const today = () => new Date().toISOString().slice(0, 10);
@@ -625,7 +746,10 @@
 
     const channel = () => (channels.find((c) => c.checked) || {}).value || 'call';
     const needsPhone = () => channel() !== 'text';
-    const validPhone = () => /^\+[1-9][\d\s()\-.]{7,20}$/.test(phoneField.value.trim());
+    /* Validated on the composed number, which is what the server will see. The
+       same rule as normalizePhone() in api/_lead-core.js, so the field cannot
+       enable a button the endpoint will reject. */
+    const validPhone = () => /^\+[1-9]\d{7,14}$/.test(e164());
 
     const LABELS = { call: 'Call me now', text: 'Open WhatsApp', both: 'Call me, then open WhatsApp' };
 
@@ -648,8 +772,12 @@
       else if (!nameField.value.trim()) note.textContent = 'Add your name to enable it.';
       else if (!phoneReady) {
         note.textContent = typed
-          ? 'Include the country code, for example +44 7700 900123.'
+          ? `That does not look like a complete ${picked.name} number. Leave off the country code, we add it.`
           : 'Add your mobile to enable it.';
+      } else if (needsPhone() && !DIALABLE.has(picked.iso)) {
+        // Said before the click, not after. The number is fine; our carrier is
+        // the limit, and the browser call has no carrier in it at all.
+        note.textContent = `Our phone carrier does not reach ${picked.name}. Use the “Talk in the browser” card instead. Same agent, no phone network.`;
       } else if (channel() === 'text') note.textContent = 'Ready. We record the lead, then WhatsApp opens with your message written. You press send.';
       else if (channel() === 'both') note.textContent = 'Ready. Arden dials once, and WhatsApp opens for the thread.';
       else note.textContent = 'Ready. Arden will dial this number once.';
@@ -745,40 +873,37 @@
     }));
     [nameField, phoneField].forEach((field) => field.addEventListener('input', sync));
 
-    /* The country list is the carrier's list. Choosing from it fills the
-       dialling code so nobody has to know theirs, and choosing "somewhere
-       else" says so up front rather than after a wasted submit. */
     if (country) {
       country.addEventListener('change', () => {
-        const value = country.value;
-        form.classList.toggle('is-nocountry', value === 'none');
-
-        if (value === 'none') {
-          const alt = $('[data-vc-card]');
-          if (alt) {
-            alt.classList.add('is-nudge');
-            alt.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-          }
-          sync();
-          if (note) {
-            note.textContent = 'Our phone carrier does not reach every country. Use the highlighted browser call instead. Same agent, no phone network.';
-          }
-          return;
-        }
-
-        if (value) {
-          // Canada shares +1 with the US, so its option value is suffixed to
-          // keep them distinct in the list. Only the code goes in the field.
-          const dial = value.replace(/[^+\d]/g, '');
-          const rest = phoneField.value.replace(/^\+\d{1,4}\s*/, '').trim();
-          phoneField.value = rest ? `${dial} ${rest}` : `${dial} `;
-          phoneField.focus();
-          const end = phoneField.value.length;
-          try { phoneField.setSelectionRange(end, end); } catch (error) { /* not supported */ }
-        }
+        picked = COUNTRIES.find((c) => c.iso === country.value) || picked;
+        paintCountry();
         sync();
+        // Nudge the alternative only once the choice is made, and only when it
+        // is the one that matters.
+        if (!DIALABLE.has(picked.iso) && needsPhone()) {
+          const alt = $('[data-call-card]') || $('[data-vc-card]');
+          if (alt) alt.classList.add('is-nudge');
+        }
+        phoneField.focus();
       });
     }
+
+    /* Someone pasting a full international number should not have to undo it.
+       Match the longest dialling code, switch the selector, keep the rest. */
+    phoneField.addEventListener('paste', (event) => {
+      const text = (event.clipboardData || window.clipboardData)?.getData('text') || '';
+      const compact = text.replace(/[^\d+]/g, '');
+      if (!compact.startsWith('+') && !compact.startsWith('00')) return;
+      const plus = compact.startsWith('00') ? `+${compact.slice(2)}` : compact;
+      const hit = BY_DIAL.find((c) => plus.startsWith(c.dial));
+      if (!hit) return;
+      event.preventDefault();
+      picked = hit;
+      if (country) country.value = hit.iso;
+      phoneField.value = plus.slice(hit.dial.length);
+      paintCountry();
+      sync();
+    });
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
@@ -802,7 +927,9 @@
       try {
         const response = await submit({
           name: nameField.value.trim(),
-          phone: phoneField.value.trim(),
+          // Composed from the selector plus the national digits, never from
+          // whatever the visitor typed.
+          phone: nationalDigits() ? e164() : '',
           consent: true,
           channel: mode,
           source: 'bluerook.co/work #try'
