@@ -156,7 +156,7 @@ em{font-style:italic; color:var(--live)}
 .brandmark{position:absolute; top:40px; right:48px; z-index:5; display:flex; align-items:center; gap:11px}
 .brandmark img{width:26px; height:auto; display:block}
 .brandmark span{font-family:var(--serif); font-style:italic; font-size:19px; color:var(--paper); letter-spacing:.01em}
-@media print{ .brandmark{position:absolute} }
+
 
 .hud{position:fixed; left:0; right:0; bottom:0; z-index:3; display:flex; align-items:center; gap:14px; padding:14px 22px; font-family:var(--mono); font-size:11px; color:var(--p52); pointer-events:none}
 .hud .mark{display:flex; align-items:center; gap:8px; color:var(--p70)}
@@ -169,7 +169,16 @@ em{font-style:italic; color:var(--live)}
 /* ---------- Print / PDF ---------- */
 @media print{
   @page{size:1280px 720px; margin:0}
-  html,body{overflow:visible; background:#08111E}
+
+  /* The brandmark is one absolutely positioned element inside .deck. On
+     screen .deck is one viewport and it sits on whatever slide is showing.
+     In print .deck becomes a single 8640px block, so that one element lands
+     on page 1 and nowhere else. Verified: the logo bitmap was referenced by
+     page 1 of the PDF only.
+
+     So in print the single element steps aside and every slide draws the
+     mark itself. Slides are position:relative below, which this needs. */
+    html,body{overflow:visible; background:#08111E}
   body::before{display:none}
   .stage{position:static; display:block}
   .deck{width:1280px; height:auto; transform:none!important}
@@ -186,14 +195,10 @@ em{font-style:italic; color:var(--live)}
 <div class="stage">
 <div class="deck" id="deck">
 
-  <div class="brandmark">
-    <img src="/assets/bluerook-logo-paper.png" alt="Bluerook">
-    <span>Bluerook</span>
-  </div>
-
 
   <!-- 01 · COVER -->
   <section class="slide">
+    <div class="brandmark"><img src="/assets/bluerook-logo-paper.png" alt="Bluerook"><span>Bluerook</span></div>
     <p class="kicker"><b>●</b> Bluerook · AI operations</p>
     <div style="align-self:center">
       <h1>We run your operations.<br><em>You run your empire.</em></h1>
@@ -204,6 +209,7 @@ em{font-style:italic; color:var(--live)}
 
   <!-- 02 · THE PROBLEM -->
   <section class="slide">
+    <div class="brandmark"><img src="/assets/bluerook-logo-paper.png" alt="Bluerook"><span>Bluerook</span></div>
     <p class="kicker">01 · The problem</p>
     <div style="align-self:center">
       <h2 style="max-width:22ch">You do not need more software. You need someone to own <em>what software leaves behind.</em></h2>
@@ -218,6 +224,7 @@ em{font-style:italic; color:var(--live)}
 
   <!-- 03 · WHAT WE DO -->
   <section class="slide">
+    <div class="brandmark"><img src="/assets/bluerook-logo-paper.png" alt="Bluerook"><span>Bluerook</span></div>
     <p class="kicker">02 · What we do</p>
     <div class="cols c2" style="align-self:center">
       <div class="card" style="padding:28px">
@@ -246,6 +253,7 @@ em{font-style:italic; color:var(--live)}
 
   <!-- 04 · THE FLOOR -->
   <section class="slide">
+    <div class="brandmark"><img src="/assets/bluerook-logo-paper.png" alt="Bluerook"><span>Bluerook</span></div>
     <p class="kicker">03 · The floor</p>
     <div style="align-self:center">
       <h2>Everything runs <em>on this.</em></h2>
@@ -279,6 +287,7 @@ em{font-style:italic; color:var(--live)}
 
   <!-- 05 · CONNECTED COMMERCE -->
   <section class="slide">
+    <div class="brandmark"><img src="/assets/bluerook-logo-paper.png" alt="Bluerook"><span>Bluerook</span></div>
     <p class="kicker">04 · Connected commerce</p>
     <div class="cols c2w" style="align-self:center">
       <div>
@@ -306,6 +315,7 @@ em{font-style:italic; color:var(--live)}
 
   <!-- 06 · ENROLLMENT -->
   <section class="slide">
+    <div class="brandmark"><img src="/assets/bluerook-logo-paper.png" alt="Bluerook"><span>Bluerook</span></div>
     <p class="kicker">05 · Enrollment operations</p>
     <div class="cols c2w" style="align-self:center">
       <div>
@@ -336,6 +346,7 @@ em{font-style:italic; color:var(--live)}
 
   <!-- 07 · RECOVERY -->
   <section class="slide">
+    <div class="brandmark"><img src="/assets/bluerook-logo-paper.png" alt="Bluerook"><span>Bluerook</span></div>
     <p class="kicker">06 · Follow-up recovery</p>
     <div class="cols c2w" style="align-self:center">
       <div>
@@ -365,6 +376,7 @@ em{font-style:italic; color:var(--live)}
 
   <!-- 08 · RECEPTION -->
   <section class="slide">
+    <div class="brandmark"><img src="/assets/bluerook-logo-paper.png" alt="Bluerook"><span>Bluerook</span></div>
     <p class="kicker">07 · Reception</p>
     <div class="cols c2w" style="align-self:center">
       <div>
@@ -395,6 +407,7 @@ em{font-style:italic; color:var(--live)}
 
   <!-- 09 · COCKPIT -->
   <section class="slide">
+    <div class="brandmark"><img src="/assets/bluerook-logo-paper.png" alt="Bluerook"><span>Bluerook</span></div>
     <p class="kicker">08 · The cockpit</p>
     <div style="align-self:center">
       <h2>What the owner opens <em>on a Monday.</em></h2>
@@ -433,6 +446,7 @@ em{font-style:italic; color:var(--live)}
 
   <!-- 10 · BOUNDARIES -->
   <section class="slide">
+    <div class="brandmark"><img src="/assets/bluerook-logo-paper.png" alt="Bluerook"><span>Bluerook</span></div>
     <p class="kicker">09 · Where it stops</p>
     <div style="align-self:center">
       <h2>A system is trusted for <em>what it refuses to do.</em></h2>
@@ -449,6 +463,7 @@ em{font-style:italic; color:var(--live)}
 
   <!-- 11 · HOW WE WORK -->
   <section class="slide">
+    <div class="brandmark"><img src="/assets/bluerook-logo-paper.png" alt="Bluerook"><span>Bluerook</span></div>
     <p class="kicker">10 · How we work</p>
     <div style="align-self:center">
       <h2>Mapped, staged, <em>then run.</em></h2>
@@ -469,6 +484,7 @@ em{font-style:italic; color:var(--live)}
 
   <!-- 12 · CLOSE -->
   <section class="slide">
+    <div class="brandmark"><img src="/assets/bluerook-logo-paper.png" alt="Bluerook"><span>Bluerook</span></div>
     <p class="kicker"><b>●</b> Next</p>
     <div style="align-self:center">
       <h1 style="font-size:68px; max-width:20ch">Systems do not impress anyone. <em>Finished work does.</em></h1>
