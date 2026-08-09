@@ -1798,7 +1798,17 @@
   /* Stacked, the two columns must share one containing block or the
      header cannot stick over the detail it belongs to. */
   .fn-wwd__grid { display: block; }
-  .fn-wwd__stick { position: static; min-height: auto; padding-block: 20px 18px; }
+  .fn-wwd__stick {
+    /* Relative, not static: the fade below is absolutely positioned and needs
+       this as its containing block. */
+    position: relative;
+    /* The desktop rule is `height: 100svh`, and resetting only min-height left
+       it in place. A sticky heading a whole screen tall does not introduce the
+       detail underneath it, it covers it. */
+    height: auto;
+    min-height: auto;
+    padding-block: 20px 18px;
+  }
   .fn-wwd__stick::after {
     content: "";
     position: absolute;
@@ -1810,11 +1820,12 @@
   }
   .fn-wwd__left {
     position: sticky;
-    top: 0;
+    /* Clear of the floating header, or the heading parks underneath it. */
+    top: 72px;
     z-index: 2;
-    background: color-mix(in srgb, var(--color-bg) 94%, transparent);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    /* Opaque. At 94% the detail column read straight through the heading and
+       the two sets of words sat on top of each other. */
+    background: var(--color-bg);
   }
   .fn-wwd__slide:not(.is-live) { display: none; }
   .fn-wwd__name { font-size: clamp(1.7rem, 7vw, 2.4rem); }
@@ -1942,29 +1953,36 @@
 @media (max-width: 760px) {
   .n8n__canvas {
     aspect-ratio: auto;
+    /* The desktop height is derived from width for the SVG canvas. Stacked,
+       the list sizes itself, and leaving that rule in place clamped eight
+       nodes into 174px so five of them spilled over the log below. */
+    height: auto;
     container-type: normal;
-    --nb: 40px;
+    --nb: 30px;
     display: grid;
-    gap: 6px;
-    padding: 12px;
+    gap: 5px;
+    padding: 10px;
     background-image: none;
   }
   .n8n__wires { display: none; }
+  /* Eight rows have to fit a pinned screen alongside the header, the caption
+     and the log, so the row is as short as the 44px box and the 11px type
+     floor allow. */
   .n8n__node {
     position: static;
     width: auto; height: auto;
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 8px 10px;
+    gap: 10px;
+    padding: 6px 10px;
     border: 1px solid var(--fn-rule-soft);
   }
   .n8n__box { position: static; transform: none; flex: 0 0 auto; }
   .n8n__node.is-run .n8n__box { transform: none; }
   .n8n__io { display: none; }
   .n8n__label { position: static; transform: none; justify-items: start; text-align: left; }
-  .n8n__label strong { font-size: 0.9rem; }
-  .n8n__label small { font-size: 0.7rem; }
+  .n8n__label strong { font-size: 0.84rem; line-height: 1.25; }
+  .n8n__label small { font-size: 0.7rem; line-height: 1.2; }
   .n8n__node.is-run { border-color: color-mix(in srgb, var(--color-accent) 50%, transparent); }
   .n8n__node.is-done { border-color: color-mix(in srgb, var(--fn-ok) 40%, transparent); }
 }

@@ -2762,14 +2762,8 @@ html.lenis, html.lenis body { height: auto; }
     text-transform: none;
   }
   .nav__logo-mark { width: 20px; height: 23px; }
-  .nav__actions .nav__cta { display: none; }
-  .nav__hamburger {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: var(--m-tap); height: var(--m-tap);
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.14);
-    border-radius: 2px;
-  }
+  /* The mobile header treatment lives at the end of this file, after the
+     .nav__actions pill rule that would otherwise override it. */
 
   /* Legacy bottom bar — hidden in favor of FAB */
   .m-cta-bar { display: none !important; }
@@ -8452,3 +8446,56 @@ html[data-leaving="true"] body { opacity: 0; transition: opacity 240ms var(--eas
    dropdown holding a single item. It still needs the trigger's sizing. */
 .fn-nav__solo { padding-right: 12px; }
 .fn-nav__solo::after { content: none; }
+
+/* =========================================================
+   MOBILE HEADER
+   Declared last on purpose: the .nav__actions pill rule earlier in this
+   file has the same specificity and would otherwise win.
+
+   Two things were wrong. The Book action was hidden on phones in favour
+   of a floating button that exists in CSS but on no page, so there was no
+   way to book from the chrome at all. And the menu button was a 2px-radius
+   square — the only hard corner on a site built from 16px panels and
+   pills, sitting inside one.
+
+   The actions group is already a pill at every width. On a phone it now
+   holds Book and the menu, and the menu becomes a disc inside it.
+   ========================================================= */
+@media (max-width: 768px) {
+  .nav__actions {
+    gap: 4px;
+    padding: 3px;
+  }
+  .nav__actions .nav__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;          /* the tap-target floor, not a visual choice */
+    padding: 0 16px;
+    border-radius: 999px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+  .nav__hamburger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    transition: background 180ms var(--ease-out);
+  }
+  .nav__hamburger:active,
+  .nav__hamburger[aria-expanded="true"] { background: rgba(244, 237, 224, 0.10); }
+}
+
+/* Very narrow phones cannot hold the wordmark and both actions. The rook
+   alone still says whose site this is; the Book action is worth more than
+   the six letters beside it. */
+@media (max-width: 360px) {
+  .nav__logo-text { display: none; }
+  .nav__actions .nav__cta { padding: 0 13px; }
+}
