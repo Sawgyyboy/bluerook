@@ -8471,10 +8471,12 @@ html[data-leaving="true"] body { opacity: 0; transition: opacity 240ms var(--eas
     align-items: center;
     justify-content: center;
     min-height: 44px;          /* the tap-target floor, not a visual choice */
-    padding: 0 16px;
+    padding: 0 14px;
     border-radius: 999px;
     font-size: 11px;
-    letter-spacing: 0.1em;
+    /* 0.1em over eleven characters is nearly a whole extra character of
+       width, and wide tracking on a small pill reads as shouting. */
+    letter-spacing: 0.06em;
     white-space: nowrap;
   }
   .nav__hamburger {
@@ -8492,10 +8494,34 @@ html[data-leaving="true"] body { opacity: 0; transition: opacity 240ms var(--eas
   .nav__hamburger[aria-expanded="true"] { background: rgba(244, 237, 224, 0.10); }
 }
 
-/* Very narrow phones cannot hold the wordmark and both actions. The rook
-   alone still says whose site this is; the Book action is worth more than
-   the six letters beside it. */
-@media (max-width: 360px) {
+/* =========================================================
+   PHONE HEADER — give it air
+
+   At 375px the bar held 330px of content in 355px of usable
+   width: 25px of slack across the whole thing. Three bordered
+   objects touching each other reads as clutter no matter how
+   well each one is drawn, and the fix is space, not restyling.
+
+   The wordmark is the one that goes. It was costing ~110px —
+   nearly a third of the viewport — to repeat a name already in
+   the tab title, the hero and the footer. The rook keeps saying
+   whose site this is, and Book a call is worth more than six
+   letters beside it.
+   ========================================================= */
+@media (max-width: 480px) {
   .nav__logo-text { display: none; }
-  .nav__actions .nav__cta { padding: 0 13px; }
+  .nav__inner { padding: 0 14px; gap: var(--space-3); }
+
+  /* One bordered object in the bar, not two competing shapes. The
+     hamburger keeps its 44px target and loses the disc. The base rule is
+     already a flex column, so the spacing is its gap, not a margin: adding
+     one would stack on top and leave the three bars unevenly spaced. */
+  .nav__hamburger { width: 42px; gap: 5px; }
+  .nav__hamburger span {
+    width: 17px;
+    /* Whole pixels. At 1.5px the three bars land on 6px and 7px gaps after
+       rounding, and an icon this small shows a one-pixel limp. */
+    height: 2px;
+    border-radius: 2px;
+  }
 }
